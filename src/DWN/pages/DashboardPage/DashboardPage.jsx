@@ -27,7 +27,7 @@ export const DashboardPage = () => {
       >
         <TabList className={"tab-dash-list d-flex gap-1"}>
           <Tab>Customers</Tab>
-          <Tab>Transactions</Tab>
+          {/* <Tab>Transactions</Tab> */}
         </TabList>
         <TabPanel>
           <EventsTable
