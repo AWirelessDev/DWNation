@@ -1,0 +1,71 @@
+.StopBtn {
+  background-color: lightcoral;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.notification-impersonating {
+  background-color: lightcoral;
+  position: absolute;
+  content: "";
+  right: -0.125rem;
+  top: 1.5rem;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  border: 2px;
+  animation-duration: 2s;
+}
+
+.navbar {
+  height: 54px;
+  background-color: #000000;
+  box-shadow: 0px 8px 8px -8px #262323;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.nav-bar-logout-icon {
+  content: url("../../../assets/logout-icon.svg");
+  width: 25px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 0px 4px;
+  vertical-align: middle;
+  outline: none;
+  color: #ffffff;
+  display: inline-block;
+  flex-basis: fit-content;
+}
+.profile-dropdown {
+  .dropdown-toggle {
+    display: flex;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    &:focus-visible {
+      outline: none;
+    }
+    .navbar-profile-name {
+      text-align: right;
+      font-size: 1rem;
+      color: #fff;
+      line-height: 1.1;
+      &:focus-visible {
+        outline: none;
+      }
+      &.user-impersonating {
+        color: lightcoral;
+      }
+      &:hover {
+        color: grey;
+      }
+    }
+
+    .navbar-profile-image {
+      text-align: right;
+      display: inline-block;
+      margin: 0px 0px 0px 10px;
+    }
+  }
+}

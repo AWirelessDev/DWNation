@@ -1,0 +1,966 @@
+:root {
+  // --btn-bg-primary: #3678b7;
+  --btn-bg-primary: #000000;
+  // --btn-border-primary: #3678b7;
+  --btn-border-primary: #000000;
+  // --bs-btn-hover-bg: #0b5ed7;
+  --bs-btn-hover-bg: #303030;
+}
+.btn {
+  &-primary {
+    --bs-btn-hover-bg: #303030;
+  }
+  &:active {
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-bg);
+  }
+}
+.container-fluid {
+  width: 100%;
+  margin: 0 auto;
+  @media only screen and (min-width: 1600px) {
+    max-width: 1600px;
+  }
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.z-index-1 {
+  z-index: 1;
+}
+.z-index-0 {
+  z-index: 0;
+}
+.z-index-n1 {
+  z-index: -1;
+}
+
+@media only screen and (max-width: 320px) {
+  .btn-cancel {
+    margin-top: 25%;
+  }
+  .btn-save {
+    margin-top: 25%;
+    margin-left: -146px;
+    max-width: 100px;
+  }
+}
+.offwhite {
+  color: #e8d4d5;
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .MediaExp {
+    background: red;
+  }
+  .bodyData {
+    float: inherit;
+    width: 100%;
+  }
+  .caby {
+    width: 100%;
+    float: right;
+    margin-right: -7px;
+  }
+  li.nav-item.nav-link.btn {
+    margin-top: -52px;
+    margin-left: -30px;
+  }
+  a#basic-nav-dropdown {
+    margin-top: -1px;
+  }
+  .box {
+    margin-left: -2.5%;
+    min-width: auto;
+  }
+
+  .AlingHis {
+    margin-top: 5px;
+  }
+  .center-sm {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  button.button.btn.btn-outline-dark {
+    float: left;
+    width: 100px;
+    height: 42px;
+    margin-top: -40px;
+  }
+  .unauthorized {
+    margin-top: -30%;
+  }
+  .UploadElement {
+    float: left;
+    margin-left: -14px;
+    min-width: 50px;
+  }
+  .table-search-block {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 45%;
+    width: 63%;
+    top: -55px;
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .table-search-block-rev {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 20%;
+    width: 67%;
+    top: 2px;
+
+    #csv2 {
+      position: relative;
+      float: right;
+      width: 132px;
+    }
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .hrline {
+    max-width: 64%;
+    float: right;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .MediaExp {
+    background: green;
+  }
+
+  button.button.btn.btn-danger {
+    width: 100px;
+  }
+  button.button.btn.btn-outline-dark {
+    float: right;
+    width: 100px;
+  }
+  button.button.btn.btn-success {
+    width: 100px;
+  }
+  li.nav-item.nav-link.btn {
+    margin-top: -10px;
+    margin-left: -30px;
+  }
+  .brecru {
+    margin-left: 10px;
+  }
+  .historyTerm {
+    margin-top: 118.5%;
+    max-width: 100%;
+    margin-left: 10px;
+  }
+  .historyFCAD {
+    margin-top: -4.5%;
+    max-width: 100%;
+    margin-right: -13%;
+  }
+  .HistoryMove {
+    margin-top: -4.5%;
+    max-width: 100%;
+    margin-right: -13%;
+  }
+  .HistoryPipEget {
+    margin-top: -4.5%;
+    max-width: 100%;
+    margin-right: -13%;
+  }
+  .HistoryPipCx {
+    margin-top: -4.5%;
+    max-width: 100%;
+    margin-right: -13%;
+  }
+  .AlingHis {
+    margin-top: 30px;
+  }
+
+  .UploadElement {
+    float: left;
+    margin-left: -14px;
+    min-width: 50px;
+  }
+
+  .TimeLineUp {
+    margin-top: -25px;
+  }
+  .table-search-block {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 45%;
+    width: 63%;
+    top: -55px;
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .table-search-block-rev {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 39%;
+    width: 62%;
+    top: -55px;
+
+    #csv2 {
+      position: relative;
+      float: right;
+      width: 132px;
+    }
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .hrline {
+    max-width: 72%;
+    float: right;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .MediaExp {
+    background: blue;
+  }
+  .box {
+    margin-right: -70px;
+  }
+  .caby {
+    width: 92%;
+    float: inherit;
+  }
+  .historyTerm {
+    margin-top: -91.5%;
+    max-width: 36%;
+    float: right;
+    margin-right: -2%;
+  }
+  .historyFCAD {
+    margin-top: -135.5%;
+    max-width: 43%;
+    float: right;
+    margin-right: -14%;
+  }
+  .HistoryMove {
+    max-width: 42%;
+    margin-top: -117.5%;
+    float: right;
+    margin-right: -13%;
+  }
+  .HistoryPipEget {
+    margin-top: -251.5%;
+    max-width: 40%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryPipCx {
+    margin-top: -268.5%;
+    max-width: 42%;
+    float: right;
+    margin-right: -13%;
+  }
+  .AlingHis {
+    margin-top: 30px;
+  }
+
+  .TimeLineUp {
+    margin-top: -25px;
+  }
+  .table-search-block {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 45%;
+    width: 63%;
+    top: -55px;
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .table-search-block-rev {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 39%;
+    width: 62%;
+    top: -55px;
+
+    #csv2 {
+      position: relative;
+      float: right;
+      width: 132px;
+    }
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .hrline {
+    max-width: 78%;
+    float: right;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .MediaExp {
+    background: orange;
+  }
+  .caby {
+    width: 94%;
+    float: inherit;
+  }
+  .historyTerm {
+    margin-top: -71.5%;
+    width: 24rem;
+    float: right;
+    margin-right: -4%;
+  }
+  .historyFCAD {
+    margin-top: -104%;
+    max-width: 41%;
+    float: right;
+    margin-right: -12%;
+  }
+  .HistoryMove {
+    max-width: 42%;
+    margin-top: -90.5%;
+    float: right;
+    margin-right: -13%;
+  }
+  .HistoryPipEget {
+    margin-top: -179.5%;
+    max-width: 40%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryPipCx {
+    margin-top: -195.5%;
+    max-width: 42%;
+    float: right;
+    margin-right: -13%;
+  }
+  .AlingHis {
+    margin-top: 92px;
+  }
+
+  .TimeLineUp {
+    margin-top: -25px;
+  }
+  .table-search-block {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 45%;
+    width: 63%;
+    top: -55px;
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .table-search-block-rev {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 39%;
+    width: 62%;
+    top: -55px;
+
+    #csv2 {
+      position: relative;
+      float: right;
+      width: 132px;
+    }
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+  .hrline {
+    max-width: 81%;
+    float: right;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .MediaExp {
+    background: pink;
+  }
+
+  .historyTerm {
+    margin-top: -54%;
+    max-width: 31%;
+    float: right;
+    margin-right: -2%;
+  }
+  .historyFCAD {
+    margin-left: 71%;
+    margin-top: -77.5%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryMove {
+    margin-left: 71%;
+    margin-top: -62%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryPipEget {
+    margin-left: 71%;
+    margin-top: -141%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryPipCx {
+    margin-left: 71%;
+    margin-top: -154.5%;
+    float: right;
+    margin-right: -11%;
+  }
+  .AlingHis {
+    margin-top: 92px;
+  }
+
+  .table-search-block {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 45%;
+    width: 63%;
+    top: -55px;
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .table-search-block-rev {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 39%;
+    width: 62%;
+    top: -55px;
+
+    #csv2 {
+      position: relative;
+      float: right;
+      width: 132px;
+    }
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+  .hrline {
+    max-width: 87%;
+    float: right;
+  }
+}
+/* Extra large devices (large laptops and desktops, 1600px and up) */
+@media only screen and (min-width: 1600px) {
+  .MediaExp {
+    background: orangered;
+    max-width: 1600px;
+    max-height: 200px;
+  }
+  .historyTerm {
+    margin-left: 71%;
+    margin-top: -52%;
+    float: right;
+    margin-right: -11%;
+  }
+  .historyFCAD {
+    margin-left: 71%;
+    margin-top: -57%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryMove {
+    margin-left: 71%;
+    margin-top: -55.5%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryPipEget {
+    margin-left: 71%;
+    margin-top: -107.5%;
+    float: right;
+    margin-right: -11%;
+  }
+  .HistoryPipCx {
+    margin-left: 71%;
+    margin-top: -107%;
+    float: right;
+    margin-right: -11%;
+  }
+  .AlingHis {
+    margin-top: 92px;
+  }
+
+  .table-search-block {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 45%;
+    width: 63%;
+    top: -55px;
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .table-search-block-rev {
+    display: flex;
+    flex-direction: row-reverse;
+    position: relative;
+    left: 39%;
+    width: 62%;
+    top: -55px;
+
+    #csv2 {
+      position: relative;
+      float: right;
+      width: 132px;
+    }
+    .input-group {
+      flex-wrap: nowrap;
+    }
+  }
+
+  .hrline {
+    max-width: 88%;
+    float: right;
+  }
+}
+
+@font-face {
+  font-family: "HaasGrotesk";
+  src: local("HaasGrotesk"),
+    url("../public/Fonts/Brisko_Haas/BriskoSansW01Regular.woff")
+      format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "NeueHaasDisplay-Bold";
+  src: local("NeueHaasDisplay-Bold"),
+    url("../public/Fonts/NeueHaasGrotesk/NeueHaasDisplay-Bold.ttf")
+      format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "HaasGroteskBold";
+  src: local("HaasGrotesk"),
+    url("../public/Fonts/Brisko_Haas/BriskoSansBold.otf") format("truetype");
+  font-weight: bold;
+}
+
+.MaxSz {
+  max-width: 1600px;
+  max-height: 800px;
+}
+
+.v3-watermark-wrapper {
+  z-index: -1;
+  position: fixed;
+  bottom: 0px;
+  opacity: 0.06;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: -moz-linear-gradient(
+    top,
+    rgb(0, 0, 0) 0%,
+    rgb(255, 255, 255) 80%
+  );
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0%, rgba(0, 0, 0)),
+    color-stop(80%, rgba(255, 255, 255, 1))
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgb(0, 0, 0) 0%,
+    rgb(255, 255, 255) 80%
+  );
+  background: -o-linear-gradient(top, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 80%);
+  background: -ms-linear-gradient(top, rgb(0, 0, 0) 0%, rgb(255, 255, 255) 80%);
+  background: linear-gradient(
+    to bottom,
+    rgb(0, 0, 0) 0%,
+    rgb(255, 255, 255) 80%
+  );
+}
+.v3-watermark {
+  background-color: whitesmoke;
+  background-image: url(../assets/media/Black_Red_RGB.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 130%;
+  width: 150%;
+  left: -13%;
+  top: -5%;
+  position: absolute;
+}
+
+.bck {
+  background-color: whitesmoke;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 1px solid lightblue;
+}
+
+.title-dwn {
+  text-decoration: underline #d8534f;
+  -webkit-text-decoration: underline #d8534f;
+  -moz-text-decoration: underline #d8534f;
+  -ms-text-decoration: underline #d8534f;
+  cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.profile-name {
+  font-family: "HaasGrotesk";
+  color: black;
+  font-size: 28px;
+}
+
+.profile-head-dat {
+  color: gray;
+  font-family: "HaasGrotesk";
+}
+
+.profile-head-email {
+  color: gray;
+  font-family: "HaasGrotesk";
+  text-decoration: none;
+}
+
+.profile-img {
+  padding: 0.25rem;
+  border-radius: 50%;
+  box-shadow: 5rem;
+  margin-left: 20px;
+}
+
+.btn-primary {
+  height: 42px;
+  background-color: var(--btn-bg-primary);
+  border-color: var(--btn-border-primary);
+  &:disabled {
+    background-color: var(--btn-bg-primary);
+    border-color: var(--btn-border-primary);
+  }
+}
+.btn-danger {
+  height: 42px;
+  border-radius: 4px;
+}
+
+.react-datepicker__close-icon::after {
+  font-size: 14px;
+}
+
+.react-datepicker-wrapper {
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  z-index: 1;
+  .date-picker-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.react-datepicker {
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 0.8rem;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #aeaeae;
+  border-radius: 0.3rem;
+  display: inline-block;
+  position: relative;
+  z-index: 9999;
+}
+.react-datepicker-popper {
+  z-index: 9999;
+}
+.react-datepicker__navigation {
+  align-items: center;
+  background: none;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  top: 2px;
+  padding: 0;
+  border: none;
+  z-index: 9999;
+  height: 32px;
+  width: 32px;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+.react-datepicker__month-year-dropdown {
+  background-color: #f0f0f0;
+  position: absolute;
+  width: 50%;
+  left: 25%;
+  top: 30px;
+  z-index: 9999;
+  text-align: center;
+  border-radius: 0.3rem;
+  border: 1px solid #aeaeae;
+}
+
+.navbar-brand,
+.Breadcrumb-Arrow {
+  cursor: pointer;
+}
+
+.vision-header {
+  width: 100%;
+  z-index: 1030;
+  box-shadow: 0px 8px 8px -8px #262323;
+  background-color: #000000;
+}
+
+.headerLogo {
+  font-size: 24px;
+  color: #ffffff;
+  -ms-flex: 1;
+  flex: 1;
+  margin: 0;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  text-decoration: none;
+  display: flex;
+}
+
+.v3-vLogo {
+  background-image: url("/assets/media/logos/VISION_Web.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 4em;
+  padding: 5px 0px 5px 28px;
+  height: 40px;
+  width: 110px;
+}
+
+.navbar-nav .dropdown-menu {
+  margin: 18px -15px 0px 0px;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+}
+
+.CenterSpiner {
+  text-align: center;
+}
+.error-message {
+  border: 1px solid red;
+  outline: red;
+  border-radius: 6px;
+}
+
+.highlight-pending-change {
+  color: #da2929;
+  font-family: Calibri;
+  font-size: 12px;
+  font-style: italic;
+  letter-spacing: 0.09px;
+  line-height: 13px;
+}
+
+.highlight-background-pending-change:disabled {
+  background-color: #fdf4d1;
+}
+.highlight-background-pending-change {
+  background-color: #fdf4d1;
+}
+
+.position-relative {
+  position: relative;
+}
+.position-inherit {
+  position: inherit;
+  z-index: 1;
+}
+
+.list {
+  margin-top: 20px;
+}
+.not-data-yet {
+  text-align: center;
+  color: #d8534f;
+  margin-left: -35px;
+}
+
+.error-toast-message {
+  color: #ffffff;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .MediaExp {
+    background: red;
+  }
+  .center-sm {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .MediaExp {
+    background: green;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .MediaExp {
+    background: blue;
+  }
+}
+
+/* To Hide element for mobile and tablet write classes here */
+@media only screen and (max-width: 991px) {
+  .navbar-brand {
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+  }
+
+  .navbar-nav .dropdown-menu {
+    margin: 18px 0px 0px 0px;
+    width: 100vw;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+  .nav-bar-logout-icon {
+    display: none;
+  }
+  .profile-dropdown .dropdown-toggle .navbar-profile-name {
+    display: none;
+  }
+  .profile-dropdown .dropdown-toggle .navbar-profile-image {
+    margin-left: 0 !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .MediaExp {
+    background: orange;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .MediaExp {
+    background: pink;
+  }
+}
+/* Extra large devices (large laptops and desktops, 1600px and up) */
+@media only screen and (min-width: 1600px) {
+  .MediaExp {
+    background: orangered;
+    max-width: 1600px;
+    max-height: 200px;
+  }
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #919191 #e6e6e6;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-radius: 12px;
+  border: 0;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #919191;
+  border-radius: 12px;
+  cursor: grab;
+}
+
+.pagination {
+  .page-item {
+    &.disabled {
+      .page-link {
+        pointer-events: none;
+        cursor: pointer;
+        background-color: var(--bs-pagination-disabled-border-color);
+      }
+    }
+  }
+  button {
+    &:focus,
+    &:active {
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+}
+button,
+.btn {
+  &:focus,
+  .btn.active:focus,
+  .btn.show:focus,
+  .btn:active:focus {
+    box-shadow: none !important;
+  }
+}
+.btn-group-lg > .btn,
+.btn-lg,
+.btn {
+  --bs-btn-border-radius: 0.25rem;
+}

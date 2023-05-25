@@ -1,0 +1,127 @@
+.bodyTable {
+  background-color: white;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.th {
+  height: 60px;
+  z-index: 0;
+  color: #495057;
+  font-family: "NeueHaasDisplay-Bold";
+  letter-spacing: 0.09px;
+  border-top: 0px;
+}
+th.right:before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 15px;
+  height: 30px;
+  width: 100%;
+  border-right: 2px solid lightgray;
+}
+
+th.right:nth-last-child(1):before {
+  border: none;
+}
+
+.td {
+  color: #495057;
+  font-family: "HaasGrotesk";
+}
+
+.bold-cell {
+  font-family: "HaasGroteskBold";
+  cursor: pointer;
+  height: 60px;
+}
+
+.reg-cell {
+  cursor: pointer;
+  height: 60px;
+}
+
+.rowCls {
+  height: 60px;
+}
+
+.react-tabs__tab {
+  color: #000000bf;
+  font-family: "HaasGroteskBold";
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.17px;
+  text-align: center;
+  width: 131px;
+  background-color: #ced4da;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  padding: 13px 29px;
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+  bottom: -11px;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-top: 0px;
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.react-tabs__tab--selected {
+  border-top: 0px solid !important;
+  border-left: 0px solid !important;
+  border-right: 0px solid !important;
+  border-bottom: none !important;
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.table-no-records {
+  text-align: center;
+  font-size: 16px;
+  color: #da2929;
+}
+
+.nav-pagination {
+  display: inline;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  float: right;
+  font-family: HaasGrotesk;
+}
+.page-link {
+  text-decoration: none;
+  color: gray;
+  font-family: "HaasGrotesk";
+  font-size: 16px;
+}
+
+@media (min-width: 300px) and (max-width: 500px) {
+  .nav-pagination {
+    width: 196px;
+  }
+}
+.page-selected {
+  background-color: #000000;
+  color: #f2f2f2;
+  border-color: #f2f2f2;
+  width: 40px;
+  border: 1px solid #000000;
+}
+.page-selected:hover {
+  background-color: #242424;
+  border-color: #242424;
+}
+
+.page-link {
+  text-decoration: none;
+  color: gray;
+  font-family: HaasGrotesk;
+  font-size: 16px;
+}
+.page-item .page-selected {
+  border-style: solid;
+}

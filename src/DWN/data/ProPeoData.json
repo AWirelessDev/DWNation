@@ -1,0 +1,36 @@
+{
+  "Locations": [
+    "A Location",
+    "Another Location",
+    "Another Location",
+    "Another Fourth",
+    "A Truncated"
+  ],
+  "Events": [
+    {
+      "EventP": "Hire Date",
+      "DateE": "02/14/2018",
+      "classE": "selectednor"
+    },
+    {
+      "EventP": "Termination",
+      "DateE": "05/16/2018",
+      "classE": "selectedter"
+    },
+    {
+      "EventP": "ReHire",
+      "DateE": "01/14/2019",
+      "classE": "selectednor"
+    },
+    {
+      "EventP": "Promotion",
+      "DateE": "01/01/2020",
+      "classE": "selectednor"
+    },
+    {
+      "EventP": "Current",
+      "DateE": "02/14/2022",
+      "classE": "selectedcur"
+    }
+  ]
+}

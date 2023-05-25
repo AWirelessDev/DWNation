@@ -1,0 +1,97 @@
+.table-search-block-reverse {
+  display: flex;
+  @media (max-width: 1199px) {
+    padding-top: 7px;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  @media (min-width: 768px) {
+    flex-direction: row-reverse;
+  }
+  @media (min-width: 1199px) {
+    margin-top: -51px;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
+  .date-filter-box {
+    flex-wrap: nowrap;
+
+    @media (max-width: 768px) {
+      > div {
+        width: 100%;
+      }
+    }
+    @media (min-width: 768px) {
+      .date-picker-input {
+        min-width: 240px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .flex-row-reverse {
+      width: 100%;
+      > div,
+      .btn-add {
+        width: 100%;
+      }
+    }
+  }
+}
+.filterButton {
+  min-width: 52px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 42px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--btn-bg-primary);
+  color: white;
+  font-size: 1rem;
+  line-height: 1;
+  border: 1px solid var(--btn-border-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-bg);
+  }
+  i {
+    line-height: 1;
+  }
+  &.clearFilter {
+    font-size: 1.3rem;
+    background-color: #fff;
+    border-color: #6c757d;
+    color: #000000;
+    &:hover {
+      background-color: #000;
+      border-color: #000;
+      color: #fff;
+    }
+  }
+  span {
+    padding-left: 7px;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+}
+.btn-RptIcon {
+  display: inline-flex;
+  @media (max-width: 480px) {
+    width: 100%;
+    justify-content: center;
+  }
+  .cIcon {
+    margin-right: 5px;
+  }
+}

@@ -1,0 +1,29 @@
+// Related to History Table not generic media queries
+@media only screen and (max-width: 600px) {
+    .history-table-search-block {
+        display: block;
+        width: 100%;
+        left: 0%;
+        top: 0px;
+        bottom: 0px;
+
+        #csv2 {
+            width: 100%;
+        }
+
+        .search-margin {
+            margin: 0px;
+        }
+
+        .history-search-box {
+            margin-top: 10px;
+            .search-input {
+                width: 100%;
+            }
+        }
+    }
+    
+    .history-table {
+        margin-top: 60px;
+    }
+}

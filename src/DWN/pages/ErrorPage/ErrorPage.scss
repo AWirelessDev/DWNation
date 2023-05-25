@@ -1,0 +1,77 @@
+.errorPage {
+  background-color: #ffffffda;
+  min-height: calc(100vh - 60px);
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  @media (max-width: 1024px) {
+    font-size: 0.8rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 0.6rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.53rem;
+  }
+  @media (min-width: 768px) {
+    justify-content: center;
+  }
+  .title {
+    font-size: 5em;
+    font-weight: 800;
+    line-height: 1.1;
+    padding-bottom: 1.6rem;
+  }
+  .message {
+    font-size: 2.5em;
+    line-height: 1.2;
+    font-weight: 100;
+    margin-bottom: 1rem;
+  }
+
+  .code {
+    color: #bf1e2e;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .url {
+    font-size: 0.9em;
+    color: #858585;
+    word-break: break-all;
+    margin-bottom: 1rem;
+  }
+  .svgImage {
+    svg {
+      @media (min-width: 768px) {
+        max-height: 100vh;
+        min-height: 500px;
+      }
+    }
+  }
+  .action {
+    margin-bottom: 1rem;
+    .goBack {
+      background-color: #ed1b24;
+      color: white;
+      border: none;
+      padding: 1em 2em;
+      font-size: 1em;
+      font-weight: 600;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      display: inline-flex;
+      text-transform: uppercase;
+      line-height: 1;
+      align-items: center;
+      &:hover {
+        background-color: #000000;
+      }
+      .cIcon {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}

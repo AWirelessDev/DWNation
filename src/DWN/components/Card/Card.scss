@@ -1,0 +1,80 @@
+.card-line {
+  height: 1px;
+  color: black;
+  width: 96%;
+  border-radius: 0rem;
+}
+
+.card-body {
+  background-color: gray;
+  border-radius: 10px;
+  box-shadow: 0px 3px 5px 1px rgba(204, 204, 204, 1);
+}
+
+.card-body-title {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.separator {
+  height: 1px;
+  color: black;
+  width: 96%;
+  border-radius: 0rem; 
+}
+
+.card-bodyplain {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row-reverse;
+  position: relative;
+  .input-group {
+    flex-wrap: nowrap;
+  }
+}
+
+
+.search-bar-box {
+  margin: 0px 0px 0px 0px;
+  height: 42px;
+  .search-bar-input {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #6e757c;
+    font-family: "HaasGrotesk";
+    letter-spacing: 0.1px;
+    line-height: 16px;
+    padding: 5px;
+    
+  }
+
+  .search-bar-icon {
+    position: relative;
+    right: 30px;
+    font-weight: bolder;
+    font-size: 20px;
+    box-sizing: border-box;
+  }
+
+  .inputGroupHeightbar {
+    height: 42px;
+    width: 42px;
+  }
+}
+
+.switchbtn {
+  position: relative;
+  margin-top: 5px;  
+  font-weight: lighter;
+  font-size: 22px;
+  box-sizing: border-box;
+}
+.bckred{
+  background-color: red;
+}
+

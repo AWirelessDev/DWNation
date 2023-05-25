@@ -1,0 +1,23 @@
+
+
+
+.font {
+  color: grey;
+}
+
+.button {
+    width: 100px;
+    float: right;
+    margin-left: 20px;
+    margin-top: -37px;
+  }
+
+  .card {
+    width: 90rem; margin-top: 30px; margin-left: -70px;
+  }
+
+  .icon {
+    margin-left: -13px;
+    margin-top: -13px;
+    font-size: x-large;
+  }

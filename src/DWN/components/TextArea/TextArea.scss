@@ -1,0 +1,16 @@
+.floatingTextArea {
+  &.form-floating {
+    > label {
+      top: 8px;
+      height: 1.625rem;
+      opacity: 1 !important;
+      line-height: 0;
+      background-color: #fff;
+    }
+    .form-control:disabled {
+      + label {
+        background-color: #e9ecef;
+      }
+    }
+  }
+}

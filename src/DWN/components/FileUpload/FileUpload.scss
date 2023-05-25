@@ -1,0 +1,59 @@
+.h1 {
+  color: rgb(120, 91, 91);
+  display: inline;
+  font-size: initial;
+}
+
+.close {
+  float: right;
+  color: red;
+  font-size: 0.73em;
+}
+
+.file-name {
+  cursor: pointer;
+  height: 18px;
+  color: #616870;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+  line-height: 16px;
+}
+
+.file-upload-icon-color {
+  color: #d8534f;
+  cursor: pointer;
+}
+
+.drop-zone-error {
+  border: 2px dashed #d8534f !important;
+}
+
+.file-upload-block {
+  &.btn {
+    border: 1px solid #ced4da;
+    padding: 20px;
+    height: auto;
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: #f1f1f1;
+      border-color: #f1f1f1;
+    }
+  }
+}
+
+.fa-trash-icon {
+  color: #d8534f;
+  float: right;
+}
+
+.fa-download-icon {
+  color: blue;
+  float: right;
+}
+
+.file-upload-document {
+  .dropdown-menu.show {
+    width: 100%;
+  }
+}

@@ -1,0 +1,121 @@
+// Colors
+$label-colour: #bbb;
+$disabled-colour: #ddd;
+$toggle-colour: #3678b7;
+$white: #fff;
+$focus-color: #ff0;
+
+.toggleAC-switchAC {
+  position: relative;
+  margin-right: 10px;
+  width: 75px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  &-checkboxAC {
+    display: none;
+  }
+  &-labelAC {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 0 solid $label-colour;
+    border-radius: 20px;
+    margin: 0;
+    &:focus {
+      outline: none;
+      > span {
+        box-shadow: 0 0 2px 5px red;
+      }
+    }
+    > span:focus {
+      outline: none;
+    }
+  }
+  &-innerAC {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+    &:before,
+    &:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 34px;
+      padding: 0;
+      line-height: 34px;
+      font-size: 14px;
+      color: white;
+      font-weight: bold;
+      box-sizing: border-box;
+    }
+    &:before {
+      content: attr(data-yes);
+      padding-left: 10px;
+      background-color: $toggle-colour;
+      color: $white;
+    }
+  }
+  &-disabledAC {
+    background-color: $disabled-colour;
+    cursor: not-allowed;
+    &:before {
+      background-color: $disabled-colour;
+      cursor: not-allowed;
+    }
+  }
+  &-innerAC:after {
+    content: attr(data-no);
+    padding-right: 10px;
+    background-color: $label-colour;
+    color: $white;
+    text-align: right;
+  }
+  &-switchAC {
+    display: block;
+    width: 24px;
+    margin: 5px;
+    background: $white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 40px;
+    border: 0 solid $label-colour;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+  }
+  &-checkboxAC:checked + &-labelAC {
+    .toggleAC-switchAC-innerAC {
+      margin-left: 0;
+    }
+    .toggleAC-switchAC-switchAC {
+      right: 0px;
+    }
+  }
+  &.smallAC-switchAC {
+    width: 40px;
+    .toggleAC-switchAC-innerAC {
+      &:after,
+      &:before {
+        content: "";
+        height: 20px;
+        line-height: 20px;
+      }
+    }
+    .toggleAC-switchAC-switchAC {
+      width: 16px;
+      right: 20px;
+      margin: 2px;
+    }
+  }
+  @media screen and (max-width: 991px) {
+    transform: scale(0.9);
+  }
+  @media screen and (max-width: 767px) {
+    transform: scale(0.825);
+  }
+  @media screen and (max-width: 575px) {
+    transform: scale(0.75);
+  }
+}
