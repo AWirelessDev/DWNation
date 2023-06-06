@@ -49,19 +49,15 @@ export const PeopleProfilePage = ({}) => {
   const { lookups, visionRoles, positions } = useContext(LookupsContext);
   const loginUserDetails = useContext(RoleContext);
   const location = useLocation();
-  const { id = "", historySearch = "" } = 1;//queryString.parse(location.search);
+  const { phone = "", historySearch = "" } = queryString.parse(location.search);
   const hasViewPermission = hasHrAdminPermission(loginUserDetails?.data?.roles);
   const hasEditPermission = hasHrAdminPermission(loginUserDetails?.data?.roles);
   const hasManagerPermission = ""
     //loginUserDetails?.data.mdmWorkerId.toString() !== ""// id.toString();
   const { accounts, instance } = useMsal();
   const {
-    VITE_REACT_URL_API_PMC,
-    VITE_EVENTS_FUNCTION_KEY_PMC,
-    VITE_REACT_URL_API_VISION3,
-    VITE_FUNCTION_KEY_VISION3,
-    VITE_REACT_URL_API_MDM,
-    VITE_FUNCTION_KEY_MDM,
+    VITE_REACT_URL_API_SUB,
+    VITE_OCP_APIM_SUBSCRIPTION_KEY
   } = import.meta.env;
 
   //----------BEGIN Impersonation-------------------------
@@ -74,50 +70,34 @@ export const PeopleProfilePage = ({}) => {
   const [loadingPeopleData, setLoadingPeopleData] = useState(true);
   const fetchEmployeeData = async () => {
     const responseData = await getEmployeeDetailsById(
-      `${VITE_REACT_URL_API_PMC}/GetEmployeeDetailsById/${id}`,
-      { "x-functions-key": VITE_EVENTS_FUNCTION_KEY_PMC },
+      `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
+    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },   
       accounts,
       instance,
       impersonation,
       impersonEmail
     );
+    // const responseData = [
+    //   {
+    //     id: 1,
+    //     status: "Active",      
+    //     first_Name: "John",
+    //     last_Name: "stoney",
+    //     mdn: "789456123"
+    //   }];
+
     if (responseData.isValid === false) {
       setLoadingPeopleData(false);
       navigate(`/error/${responseData.status}`);
       return;
     }
-    const _locations = await getApi(
-      `${VITE_REACT_URL_API_MDM}/GetAllLocationLevelsForBusinessGroup/${
-        responseData.bussinessGroupId || 1
-      }`,
-      {
-        "x-functions-key": VITE_FUNCTION_KEY_MDM,
-      },
-      accounts,
-      instance,
-      impersonation,
-      impersonEmail
-    );
-    if (_locations?.length) {
-      setLocationList(_locations);
-    } else {
-      setLocationList([]);
-    }
+  
     setDataPeople(responseData);
-    let locationId = 0;
-    if (responseData?.locations?.length) {
-      const primaryLocations = responseData.locations.find(
-        (location) => location.assignmentType === "Primary"
-      );
-      locationId = primaryLocations?.mdmLocationLevelId || 0;
-    }
+   
     const values = {
-      legalFirstName: responseData?.legalFirstName,
-      legalLastName: responseData?.legalLastName,
-      preferredFirstName: responseData?.preferredFirstName,
-      pronounId: responseData?.pronounId,
-      titleId: responseData?.titleId,
-      locationLevelId: locationId,
+      first_Name: responseData[0].first_Name,
+      last_Name: responseData[0].last_Name,
+      mdn: responseData[0].mdn,       
       hasHeaderChanges: false,
     };
     setHeaderFields(values);
@@ -128,14 +108,12 @@ export const PeopleProfilePage = ({}) => {
     fetchEmployeeData();
   }, []);
   const [DataHis, loading] = useFetch(
-    `${VITE_REACT_URL_API_PMC}/GetEventsByEmployeeId/${id}`,
-    { "x-functions-key": VITE_EVENTS_FUNCTION_KEY_PMC }
+    `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
+    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY }   
   );
   const [dataPendingChanges, isDataPendingChangesLoading] = useFetch(
-    `${VITE_REACT_URL_API_PMC}/GetEmployeeEvents/${id}`,
-    {
-      "x-functions-key": VITE_EVENTS_FUNCTION_KEY_PMC,
-    }
+    `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
+    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY }   
   );
 
   const [uplineManager, setUplineManager] = useState(false);
@@ -150,21 +128,6 @@ export const PeopleProfilePage = ({}) => {
     setPendingChanges(null);
     setCollapse(true);
   }, [pendingChangesList]);
-
-  useEffect(() => {
-    if (DataPeople?.mdmWorkerId) {
-      const isDownlineManager = getApi(
-        `${VITE_REACT_URL_API_VISION3}/CheckDownlineWorker/${DataPeople?.mdmWorkerId}/false`,
-        { "x-functions-key": `${VITE_FUNCTION_KEY_VISION3}` },
-        accounts,
-        instance,
-        impersonation,
-        impersonEmail
-      );
-
-      if (isDownlineManager) setUplineManager(isDownlineManager);
-    }
-  }, [DataPeople?.mdmWorkerId]);
 
   useEffect(() => {
     setPendingChangesList(dataPendingChanges);
@@ -187,117 +150,50 @@ export const PeopleProfilePage = ({}) => {
     setEditable(true);
   };
 
-  let ItemsDrp = [];
-
-  if (loginUserDetails?.data.mdmWorkerId?.toString() !== id) {
-    ItemsDrp = [
-      "Performance Improvement Plan - EGET",
-      "Performance Improvement Plan - CX",
-      "SCF Move/Demotion",
-      "SCF Termination",
-    ];
-
-    if (
-      (isLoginUserAdmin() || uplineManager) &&
-      loginUserDetails?.data.mdmWorkerId?.toString() !== id
-    ) {
-      ItemsDrp.unshift("Formal Coaching and Documentation");
-    }
-  }
+  let ItemsDrp = []; 
 
   const handleClose = () => {
     setShowAfSave(false);
   };
 
-  const fetchPermissions = async () => {
-    const employeePermissions = await getApi(
-      `${VITE_REACT_URL_API_VISION3}/GetUserPermissions/${DataPeople.mdmWorkerId}`,
-      {
-        "x-functions-key": VITE_FUNCTION_KEY_VISION3,
-      },
-      accounts,
-      instance,
-      impersonation,
-      impersonEmail
-    );
-    if (employeePermissions?.roles?.length) {
-      const roles = employeePermissions?.roles.map((role) => {
-        return visionRoles.find((_visionRole) => {
-          return _visionRole.name === role;
-        })?.id;
-      });
-      setEmployeeRoles(roles);
-    }
-  };
+  // const fetchPermissions = async () => {
+  //   const employeePermissions = await getApi(
+  //     `${VITE_REACT_URL_API_VISION3}/GetUserPermissions/${DataPeople.mdmWorkerId}`,
+  //     {
+  //       "x-functions-key": VITE_FUNCTION_KEY_VISION3,
+  //     },
+  //     accounts,
+  //     instance,
+  //     impersonation,
+  //     impersonEmail
+  //   );
+  //   if (employeePermissions?.roles?.length) {
+  //     const roles = employeePermissions?.roles.map((role) => {
+  //       return visionRoles.find((_visionRole) => {
+  //         return _visionRole.name === role;
+  //       })?.id;
+  //     });
+  //     setEmployeeRoles(roles);
+  //   }
+  // };
 
-  const postDataEmployeeDetails = async () => {
+  const patchDataCustomerDetails = async () => {
     setShowAfSave(false);
-    if (profileFormState?.form?.errors?.length) {
-      // if admin/hr no need to remove any keys else we have to remove below keys for manager
-      let removeKeys = hasEditPermission
-        ? []
-        : [
-            "supervisorMDMWorkerId",
-            "companyId",
-            "organizationRoleId",
-            "hireDate",
-            "programCodeId",
-            "jobCodeId",
-          ];
-
-      // omni flag false remove program and job code
-      if (!profileFormState?.form?.data?.SendToOmni) {
-        removeKeys = [...removeKeys, "programCodeId", "jobCodeId"];
-      }
-
-      if (
-        profileFormState?.form?.data?.classificationId ===
-        VICTRA_CLASSIFICATION_ID
-      ) {
-        // for victra employee remove reports to
-        removeKeys = [...removeKeys, "supervisorMDMWorkerId"];
-        const errors = profileFormState?.form?.errors?.filter((error) => {
-          return !removeKeys.includes(error?.key);
-        });
-        if (errors?.length) {
-          return;
-        }
-      } else {
-        const errors = profileFormState?.form?.errors?.filter((error) => {
-          return !removeKeys.includes(error?.key);
-        });
-        if (errors?.length) {
-          return;
-        }
-      }
-    }
+  
     const updateState = {
       ...profileFormState?.form?.data,
-      gender:
-        headerFields?.pronounId !== DataPeople?.pronounId
-          ? headerFields?.pronounId
-          : null,
-      preferredFirstName:
-        headerFields?.preferredFirstName !== DataPeople?.preferredFirstName
-          ? headerFields?.preferredFirstName
-          : null,
-      legalFirstName:
-        headerFields?.legalFirstName !== DataPeople?.legalFirstName
-          ? headerFields?.legalFirstName
-          : null,
-      legalLastName:
-        headerFields?.legalLastName !== DataPeople?.legalLastName
-          ? headerFields?.legalLastName
-          : null,
-      positionId:
-        headerFields?.titleId?.toString() !== DataPeople?.titleId?.toString()
-          ? headerFields?.titleId?.toString()
-          : null,
-      locationLevelId:
-        headerFields?.locationLevelId?.toString() !==
-        headerValues?.locationLevelId?.toString()
-          ? headerFields?.locationLevelId?.toString()
-          : null,
+      // first_Name:
+      //   headerFields?.first_Name !== DataPeople?.first_Name
+      //     ? headerFields?.first_Name
+      //     : null,
+      // last_Name:
+      //   headerFields?.last_Name !== DataPeople?.last_Name
+      //     ? headerFields?.last_Name
+      //     : null,
+      // city:
+      //   headerFields?.city !== profileFormState?.form?.data.city
+      //     ? headerFields?.city
+      //     : null,      
     };
     dispatch({
       type: "UPDATE_FORM_DATA",
@@ -316,16 +212,16 @@ export const PeopleProfilePage = ({}) => {
       impersonation,
       impersonEmail
     );
-    if (apiData?.eventId) {
+    if (apiData?.subscriber_ID) {
       const _pendingChangesList = await fetchPendingChangesApi(
-        apiData.mdmEmployeeId,
+        apiData.subscriber_ID,
         accounts,
         instance,
         impersonation,
         impersonEmail
       );
       await fetchEmployeeData();
-      await fetchPermissions();
+     // await fetchPermissions();
       setPendingChangesList(_pendingChangesList);
       setEditable(false);
       dispatch({
@@ -358,12 +254,6 @@ export const PeopleProfilePage = ({}) => {
             {apiData === UPDATE_CORRECTLY
               ? UPDATE_CORRECTLY
               : "Unable to save the employee profile details."}
-            {apiData.message === "Invalid MDMEmployeeId!" ? (
-              <div className="offwhite fw-normal mt-2">
-                {DataPeople.legalFirstName} {DataPeople.legalLastName} does not
-                yet exist within PMC, please try again in 15 minutes.
-              </div>
-            ) : null}
           </div>
         ),
       });
@@ -371,7 +261,7 @@ export const PeopleProfilePage = ({}) => {
   };
 
   const handleSetSave = () => {
-    postDataEmployeeDetails();
+    patchDataCustomerDetails();
   };
 
   const handleSetCancel = () => {
@@ -416,48 +306,16 @@ export const PeopleProfilePage = ({}) => {
 
       <CardDrpActions
         key={DataPeople}
-        title={"Employee Profile"}
+        title={"Customer Profile"}
         titleDrp={"Create"}
         ItemsDrp={ItemsDrp}
-        OnId={id}
+       // OnId={id}
         disabled={DataPeople?.statusId === "WRKST2" || !ItemsDrp?.length}
         isLoading={loadingPeopleData}
       >
-        {loadingPeopleData || profileFormState?.form?.isFetchLoading ? (
-          <div style={{ textAlign: "center" }}>
-            <PropSpiner label="Loading ..." />
-          </div>
-        ) : DataPeople ? (
-          <ProfileHeader
-            key={`header-${editable}-${headerFields}-${employeeRoles}`}
-            email={DataPeople?.email}
-            position={DataPeople?.title}
-            pendingChanges={pendingChanges}
-            editable={editable}
-            lookups={lookups}
-            headerFields={headerFields}
-            setHeaderFields={setHeaderFields}
-            ppimage={DataPeople?.image}
-            hasEditPermission={hasEditPermission}
-            hasManagerPermission={hasManagerPermission}
-            isContractor={isContractor}
-            locations={DataPeople?.locations}
-            positions={positions}
-            locationList={locationList}
-          />
-        ) : (
-          <AlertNoData />
-        )}
+        
         <br></br>
-        {loading ||
-        profileFormState?.form?.isFetchLoading ||
-        loadingPeopleData ? (
-          ""
-        ) : DataHis ? (
-          <PeopleTimeline Data={DataHis} />
-        ) : (
-          <AlertNoData />
-        )}
+       
         <hr className="separator mt-0 mx-auto" />
         {loading ||
         profileFormState?.form?.isFetchLoading ||
@@ -478,12 +336,10 @@ export const PeopleProfilePage = ({}) => {
               hasEditPermission={hasEditPermission}
               hasManagerPermission={hasManagerPermission}
               employeeRoles={employeeRoles}
-              isOwnProfile={
-                loginUserDetails?.data.mdmWorkerId?.toString() === id
-              }
+            
               headerFields={headerFields}
             />
-            {!editable && pendingChangesList?.length > 0 ? (
+            {/* {!editable && pendingChangesList?.length > 0 ? (
               <PendingChanges
                 setCollapse={setCollapse}
                 collapse={collapse}
@@ -493,7 +349,7 @@ export const PeopleProfilePage = ({}) => {
                 setPendingChangesList={setPendingChangesList}
                 setToastMessage={setToastMessage}
               />
-            ) : null}
+            ) : null} */}
           </div>
         )}
         <hr className="separator mx-auto" />
@@ -516,29 +372,7 @@ export const PeopleProfilePage = ({}) => {
         )}
         <br />
       </CardDrpActions>
-      <br />
-      <Card title={"History"}>
-        <HistoryTable DataHis={DataHis} isLoading={loading} />
-      </Card>
-
-      {showAfSave && (
-        <SimpleModal
-          title={"Confirm Changes"}
-          handleClose={handleClose}
-          buttons={buttons}
-          drop={false}
-          size="lg"
-        >
-          <div>
-            <br />
-            Please be informed that changing the Preferred First Name will also
-            change the email address to match the new first name. This will
-            happen once the changes have been synced across all the systems.
-            Confirmation is needed from you.
-            <br />
-          </div>
-        </SimpleModal>
-      )}
+      <br />        
 
       {toastMessage && (
         <ReactToast

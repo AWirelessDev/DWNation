@@ -4,6 +4,7 @@ import { getApi, postApi } from "../../../helpers";
 export const UPDATE_CORRECTLY = "No changes made to Employee Profile";
 export const VICTRA_CLASSIFICATION_ID = "WRKTP1";
 export const dateFormat = "yyyy-MM-DD";
+
 export const getEmployeeDetailsById = async (
   url,
   headers,
@@ -26,139 +27,54 @@ export const formatDataAndPost = async (
   impersonation = false,
   impersonEmail = false
 ) => {
-  const {
-    preferredFirstName,
-    gender,
-    legalFirstName,
-    positionId,
-    supervisorMDMWorkerId,
-    legalLastName,
-    jobCodeId,
-    programCodeId,
-    companyId,
-    organizationRoleId,
-    visionRole,
-    officePhone,
-    appProvisioningRoleId,
-    sendToOmni,
-    officePhoneExt,
-    hireDate,
-    terminationDate,
-    companies,
-    locationLevelId,
-    onePOS,
-  } = modifiedData;
-
-  const prevSendToOmni = previousData?.sendToOmni || false;
-
-  let previoursCompanyIds = previousData?.companies
-    ?.map((x) => (!x?.isPrimary ? x.mdmCompanyId : null))
-    .filter(Boolean)
-    .sort((a, b) => a - b);
-  let updatedCompanyIds = companies?.sort((a, b) => a - b); // adding primary company to the list of companies
-
-  const isCompanyChanged = (a, b) => {
-    let result = true; // Initialize to true, assuming arrays will match
-
-    if (a.length !== b.length) {
-      result = false; // If arrays have different lengths, they do not match
-    } else {
-      for (let i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) {
-          result = false; // If values at corresponding indices are not equal, arrays do not match
-          break; // Exit the loop early, as no need to continue checking
-        }
-      }
-    }
-    return result;
-  };
+  const {            
+      subscriber_ID,
+      status,
+      city,
+      address_1,
+      state,
+      zip_Code,
+      country,
+      current_Losses,
+      losses      
+  } = modifiedData;  
 
   const attributes = {
-    preferredFirstName: preferredFirstName || null,
-    phone:
-      officePhone && previousData?.officePhone !== officePhone
-        ? officePhone
-        : null,
-    phoneExt:
-      previousData?.officePhoneExt !== officePhoneExt
-        ? officePhoneExt || ""
-        : null,
-    hireDate:
-      hireDate && previousData?.hireDate !== hireDate
-        ? moment(hireDate)?.format(dateFormat)
-        : null,
-    terminationDate:
-      terminationDate && previousData?.terminationDate !== terminationDate
-        ? moment(terminationDate)?.format(dateFormat)
-        : null,
-    mdmCompanyId:
-      companyId && previousData.companyId?.toString() !== companyId.toString()
-        ? companyId.toString()
-        : previousData.companyId?.toString(), //mandaoary even if no change
-    mdmCompanyIds: !isCompanyChanged(previoursCompanyIds, updatedCompanyIds)
-      ? [...new Set([...updatedCompanyIds, companyId])]
-      : [...new Set([...updatedCompanyIds, companyId])],
-    legalFirstName: legalFirstName || null,
-    legalLastName: legalLastName || null,
-    pronounsId: gender || null,
-    mdmLocationLevelId: locationLevelId || null,
-    positionId: positionId ? positionId : null,
-    reportsTo:
-      supervisorMDMWorkerId &&
-      previousData.supervisorMDMWorkerId?.toString() !==
-        supervisorMDMWorkerId.toString()
-        ? supervisorMDMWorkerId.toString()
-        : null, //
-    mdmWorkerApplicationProvisioningRoleId:
-      appProvisioningRoleId &&
-      previousData.appProvisioningRoleId?.toString() !==
-        appProvisioningRoleId.toString()
-        ? appProvisioningRoleId.toString()
-        : null,
-    jobCodeId:
-      jobCodeId && previousData.jobCodeId?.toString() !== jobCodeId.toString()
-        ? jobCodeId.toString()
-        : null,
-    programCodeId:
-      programCodeId &&
-      previousData.programCodeId?.toString() !== programCodeId.toString()
-        ? programCodeId.toString()
-        : null,
-    rqOrganizationRoleId:
-      organizationRoleId &&
-      previousData.organizationRoleId?.toString() !==
-        organizationRoleId?.toString()
-        ? organizationRoleId.toString()
-        : previousData.organizationRoleId?.toString(), //mandaoary even if no change
-    visionRoleId:
-      visionRole?.length && employeeRoles?.toString() !== visionRole?.toString()
-        ? visionRole
-        : null,
-    sendToOmni: sendToOmni !== prevSendToOmni ? sendToOmni : null,
-    onePOS:
-      onePOS?.toString() !== previousData?.onePOS?.toString() ? onePOS : null,
+      
+    // "Subscriber_ID":1,
+    // status: status || null,
+    // last_Name : last_Name || null,
+    // mdn: mdn || null  
+     
+      subscriber_ID:1,
+      status: status,
+      city : city,
+      address_1 : address_1,    
+      state : state,
+      zip_Code : zip_Code,
+      country : country,
+      current_Losses : current_Losses,
+      losses : losses        
+   
   };
+
+  
 
   if (Object.values(attributes).every((x) => x === null)) {
     // all attributes are null then show message "update form correctly"
     return UPDATE_CORRECTLY;
   }
   const payload = {
-    attributes,
-    isProcessed: true,
-    mdmEmployeeId: previousData?.mdmWorkerId,
-    effectiveDate: moment.utc(effectiveDate).format("YYYY-MM-DD HH:mm:ss Z"),
-    createdBy: loginUser.data.mdmEmployeeId,
-    updatedBy: loginUser.data.mdmEmployeeId,
+    attributes    
   };
 
-  const { VITE_REACT_URL_API_PMC, VITE_EVENTS_FUNCTION_KEY_PMC } = import.meta
+  const { VITE_REACT_URL_API_SUB, VITE_OCP_APIM_SUBSCRIPTION_KEY } = import.meta
     .env;
 
   try {
     return postApi(
-      `${VITE_REACT_URL_API_PMC}/UpsertEmployeeEvent`,
-      { "x-functions-key": VITE_EVENTS_FUNCTION_KEY_PMC },
+      `${VITE_REACT_URL_API_SUB}`,
+      { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },
       payload,
       accounts,
       instance,
@@ -177,14 +93,12 @@ export const fetchPendingChangesApi = async (
   impersonation = false,
   impersonEmail = false
 ) => {
-  const { VITE_REACT_URL_API_PMC, VITE_EVENTS_FUNCTION_KEY_PMC } = import.meta
+  const { VITE_REACT_URL_API_SUB, VITE_OCP_APIM_SUBSCRIPTION_KEY } = import.meta
     .env;
   try {
     return await getApi(
-      `${VITE_REACT_URL_API_PMC}/GetEmployeeEvents/${id}`,
-      {
-        "x-functions-key": VITE_EVENTS_FUNCTION_KEY_PMC,
-      },
+      `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
+      { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },
       accounts,
       instance,
       impersonation,

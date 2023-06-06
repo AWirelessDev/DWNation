@@ -9,7 +9,7 @@ import { useMsal } from "@azure/msal-react";
 import { RoleContext } from "../../../provider";
 import { getApi } from "../../../../helpers";
 
-const EventsTable = ({ dispatch, dashboardState }) => {
+const CustomersTable = ({ dispatch, dashboardState }) => {
   const navigate = useNavigate();
   const PRIORDATE = moment().subtract(30, "days").format("YYYY-MM-DD");
   const todaysDate = moment(new Date()).add(30, "days").format("YYYY-MM-DD");
@@ -118,35 +118,17 @@ const EventsTable = ({ dispatch, dashboardState }) => {
    const EVENTS = [
     {
       id: 1,
-      status: "Pending",
-      type: "Termination",
-      name: "John stone",
-      submittedBy: "Roman Kutepov",
-      businessUnit: "Businesss Unit A",
-      phone: "789456123",
-      region: "Region D",
-      district: "District G",
-      store: "Store C",
-      createdDate: "08/10/2022",
-      isActive: 'Active',
-      title: 'Store Manager',
-      email: "john.stone@victra.com"
+      status: "Pending",      
+      first_Name: "John",
+      last_Name: "stone",
+      mdn: "789456123"
     },
     {
       id: 2,
-      status: "Completed",
-      type: "Termination",
-      name: "John smith",
-      submittedBy: "Jerry Smith",
-      businessUnit: "Businesss Unit A",
-      phone: "31654987",
-      region: "Region C",
-      district: "District E",
-      store: "Store G",
-      createdDate: "08/15/2023",
-      isActive: 'Active',
-      title: 'Store Manager',
-      email: "john.stone@victra.com"
+      status: "Active",      
+      first_Name: "Jerry",
+      last_Name: "Smith",
+      mdn: "321654789"
     }
   ];
 
@@ -158,41 +140,48 @@ const EventsTable = ({ dispatch, dashboardState }) => {
         <a
           onClick={(e) => {
             e.stopPropagation();
-            handleDestination(item.phone);
+            handleDestination(item.mdn);
           }}
-          title={item.statusTypeDesc || "-"}
+          title={item.status || "-"}
         >
           {
-            <EventStatus
-              value={item.status || "-"}
-              className="tooltip"
-            />
+            <AlertType
+            value={item.status == "ACTIVE" ? "Active": "Inactive"}
+            customClassName="alter-adjustable"
+          />
           }
+        </a>
+      ),
+    },       
+    {
+      label: "First Name",
+      className: "bold-cell",
+      renderCell: (item) => (
+        <a
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDestination(item.mdn);
+          }}
+          title={item.first_Name || "-"}
+        >
+          {item.first_Name || "-"}
         </a>
       ),
     },
     {
-      label: "Type",
+      label: "Last Name",
       className: "bold-cell",
-      renderCell: (item) => {
-        return (
-          <a
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDestination(item.phone);
-            }}
-            title={item?.displayName}
-          >
-            {
-              <AlertType
-                value={renderFullAbbrevation(item.code)}
-                customClassName="alter-adjustable"
-                displayName={item?.type}
-              />
-            }
-          </a>
-        );
-      },
+      renderCell: (item) => (
+        <a
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDestination(item.mdn);
+          }}
+          title={item.last_Name || "-"}
+        >
+          {item.last_Name || "-"}
+        </a>
+      ),
     },
     {
       label: "Phone",
@@ -201,101 +190,11 @@ const EventsTable = ({ dispatch, dashboardState }) => {
         <a
           onClick={(e) => {
             e.stopPropagation();
-            handleDestination(item.phone);
+            handleDestination(item.mdn);
           }}
-          title={item.phone || "-"}
+          title={item.mdn || "-"}
         >
-          {item.phone || "-"}          
-        </a>
-      ),
-    },
-    {
-      label: "First Name",
-      className: "bold-cell",
-      renderCell: (item) => (
-        <a
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDestination(item.phone);
-          }}
-          title={item.name || "-"}
-        >
-          {item.name || "-"}
-        </a>
-      ),
-    },
-    {
-      label: "Activity Date",
-      className: "reg-cell",
-      renderCell: (item) => (
-        <a
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDestination(item.phone);
-          }}
-          title={moment(item.effectiveDatetime).format("MM/DD/YYYY") || "-"}
-        >
-          {moment(item.effectiveDatetime).format("MM/DD/YYYY") || "-"}
-        </a>
-      ),
-    },
-    {
-      label: "Area",
-      className: "reg-cell",
-      renderCell: (item) => (
-        <a
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDestination(item.phone);
-          }}
-          title={item.area || "-"}
-        >
-          {item.area || "-"}
-        </a>
-      ),
-    },
-    {
-      label: "Region",
-      className: "reg-cell",
-      renderCell: (item) => (
-        <a
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDestination(item.phone);
-          }}
-          title={item.regionName || "-"}
-        >
-          {item.region || "-"}
-        </a>
-      ),
-    },
-    {
-      label: "District",
-      className: "reg-cell",
-      renderCell: (item) => (
-        <a
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDestination(item.phone);
-          }}
-          title={item.districtName || "-"}
-        >
-          {item.district || "-"}
-        </a>
-      ),
-    },
-    {
-      label: "Store",
-      className: "reg-cell",
-      renderCell: (item) => (
-        <a
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDestination(item.phone);
-          }}
-          title={item.storeName || "-"}
-        >
-          {item.store || "-"}
+          {item.mdn || "-"}          
         </a>
       ),
     },
@@ -311,7 +210,7 @@ const EventsTable = ({ dispatch, dashboardState }) => {
   if (search) {
     filteredData = filteredData?.filter(
       (item) =>
-        item.phone.includes(search) 
+        item.mdn?.includes(search) 
        // item.statusTypeDesc?.toLowerCase().includes(search.toLowerCase()) ||
         // item.displayName
         //   ?.toLowerCase()
@@ -379,18 +278,11 @@ const EventsTable = ({ dispatch, dashboardState }) => {
   };
   return (
     <div className="dashboard-tab-body ">
-      <Filter
-        exportToCsv={exportToCsv}
-        startDate={startDate}
-        endDate={endDate}
-        setDateRange={setDateRange}
+      <Filter       
         search={search}
         handleSearch={handleSearch}
         searchPlaceholder={"Search"}
-        handleClear={handleClear}
-        DatePicker={true}
-        maxDate={moment().add(30, "days").toDate()}
-        minDate={addMonths(startDate, -12)}
+        handleClear={handleClear}       
         dispatch={dispatch}
         dashboardState={dashboardState}
       />
@@ -399,15 +291,15 @@ const EventsTable = ({ dispatch, dashboardState }) => {
           key={`${dashboardState?.form?.isFetchLoading}-${search}`}
           columns={COLUMNS}
           hasPagination
-         // list={filteredData || []}
-          list={EVENTS}
+          list={filteredData || []}
+         //list={EVENTS}
           pageSize={10}
           isLoading={loading || dashboardState?.form?.isFetchLoading}
           handleRowClick={(item) => {
-            handleDestination(item);
+            handleDestination(item.mdn);
           }}
           customTheme={{
-            Table: `--data-table-library_grid-template-columns: minmax(180px, 2.1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr);`,
+            Table: `--data-table-library_grid-template-columns: minmax(130px, 0.2fr) minmax(150px, 0.5fr) minmax(150px, 0.5fr) minmax(150px, 0.5fr);`,
           }}
         />
       </div>
@@ -415,4 +307,4 @@ const EventsTable = ({ dispatch, dashboardState }) => {
   );
 };
 
-export default EventsTable;
+export default CustomersTable;

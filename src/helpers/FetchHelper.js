@@ -46,15 +46,15 @@ export const postApi = async (
   , impersonation = false, impersonEmail = false
 ) => {
   //----------BEGIN Impersonation-------------------------
-if(impersonation != false) { headers = {...headers, ['Impersonate']: impersonEmail}}
+if(impersonation != false) { headers = {...headers}}//, ['Impersonate']: impersonEmail}}
 //----------END Impersonation-------------------------
 
-  const accessToken = await getAccessToken(accounts, instance);
+  //const accessToken = await getAccessToken(accounts, instance);
   const response = await fetch(url, {
-    method: "POST",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${accessToken}`,
+      //authorization: `Bearer ${accessToken}`,
       ...headers,
     },
     body: JSON.stringify(payload),

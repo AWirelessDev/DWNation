@@ -1,7 +1,7 @@
 import React, {  useReducer } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import EventsTable from "./components/EventsTable";
-import PeopleTable from "./components/PeopleTable";
+import CustomersTable from "./components/CustomersTable";
+import TransactionTable from "./components/TransactionTable";
 import { initialState, formReducer } from "../../../Reducer/FormReducer";
 import "./DashboardPage.scss";
 import { useContext } from "react";
@@ -27,16 +27,16 @@ export const DashboardPage = () => {
       >
         <TabList className={"tab-dash-list d-flex gap-1"}>
           <Tab>Customers</Tab>
-          {/* <Tab>Transactions</Tab> */}
+          <Tab>Transactions</Tab>
         </TabList>
         <TabPanel>
-          <EventsTable
+          <CustomersTable
             dispatch={dashboardDispatch}
             dashboardState={dashboardState}
           />
        </TabPanel>
         <TabPanel>
-          <PeopleTable
+          <TransactionTable
             dispatch={dashboardDispatch}
             dashboardState={dashboardState}
           />

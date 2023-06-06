@@ -55,7 +55,7 @@ export const useFetch = (
   //   headers = { ...headers, ["Impersonate"]: ImpersonEmail };
   // }  
   //----------END Impersonation------------------------
-if(url.indexOf("LegalFirstName")>0){
+
   useEffect(() => {
     const doFetch = async () => {
       setLoading(true);
@@ -103,6 +103,6 @@ if(url.indexOf("LegalFirstName")>0){
     };
     doFetch();
   }, [url]);
-}
+
   return error ? [null, loading, error] : [data, loading, null];
 };

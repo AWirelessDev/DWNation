@@ -21,27 +21,27 @@ export const ProfilePageButtons = ({
   isContractor,
   isLoading = false,
 }) => {
-  const minDate = moment().toDate();
-  const maxDate = moment().add(2, "months").toDate();
+  // const minDate = moment().toDate();
+  // const maxDate = moment().add(2, "months").toDate();
 
-  const errors =
-    profileFormState?.form?.errors?.length && !hasEditPermission
-      ? profileFormState?.form?.errors?.filter(
-          (item) =>
-            ![
-              "supervisorMDMWorkerId",
-              "companyId",
-              "organizationRoleId",
-              "hireDate",
-              "programCodeId",
-              "jobCodeId",
-            ].includes(item?.key)
-        )
-      : profileFormState?.form?.data?.SendToOmni
-      ? profileFormState?.form?.errors
-      : profileFormState?.form?.errors?.filter(
-          (item) => !["programCodeId", "jobCodeId"].includes(item?.key)
-        );
+  // const errors =
+  //   profileFormState?.form?.errors?.length && !hasEditPermission
+  //     ? profileFormState?.form?.errors?.filter(
+  //         (item) =>
+  //           ![
+  //             "supervisorMDMWorkerId",
+  //             "companyId",
+  //             "organizationRoleId",
+  //             "hireDate",
+  //             "programCodeId",
+  //             "jobCodeId",
+  //           ].includes(item?.key)
+  //       )
+  //     : profileFormState?.form?.data?.SendToOmni
+  //     ? profileFormState?.form?.errors
+  //     : profileFormState?.form?.errors?.filter(
+  //         (item) => !["programCodeId", "jobCodeId"].includes(item?.key)
+  //       );
 
   return (
     <div>
@@ -65,17 +65,17 @@ export const ProfilePageButtons = ({
             variant="success"
             className="btn-save"
             onClick={handleSetSave}
-            disabled={
-              (!profileFormState?.hasFormChanges &&
-                !headerFields.hasHeaderChanges) ||
-              (isContractor &&
-                (!headerFields.preferredFirstName ||
-                  !headerFields.legalLastName ||
-                  !headerFields.legalFirstName ||
-                  !headerFields.titleId ||
-                  !headerFields.locationLevelId)) ||
-              errors?.length
-            }
+            // disabled={
+            //   (!profileFormState?.hasFormChanges &&
+            //     !headerFields.hasHeaderChanges) ||
+            //   (isContractor &&
+            //     (!headerFields.preferredFirstName ||
+            //       !headerFields.legalLastName ||
+            //       !headerFields.legalFirstName ||
+            //       !headerFields.titleId ||
+            //       !headerFields.locationLevelId)) ||
+            //   errors?.length
+            // }
           >
             Save
           </Button>
@@ -88,7 +88,7 @@ export const ProfilePageButtons = ({
         &nbsp; &nbsp;
         {editable && (
           <div>
-            <ReactDatePicker
+            {/* <ReactDatePicker
               className="p-2 effective-date"
               placeholder="Effective Date - NOW"
               handleDateChange={(selectedDate) =>
@@ -115,7 +115,7 @@ export const ProfilePageButtons = ({
                   ? setHours(setMinutes(currentDate, 45), 23)
                   : null
               }
-            />
+            /> */}
           </div>
         )}
         &nbsp;

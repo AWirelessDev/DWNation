@@ -160,32 +160,7 @@ export const Filter = ({
               // end buttom clear 
  */}
           </div>
-          <div className="d-flex flex-md-row flex-column w-100">
-            {visibleshow && (
-              <div className="pe-sm-2 mb-2 mb-md-0">
-                {/* begin input date filter */}
-                <InputGroup className="date-filter-box ">
-                  <ReactDatePicker
-                    startDate={startDate}
-                    endDate={endDate}
-                    handleDateChange={(update) => {
-                      setDateRange(update);
-                    }}
-                    className="date-picker-input"
-                    selectsRange={[startDate, endDate]}
-                    maxDate={maxDate}
-                    minDate={minDate}
-                  />
-                  <InputGroup.Text
-                    id="searchdate"
-                    className="inputGroupHeight "
-                  >
-                    <FontAwesomeIcon icon={faCalendar} />
-                  </InputGroup.Text>
-                </InputGroup>
-                {/* end input datefilter */}
-              </div>
-            )}
+          <div className="d-flex flex-md-row flex-column w-100">         
 
             <div className="pe-sm-2 ">
               {/* begin input search */}
