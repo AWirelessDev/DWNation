@@ -40,73 +40,35 @@ export const ProfileForm = ({
     formState,
     onInputChange,
     setFormValidation,
+    fname,
+    lname,
+    mdn,
     errors,
-    adpId,
-    status,
-    classificationId,
-    reportsTo,
-    supervisorMDMWorkerId,
-    payTypeId,
-    jobCodeId,
-    programCodeId,
-    nativeId,
-    companyId,
-    costCenterId,
-    organizationRoleId,
-    visionRole,
-    cimWorkerId,
-    appProvisioningRoleId,
-    sendToOmni,
-    officePhoneExt,
-    companies,
-    terminationDate,
-    ssoid,
-    locationLevelId,
-    locations,
-    commissionGroupId,
-    hireDate,
-    onePOS,
+    city,
+    address_1,
+    state,
+    current_Losses,
+    zip_Code,
+    country,
+    feature_Code,
+    esN_IMEI,     
+    status,  
+    
   } = useForm({
-    gender: Data?.gender,
-    adpId: Data?.adpId,
-    statusId: Data?.statusId,
-    status: Data?.status,
-    classificationId: Data?.classificationId,
-    titleId: Data?.titleId,
-    reportsTo: Data?.reportsTo?.trim(),
-    supervisorMDMWorkerId: Data?.supervisorMDMWorkerId,
-    commisionableStatus: Data?.commisionableStatus,
-    commissionGroupId: Data?.commissionGroupId,
-    payTypeId: Data?.payTypeId,
-    jobCodeId: Data?.jobCodeId,
-    programCodeId: Data?.programCodeId,
-    nativeId: Data?.nativeId,
-    companyId: Data?.companyId,
-    costCenterId: Data?.costCenterId,
-    organizationRoleId: Data?.organizationRoleId,
-    visionRole: employeeRoles,
-    mdmWorkerId: Data?.mdmWorkerId,
-    legalFirstName: Data?.legalFirstName,
-    legalLastName: Data?.legalLastName,
-    preferredFirstName: Data?.preferredFirstName,
-    preferredLastName: Data?.preferredLastName,
-    name: Data?.name,
-    title: Data?.title,
-    email: Data?.email,
-    businessGroupId: Data?.businessGroupId,
-    appProvisioningRoleId: Data?.appProvisioningRoleId,
-    officePhone: Data?.officePhone,
-    officePhoneExt: Data?.officePhoneExt,
-    sendToOmni: Data?.sendToOmni,
-    hireDate: Data?.hireDate,
-    companies: udpateSecondaryCompanyIds(Data?.companies),
-    locations: udpateSecondaryLocations(Data?.locations),
-    terminationDate: Data?.terminationDate,
-    ssoid: Data?.ssoid,
-    locationLevelId: Data?.locationLevelId,
-    mdmAssignmentTypeId: Data?.mdmAssignmentTypeId,
-    cimWorkerId: Data?.cimWorkerId,
-    onePOS: Data?.onePOS,
+    fname: Data[0].first_Name,
+    lname: Data[0].last_Name,
+    mdn: Data[0].mdn,
+    city: Data[0].city,
+    status: Data[0].status,
+    address_1: Data[0].address_1,
+    state: Data[0].state,
+    current_Losses: Data[0].current_Losses,
+    zip_Code: Data[0].zip_Code,
+    country: Data[0].country,
+    losses: Data[0].losses,
+    feature_Code: Data[0].feature_Code,
+    esN_IMEI: Data[0].esN_IMEI
+    
   });
   const [phoneNumber, setPhoneNumber] = useState(
     formatPhoneNumber(Data?.officePhone)
@@ -130,25 +92,25 @@ export const ProfileForm = ({
   };
 
   const { lookups, visionRoles } = useContext(LookupsContext);
-  const isVictraEmployee =
-    classificationId?.toString() === VICTRA_CLASSIFICATION_ID?.toString();
-  const isContractor =
-    classificationId?.toString() !== VICTRA_CLASSIFICATION_ID.toString();
+  // const isVictraEmployee =
+  //   classificationId?.toString() === VICTRA_CLASSIFICATION_ID?.toString();
+  // const isContractor =
+  //   classificationId?.toString() !== VICTRA_CLASSIFICATION_ID.toString();
   const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (initialLoad) {
       setInitialLoad(false);
-      if (isOwnProfile) {
-        if (isVictraEmployee) {
-          setFormValidation(profileFormValidationForOwnVictra);
-        } else {
-          setFormValidation(profileFormValidationForOwnContractor);
-        }
-      } else if (isVictraEmployee) {
-        setFormValidation(profileFormValidationForVictra);
-      } else {
-        setFormValidation(profileFormValidation);
-      }
+      // if (isOwnProfile) {
+      //   if (isVictraEmployee) {
+      //     setFormValidation(profileFormValidationForOwnVictra);
+      //   } else {
+      //     setFormValidation(profileFormValidationForOwnContractor);
+      //   }
+      // } else if (isVictraEmployee) {
+      //   setFormValidation(profileFormValidationForVictra);
+      // } else {
+      //   setFormValidation(profileFormValidation);
+      // }
     } else {
       dispatch({
         type: "UPDATE_FORM_DATA",
@@ -192,11 +154,11 @@ export const ProfileForm = ({
         <div className="row row-cols-1 row-cols-sm-1 row-cols-md-3">
           <div className="form-group">
             <InputField
-              id="adpId"
-              label="HR Worker Id"
-              name="adpId"
+              id="fname"
+              label="First Name"
+              name="fname"
               value={
-                adpId && hasViewPermission && isVictraEmployee ? adpId : "-"
+                fname
               }
               placeholder={
                 hasViewPermission && isVictraEmployee
@@ -211,41 +173,23 @@ export const ProfileForm = ({
           </div>
           <div className="form-group">
             <InputField
-              id="statusId"
-              label="Status"
-              name="statusId"
-              value={status}
+              id="lname"
+              label="Last Name"
+              name="lname"
+              value={lname}
               placeholder="Enter the Status"
               onChange={onInputChange}
               pendingChanges={pendingChanges}
               errors={errors}
               disabled
             />
-          </div>
-          <div className="form-group">
-            <DropDown
-              id="classificationId"
-              label="Classification"
-              value={classificationId?.toString()}
-              onInputChange={onInputChange}
-              editable={Editable}
-              isDisabled
-              placeholder="Select the Classification"
-              name="classificationId"
-              pendingChanges={pendingChanges}
-              errors={errors}
-              options={lookups?.classifications || []}
-              optionLabel="lookupName"
-              optionValue="lookupValuePK"
-              className={"data-field"}
-            />
-          </div>
+          </div>        
           <div className="form-group">
             <InputField
-              id="phone"
-              label="Office Phone Number"
-              name="officePhone"
-              value={phoneNumber}
+              id="mdn"
+              label="Phone Number"
+              name="mdn"
+              value={mdn}
               placeholder="(999) 999-9999"
               onChange={handleInput}
               pendingChanges={pendingChanges}
@@ -255,21 +199,127 @@ export const ProfileForm = ({
               maxLength={14}
             />
           </div>
-          <div className="form-group">
+           <div className="form-group">
             <InputField
-              id="phoneExt"
-              label="Office Phone Number Ext"
-              name="officePhoneExt"
-              value={officePhoneExt}
-              placeholder="Enter the Office Phone Number Ext"
-              onChange={handleOfficeExt}
+              id="city"
+              label="City"
+              name="city"
+              value={city}
+              placeholder="Enter the City"
+              onChange={onInputChange}
               pendingChanges={pendingChanges}
               disabled={Editable}
               type="text"
               errors={errors}
+              maxLength={14}
             />
           </div>
           <div className="form-group">
+            <InputField
+              id="address_1"
+              label="Address"
+              name="address_1"
+              value={address_1}
+              placeholder="Enter the Address"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="country"
+              label="Country"
+              name="country"
+              value={country}
+              placeholder="Enter the country"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="current_Losses"
+              label="Current Losses"
+              name="current_Losses"
+              value={current_Losses}
+              placeholder="Enter the current_Losses"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+             </div>
+            <div className="form-group">
+            <InputField
+              id="state"
+              label="state"
+              name="state"
+              value={state}
+              placeholder="Enter the state"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+             </div>
+             <div className="form-group">
+            <InputField
+              id="zip_Code"
+              label="Zip"
+              name="zip_Code"
+              value={zip_Code}
+              placeholder="Enter the zip_Code"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+             </div>
+           <div className="form-group">
+            <InputField
+              id="feature_Code"
+              label="Feature Code"
+              name="feature_Code"
+              value={feature_Code}
+              placeholder="Enter the feature Code"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="esN_IMEI"
+              label="IMEI"
+              name="esN_IMEI"
+              value={esN_IMEI}
+              placeholder="Enter the feature Code"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+        {/*  <div className="form-group">
             <EmployeeDropDown
               id="reportsTo"
               label="Reports To"
@@ -288,31 +338,23 @@ export const ProfileForm = ({
                 !((hasEditPermission || hasManagerPermission) && isContractor)
               }
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <DropDown
-              id="mdmCompanyId"
-              label="Primary Company"
-              isDisabled={!(hasEditPermission && isContractor)}
-              value={
-                hasViewPermission || hasManagerPermission ? companyId : "-"
-              }
+              id="status"
+              label="Status"              
+              value={status}
               onInputChange={onInputChange}
-              editable={Editable}
-              placeholder={
-                hasViewPermission || hasManagerPermission
-                  ? "Enter the Primary Company"
-                  : "-"
-              }
-              name="companyId"
+              editable={Editable}             
+              name="status"
               pendingChanges={pendingChanges}
-              options={lookups?.companies || []}
-              optionLabel="companyName"
-              optionValue="mdmCompanyId"
+              options={status || []}
+              optionLabel="status"
+              optionValue="status"
               errors={errors}
             />
           </div>
-          <div className="form-group">
+         {/* <div className="form-group">
             <DropDown
               id="mdmCompanyIds"
               label="Companies"
@@ -479,27 +521,10 @@ export const ProfileForm = ({
               pendingChanges={pendingChanges}
               errors={errors}
             />
-          </div>
+          </div> */}
         </div>
       </div>
-      <br />
-      <OmniAccess
-        key={`access-${Editable}-${sendToOmni}`}
-        sendToOmni={sendToOmni}
-        pendingChanges={pendingChanges}
-        Editable={Editable}
-        cimWorkerId={cimWorkerId}
-        programCodeId={programCodeId}
-        jobCodeId={jobCodeId}
-        appProvisioningRoleId={appProvisioningRoleId}
-        nativeId={nativeId}
-        ssoid={ssoid}
-        onInputChange={onInputChange}
-        errors={errors}
-        hasViewPermission={hasViewPermission}
-        hasManagerPermission={hasManagerPermission}
-        hasEditPermission={hasEditPermission}
-      />
+      <br />     
     </>
   );
 };
