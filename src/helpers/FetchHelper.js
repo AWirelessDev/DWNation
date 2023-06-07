@@ -11,7 +11,7 @@ if(impersonation != false) { headers = {...headers, ['Impersonate']: impersonEma
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${accessToken}`,
+      //authorization: `Bearer ${accessToken}`,
       ...headers,
     },
   });
@@ -37,23 +37,24 @@ if(impersonation != false) { headers = {...headers, ['Impersonate']: impersonEma
   }
 };
 
-export const postApi = async (
+export const patchApi = async (
   url,
   headers,
   payload,
-  accounts = {},
-  instance = {}
-  , impersonation = false, impersonEmail = false
+  //accounts = {},
+  //instance = {}
+  //, impersonation = false, impersonEmail = false
 ) => {
   //----------BEGIN Impersonation-------------------------
-if(impersonation != false) { headers = {...headers}}//, ['Impersonate']: impersonEmail}}
+//if(impersonation != false)
+ { headers = {...headers}}//, ['Impersonate']: impersonEmail}}
 //----------END Impersonation-------------------------
 
   //const accessToken = await getAccessToken(accounts, instance);
   const response = await fetch(url, {
     method: "PATCH",
     headers: {
-      "Content-Type": "application/json",
+    //  "Content-Type": "application/json",
       //authorization: `Bearer ${accessToken}`,
       ...headers,
     },

@@ -1,7 +1,7 @@
 import React, { Suspense, useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Navbar } from "../../layout";
-import { DashboardPage, ContractorPage, PeopleProfilePage } from "../pages";
+import { DashboardPage, PeopleProfilePage } from "../pages";
 import {
   RoleProvider,
   LookupsProvider,

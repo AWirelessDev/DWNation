@@ -26,7 +26,7 @@ import {
   fetchPendingChangesApi,
   UPDATE_CORRECTLY,
   VICTRA_CLASSIFICATION_ID,
-  getEmployeeDetailsById,
+  getCustomerDetailsByPhone,
 } from "./ProfilePageHelper";
 import { initialState, formReducer } from "../../../Reducer/FormReducer";
 import { isLoginUserAdmin } from "../../helpers";
@@ -69,7 +69,7 @@ export const PeopleProfilePage = ({}) => {
   const [DataPeople, setDataPeople] = useState(null);
   const [loadingPeopleData, setLoadingPeopleData] = useState(true);
   const fetchEmployeeData = async () => {
-    const responseData = await getEmployeeDetailsById(
+    const responseData = await getCustomerDetailsByPhone(
       `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
     { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },   
       accounts,

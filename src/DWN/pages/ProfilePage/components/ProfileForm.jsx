@@ -53,8 +53,28 @@ export const ProfileForm = ({
     feature_Code,
     esN_IMEI,     
     status,  
+    dwnation_Subscriber_ID,
+    account_Number,   
+    insurance_Activation_Date,
+    equipment_Purchase_Date,
+    modality,
+    equipment_Description,
+    location_Code,
+    agent_ID,
+    mobile_Activation_Date,
+    cC_Profile_ID,
+    cC_Update_Date_Time,
+    service_Plan,
+    covered_Since,
+    coverage_Effective,
+    losses,
+    hotlined,
+    term_Date,
+    account_Type,
+    rowInsertedEST
     
   } = useForm({
+    subscriber_ID: Data[0].subscriber_ID,
     fname: Data[0].first_Name,
     lname: Data[0].last_Name,
     mdn: Data[0].mdn,
@@ -67,7 +87,29 @@ export const ProfileForm = ({
     country: Data[0].country,
     losses: Data[0].losses,
     feature_Code: Data[0].feature_Code,
-    esN_IMEI: Data[0].esN_IMEI
+    esN_IMEI: Data[0].esN_IMEI,    
+    losses : Data[0].losses,      
+    dwnation_Subscriber_ID: Data[0].dwnation_Subscriber_ID,     
+    account_Number: Data[0].account_Number,      
+    feature_Code :  Data[0].feature_Code,
+    insurance_Activation_Date : Data[0].insurance_Activation_Date,
+    equipment_Purchase_Date : Data[0].equipment_Purchase_Date,
+    modality :  Data[0].modality,
+    equipment_Description : Data[0].equipment_Description,     
+    location_Code : Data[0].location_Code,
+    agent_ID : Data[0].agent_ID,
+    mobile_Activation_Date :  Data[0].mobile_Activation_Date,
+    cC_Profile_ID : Data[0].cC_Profile_ID,
+    cC_Update_Date_Time : Data[0].cC_Update_Date_Time,
+    service_Plan :  Data[0].service_Plan,
+    covered_Since :  Data[0].covered_Since,
+    coverage_Effective : Data[0].coverage_Effective,
+    current_Losses :  Data[0].current_Losses,
+    losses : Data[0].losses,
+    hotlined : Data[0].hotlined,      
+    term_Date : Data[0].term_Date,
+    account_Type :  Data[0].account_Type,
+    rowInsertedEST :  Data[0].rowInsertedEST
     
   });
   const [phoneNumber, setPhoneNumber] = useState(
@@ -244,21 +286,21 @@ export const ProfileForm = ({
               maxLength={14}
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <InputField
               id="current_Losses"
               label="Current Losses"
               name="current_Losses"
-              value={current_Losses}
+              value={current_Losses== null? current_Losses : "0"}
               placeholder="Enter the current_Losses"
               onChange={onInputChange}
-              pendingChanges={pendingChanges}
+              //pendingChanges={pendingChanges}
               disabled={Editable}
               type="text"
               errors={errors}
               maxLength={14}
             />
-             </div>
+             </div> */}
             <div className="form-group">
             <InputField
               id="state"
@@ -310,7 +352,22 @@ export const ProfileForm = ({
               label="IMEI"
               name="esN_IMEI"
               value={esN_IMEI}
-              placeholder="Enter the feature Code"
+              placeholder="Enter the IMEI"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="cC_Profile_ID"
+              label="CC Profile ID"
+              name="cC_Profile_ID"
+              value={cC_Profile_ID}
+              placeholder="Enter cc Profile ID"
               onChange={onInputChange}
               pendingChanges={pendingChanges}
               disabled={Editable}
@@ -339,7 +396,7 @@ export const ProfileForm = ({
               }
             />
           </div> */}
-          <div className="form-group">
+          {/* <div className="form-group">
             <DropDown
               id="status"
               label="Status"              
@@ -354,7 +411,7 @@ export const ProfileForm = ({
               errors={errors}
             />
           </div>
-         {/* <div className="form-group">
+         <div className="form-group">
             <DropDown
               id="mdmCompanyIds"
               label="Companies"
