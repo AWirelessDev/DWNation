@@ -11,7 +11,7 @@ export const AppRouter = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-     // instance.loginRedirect();
+      instance.loginRedirect();
     }
   });
 

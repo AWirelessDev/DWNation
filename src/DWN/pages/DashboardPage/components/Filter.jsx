@@ -11,7 +11,6 @@ import {
   faFilter,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
-import { hasPermission } from "../../../helpers";
 import "./Filter.scss";
 import { useMsal } from "@azure/msal-react";
 import { getAccessToken } from "../../../../hooks/useFetch";
@@ -20,12 +19,6 @@ import { FilterClear, FilterIcon } from "../../../components/Svg";
 import ReportIcon from "../../../components/Svg/ReportIcon";
 
 export const Filter = ({
-  exportToCsv,
-  startDate,
-  endDate,
-  setDateRange,
-  maxDate,
-  minDate,
   search,
   handleSearch,
   searchPlaceholder,
@@ -39,15 +32,12 @@ export const Filter = ({
   setInactiveLoader,
   setFilteredData,
 }) => {
-  const { VITE_REACT_URL_API_PMC, VITE_FUNCTION_KEY_MDM } = import.meta.env;
-  const { accounts, instance } = useMsal();
-  const showAddButton = hasPermission("btnAddContractor");
-  const [visibleshow, setvisibleshow] = useState(DatePicker);
+ 
+  
   const [showActInc, setActInc] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const { formState, onInputChange } = useForm({ name: "user" });
-  const PRIORDATE = moment().subtract(30, "days").format("YYYY-MM-DD");
-  const todaysDate = moment(new Date()).format("YYYY-MM-DD");
+ 
 
   const onActIncChange = (checked) => {
     setActInc(checked);
@@ -68,29 +58,7 @@ export const Filter = ({
     setFilteredData([]);
     setShowModal(!showModal);
     setActInc(false);
-    setInactiveLoader(true);
-
-    const accessToken = await getAccessToken(accounts, instance);
-    const response = await fetch(
-      `${VITE_REACT_URL_API_PMC}/GetEmployeeById/${formState.name}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-          "x-functions-key": VITE_FUNCTION_KEY_MDM,
-        },
-      }
-    );
-
-    if (response.ok) {
-      let json = await response.json();
-      setInactiveDataList([json]);
-      setInactiveLoader(false);
-    } else {
-      setInactiveLoader(false);
-      return Promise.reject();
-    }
+    setInactiveLoader(true);   
   };
 
   const buttons = [
@@ -127,8 +95,7 @@ export const Filter = ({
             ) : null}
 
             {/* begin buttom report or add */}
-            {isPeopleTable ? (
-              showAddButton ? (
+            {isPeopleTable ? (             
                 <div>
                   <button
                     type="button"
@@ -138,7 +105,7 @@ export const Filter = ({
                     <FontAwesomeIcon icon={faUpload} /> Add
                   </button>
                 </div>
-              ) : null
+            
             ) : (
               <div>
                 

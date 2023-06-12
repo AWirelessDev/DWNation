@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "../../../../hooks/useForm";
-import { LookupsContext } from "../../../provider";
 import DropDown from "./DropDown/DropDown";
 import InputField from "./InputField/InputField";
 import DatePicker from "./DatePicker/DatePicker";
@@ -132,27 +131,11 @@ export const ProfileForm = ({
       onInputChange(e);
     }
   };
-
-  const { lookups, visionRoles } = useContext(LookupsContext);
-  // const isVictraEmployee =
-  //   classificationId?.toString() === VICTRA_CLASSIFICATION_ID?.toString();
-  // const isContractor =
-  //   classificationId?.toString() !== VICTRA_CLASSIFICATION_ID.toString();
+  
   const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (initialLoad) {
-      setInitialLoad(false);
-      // if (isOwnProfile) {
-      //   if (isVictraEmployee) {
-      //     setFormValidation(profileFormValidationForOwnVictra);
-      //   } else {
-      //     setFormValidation(profileFormValidationForOwnContractor);
-      //   }
-      // } else if (isVictraEmployee) {
-      //   setFormValidation(profileFormValidationForVictra);
-      // } else {
-      //   setFormValidation(profileFormValidation);
-      // }
+      setInitialLoad(false);      
     } else {
       dispatch({
         type: "UPDATE_FORM_DATA",

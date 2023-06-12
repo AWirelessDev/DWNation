@@ -16,8 +16,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   //----------BEGIN Impersonation-------------------------
   const { accounts, instance } = useMsal();
   const RoleCtx = useContext(RoleContext);
-  const impersonation = RoleCtx.impersonation || false;
-  const impersonEmail = RoleCtx.impersonEmail || false;
   //----------END Impersonation----------------------------
 
   const { VITE_REACT_URL_API_SUB, VITE_OCP_APIM_SUBSCRIPTION_KEY } = import.meta
@@ -60,57 +58,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
     moment(todaysDate).toDate(),
   ]);
   const [startDate, endDate] = dateRange;
-
-  useEffect(() => {
-    const fetchDateRange = async (startDate, endDate) => {
-      let newStartDate = moment(startDate).format("YYYY-MM-DD");
-      let newEndDate = moment(endDate).format("YYYY-MM-DD");
-
-      const newFilterData = await getApi(       
-        `${VITE_REACT_URL_API_SUB}`,
-        { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },
-        accounts,
-        instance,
-        impersonation,
-        impersonEmail
-      );
-      formDataDispatch(newFilterData);
-    };
-    if (startDate && endDate) {
-      fetchDateRange(startDate, endDate);
-    } else {
-      formDataDispatch(data);
-    }
-  }, [startDate, endDate]);
-
-  const renderFullAbbrevation = (value) => {
-    let code;
-    switch (value) {
-      case "MOVE":
-        code = "Move/Demotion";
-        break;
-      case "TERM":
-        code = "Termination";
-        break;
-      case "PIP":
-        code = "PIP - EGET";
-        break;
-      case "LOA":
-        code = "Leave Of Absence";
-        break;
-      case "FCAD":
-        code = "FCAD";
-        break;
-      case "RIS":
-        code = "PIP - CX";
-        break;
-      default:
-        code = "-";
-        break;
-    }
-    return code;
-  };
-
+ 
   const handleDestination = (value) => {  
     return navigate(`/profile?phone=${value}`);
   };
@@ -219,63 +167,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
     );
   }
 
-  const downloadFile = ({ data, fileName, fileType }) => {
-    const blob = new Blob([data], { type: fileType });
-    const a = document.createElement("a");
-    a.download = fileName;
-    a.href = window.URL.createObjectURL(blob);
-    const clickEvt = new MouseEvent("click", {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    a.dispatchEvent(clickEvt);
-    a.remove();
-  };
-
-  const exportToCsv = (e) => {
-    e.preventDefault();
-    // Headers for each column
-    let headers = [
-      "Activity Id, Status Type, Code, Description, User Name, Submitted By, Area, Region Name, District Name, Store Name",
-    ];
-    // Convert users data to a csv
-    let eventsCsv = filteredData.reduce((acc, event) => {
-      const {
-        activityId,
-        statusTypeDesc,
-        displayName,
-        noticeTypeDescription,
-        userName,
-        submittedBy,
-        area,
-        regionName,
-        districtName,
-        storeName,
-      } = event;
-      acc.push(
-        [
-          activityId,
-          statusTypeDesc,
-          displayName,
-          noticeTypeDescription,
-          userName,
-          submittedBy,
-          area,
-          regionName,
-          districtName,
-          storeName,
-        ].join(",")
-      );
-      return acc;
-    }, []);
-
-    downloadFile({
-      data: [...headers, ...eventsCsv].join("\n"),
-      fileName: `Events Report ${moment().format("LLL")}.csv`,
-      fileType: "text/csv",
-    });
-  };
   return (
     <div className="dashboard-tab-body ">
       <Filter       

@@ -62,13 +62,9 @@ export const formatDataAndPost = async (
       rowInsertedEST       
   } = modifiedData;  
 
+
   const attributes = {
-      
-    // "Subscriber_ID":1,
-    // status: status || null,
-    // last_Name : last_Name || null,
-    // mdn: mdn || null  
-     
+    
       subscriber_ID:subscriber_ID,
       status: status,
       city : city,
@@ -105,20 +101,19 @@ export const formatDataAndPost = async (
       account_Type :  account_Type,
       rowInsertedEST :  rowInsertedEST
   };
-  
+
 
   if (Object.values(attributes).every((x) => x === null)) {
     // all attributes are null then show message "update form correctly"
     return UPDATE_CORRECTLY;
   }
-  const payload = {
-    attributes    
-  };
+  const payload = attributes ;
 
   const { VITE_REACT_URL_API_SUB, VITE_OCP_APIM_SUBSCRIPTION_KEY } = import.meta
     .env;
 
-  try {
+  try {  
+    
     return patchApi(
       `${VITE_REACT_URL_API_SUB}`,
       { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },

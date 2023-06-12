@@ -46,8 +46,7 @@ export const PeopleProfilePage = ({}) => {
   const [locationList, setLocationList] = useState([]);
   const [pendingChangesList, setPendingChangesList] = useState([]);
   const [toastMessage, setToastMessage] = useState(null);
-  const { lookups, visionRoles, positions } = useContext(LookupsContext);
-  const loginUserDetails = useContext(RoleContext);
+   const loginUserDetails = useContext(RoleContext);
   const location = useLocation();
   const { phone = "", historySearch = "" } = queryString.parse(location.search);
   const hasViewPermission = hasHrAdminPermission(loginUserDetails?.data?.roles);
@@ -107,31 +106,10 @@ export const PeopleProfilePage = ({}) => {
   useEffect(() => {
     fetchEmployeeData();
   }, []);
-  const [DataHis, loading] = useFetch(
-    `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
-    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY }   
-  );
-  const [dataPendingChanges, isDataPendingChangesLoading] = useFetch(
-    `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
-    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY }   
-  );
 
-  const [uplineManager, setUplineManager] = useState(false);
   const [headerFields, setHeaderFields] = useState({});
   const [headerValues, setHeaderValues] = useState({});
-
-  /**
-   *  This useEffect is to used when user delete/remove all pending changes then
-   *  set collapse false and show Edit
-   */
-  useEffect(() => {
-    setPendingChanges(null);
-    setCollapse(true);
-  }, [pendingChangesList]);
-
-  useEffect(() => {
-    setPendingChangesList(dataPendingChanges);
-  }, [dataPendingChanges]);
+  
   // initial Changes
   useEffect(() => {
     dispatch({
@@ -155,27 +133,7 @@ export const PeopleProfilePage = ({}) => {
   const handleClose = () => {
     setShowAfSave(false);
   };
-
-  // const fetchPermissions = async () => {
-  //   const employeePermissions = await getApi(
-  //     `${VITE_REACT_URL_API_VISION3}/GetUserPermissions/${DataPeople.mdmWorkerId}`,
-  //     {
-  //       "x-functions-key": VITE_FUNCTION_KEY_VISION3,
-  //     },
-  //     accounts,
-  //     instance,
-  //     impersonation,
-  //     impersonEmail
-  //   );
-  //   if (employeePermissions?.roles?.length) {
-  //     const roles = employeePermissions?.roles.map((role) => {
-  //       return visionRoles.find((_visionRole) => {
-  //         return _visionRole.name === role;
-  //       })?.id;
-  //     });
-  //     setEmployeeRoles(roles);
-  //   }
-  // };
+ 
 
   const patchDataCustomerDetails = async () => {
     setShowAfSave(false);
@@ -317,7 +275,7 @@ export const PeopleProfilePage = ({}) => {
         <br></br>
        
         <hr className="separator mt-0 mx-auto" />
-        {loading ||
+        {
         profileFormState?.form?.isFetchLoading ||
         loadingPeopleData ? (
           <div style={{ textAlign: "center" }}>
@@ -328,7 +286,7 @@ export const PeopleProfilePage = ({}) => {
             <ProfileForm
               key={`form-${editable}-${DataPeople}-${employeeRoles}`}
               Data={DataPeople}
-              pendingChanges={pendingChanges}
+             // pendingChanges={pendingChanges}
               Editable={!editable}
               dispatch={dispatch}
               profileFormState={profileFormState}

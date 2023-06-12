@@ -12,10 +12,10 @@ import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 
 export const DWNRoutes = () => {
   return (
-    <>
-      <RoleProvider>
-        <DWNAppRoutes />
-      </RoleProvider>
+    <>    
+    <RoleProvider>
+      <DWNAppRoutes />      
+     </RoleProvider>
     </>
   );
 };
@@ -27,7 +27,7 @@ export const DWNAppRoutes = () => {
   } else {
      return (
       <ActionProvider>
-        <LookupsProvider>
+        
           {/* <Navbar /> */}
           <div className="container-fluid z-index-0 position-relative">
             <Suspense
@@ -45,8 +45,7 @@ export const DWNAppRoutes = () => {
                 <Route path="/error/:code" element={<ErrorPage />} />
               </Routes>
             </Suspense>
-          </div>
-        </LookupsProvider>
+          </div>        
       </ActionProvider>
      );
    }
