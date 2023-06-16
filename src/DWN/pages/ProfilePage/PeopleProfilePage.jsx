@@ -33,9 +33,14 @@ import { isLoginUserAdmin } from "../../helpers";
 import { ReactToast } from "../../components/Toast/ReactToast";
 import "./ProfilePage.scss";
 import { getApi } from "../../../helpers";
+import { useParams } from "react-router";
 
-export const PeopleProfilePage = ({}) => {
+export const PeopleProfilePage = (subscriber_data) => {
+  //const  { sub_data } = useLocation();
+  const sdata  = useLocation(); 
+  subscriber_data = sdata.state;  
   const currentDate = new Date();
+  
   const [profileFormState, dispatch] = useReducer(formReducer, initialState);
   const [collapse, setCollapse] = useState(true);
   const [pendingChanges, setPendingChanges] = useState(null);
@@ -47,8 +52,8 @@ export const PeopleProfilePage = ({}) => {
   const [pendingChangesList, setPendingChangesList] = useState([]);
   const [toastMessage, setToastMessage] = useState(null);
    const loginUserDetails = useContext(RoleContext);
-  const location = useLocation();
-  const { phone = "", historySearch = "" } = queryString.parse(location.search);
+ // const location = useLocation();
+  //const { phone = "", historySearch = "" } = queryString.parse(location.search);
   const hasViewPermission = hasHrAdminPermission(loginUserDetails?.data?.roles);
   const hasEditPermission = hasHrAdminPermission(loginUserDetails?.data?.roles);
   const hasManagerPermission = ""
@@ -68,14 +73,16 @@ export const PeopleProfilePage = ({}) => {
   const [DataPeople, setDataPeople] = useState(null);
   const [loadingPeopleData, setLoadingPeopleData] = useState(true);
   const fetchEmployeeData = async () => {
-    const responseData = await getCustomerDetailsByPhone(
-      `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
-    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },   
-      accounts,
-      instance,
-      impersonation,
-      impersonEmail
-    );
+   const responseData = subscriber_data;
+   // await getCustomerDetailsByPhone(
+    //   `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
+    // { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },   
+    //   accounts,
+    //   instance,
+    //   impersonation,
+    //   impersonEmail
+    // );
+    
     // const responseData = [
     //   {
     //     id: 1,
@@ -85,18 +92,18 @@ export const PeopleProfilePage = ({}) => {
     //     mdn: "789456123"
     //   }];
 
-    if (responseData.isValid === false) {
-      setLoadingPeopleData(false);
-      navigate(`/error/${responseData.status}`);
-      return;
-    }
+    // if (responseData.isValid === false) {
+    //   setLoadingPeopleData(false);
+    //   navigate(`/error/${responseData.status}`);
+    //   return;
+    // }
   
     setDataPeople(responseData);
    
     const values = {
-      first_Name: responseData[0].first_Name,
-      last_Name: responseData[0].last_Name,
-      mdn: responseData[0].mdn,       
+      first_Name: responseData.sdata.first_Name,
+      last_Name: responseData.sdata.last_Name,
+      mdn: responseData.sdata.mdn,       
       hasHeaderChanges: false,
     };
     setHeaderFields(values);

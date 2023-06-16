@@ -2,8 +2,8 @@ import React, { useEffect, useContext } from "react";
 import { ReactTable, EventStatus, AlertType } from "../../../components";
 import { useFetch } from "../../../../hooks/useFetch";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
-import { addMonths } from "date-fns";
+import { useNavigate, Link } from "react-router-dom";
+import { useParams } from 'react-router';
 import { Filter } from "./Filter";
 import { useMsal } from "@azure/msal-react";
 import { RoleContext } from "../../../provider";
@@ -11,6 +11,7 @@ import { getApi } from "../../../../helpers";
 
 const CustomersTable = ({ dispatch, dashboardState }) => {
   const navigate = useNavigate();
+  const { sub_data } = useParams();
   const PRIORDATE = moment().subtract(30, "days").format("YYYY-MM-DD");
   const todaysDate = moment(new Date()).add(30, "days").format("YYYY-MM-DD");
   //----------BEGIN Impersonation-------------------------
@@ -38,7 +39,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   };
 
   useEffect(() => {
-    formDataDispatch(data);
+    formDataDispatch(data);    
   }, [data]);
 
   // Search field related code
@@ -58,9 +59,12 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
     moment(todaysDate).toDate(),
   ]);
   const [startDate, endDate] = dateRange;
- 
+  
+  
   const handleDestination = (value) => {  
-    return navigate(`/profile?phone=${value}`);
+    console.log(value);  
+    this.state = {};
+     //return navigate(`/profile`,{value});
   };
 
    const EVENTS = [
@@ -79,26 +83,30 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
       mdn: "321654789"
     }
   ];
-
+    
+  
   const COLUMNS = [
     {
       label: "Status",
       className: "bold-cell",
-      renderCell: (item) => (
-        <a
-          onClick={(e) => {
-            e.stopPropagation();
-            handleDestination(item.mdn);
-          }}
-          title={item.status || "-"}
-        >
-          {
-            <AlertType
-            value={item.status == "ACTIVE" ? "Active": "Inactive"}
-            customClassName="alter-adjustable"
-          />
-          }
-        </a>
+      renderCell: (item) => (       
+        <Link
+        to={`/profile`} state= {{sdata: item}}>    
+      {          
+          <AlertType
+          value={item.status == "ACTIVE" ? "Active": "Inactive"}
+          customClassName="alter-adjustable"
+        />
+        }</Link>
+        // <a
+        //   onClick={(e) => {
+        //     e.stopPropagation();
+        //     handleDestination(item);            
+        //   }}
+        //   title={item.status || "-"}
+        // >
+          
+       // </a>
       ),
     },       
     {

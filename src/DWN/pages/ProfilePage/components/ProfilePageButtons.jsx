@@ -44,12 +44,7 @@ export const ProfilePageButtons = ({
   //       );
 
   return (
-    <div>
-      {editable && (
-        <div className="effective-date-now-message-show-mobile">
-          Changes can take up to 30 minutes from effective date to apply.{" "}
-        </div>
-      )}
+    <div>    
       <div className="d-flex flex-row-reverse px-2">
         {editable && (
           <Button
@@ -117,13 +112,8 @@ export const ProfilePageButtons = ({
               }
             /> */}
           </div>
-        )}
-        &nbsp;
-        {editable && (
-          <div className="effective-date-now-message">
-            Changes can take up to 30 minutes from effective date to apply.{" "}
-          </div>
-        )}
+        )}      
+       
       </div>
     </div>
   );

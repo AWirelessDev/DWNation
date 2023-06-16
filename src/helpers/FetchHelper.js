@@ -11,7 +11,7 @@ if(impersonation != false) { headers = {...headers, ['Impersonate']: impersonEma
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      //authorization: `Bearer ${accessToken}`,
+      authorization: `Bearer ${accessToken}`,
       ...headers,
     },
   });

@@ -11,17 +11,17 @@ export const AppRouter = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      instance.loginRedirect();
+     // instance.loginRedirect();
     }
   });
+ 
+  const appInsights = new ApplicationInsights({
+    config: {
+      instrumentationKey: "569c90da-8369-433e-9166-24ccee999cff",
+    },
+  });
 
-  // const appInsights = new ApplicationInsights({
-  //   config: {
-  //     instrumentationKey: "569c90da-8369-433e-9166-24ccee999cff",
-  //   },
-  // });
-
-  // appInsights.loadAppInsights();
+   appInsights.loadAppInsights();
 
   // // Track Page Views
   // appInsights.trackPageView({
@@ -60,8 +60,8 @@ export const AppRouter = () => {
   return (
     <>
       <Routes>
-        <Route path="login" element={isAuthenticated ? <LoginPage /> : null} />
-        <Route path="/*" element={<DWNRoutes />}/>
+        <Route path="login" element={isAuthenticated ? <LoginPage /> : null} />        
+        <Route path="/*" element={isAuthenticated ? <DWNRoutes /> : null} />
       </Routes>
     </>
   );

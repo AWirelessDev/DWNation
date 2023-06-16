@@ -36,7 +36,7 @@ export const useFetch = (
   url,
   headers,
   method = "GET",
-  isAuthorizationRequired = false
+  isAuthorizationRequired = true
 ) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -44,29 +44,29 @@ export const useFetch = (
   const { accounts, instance } = useMsal();
 
   //----------BEGIN Impersonation-------------------------
-  // const RoleCtx = useContext(RoleContext);
-  // const impersonation = RoleCtx.impersonation || false;
-  // const impersonEmail = RoleCtx.impersonEmail || false;
-  // let ImpersonEmail = false;
-  // if (impersonation != false) {
-  //   ImpersonEmail = impersonEmail;
-  // }
-  // if (impersonation != false) {
-  //   headers = { ...headers, ["Impersonate"]: ImpersonEmail };
-  // }  
-  //----------END Impersonation------------------------
+  const RoleCtx = useContext(RoleContext);
+  const impersonation = RoleCtx.impersonation || false;
+  const impersonEmail = RoleCtx.impersonEmail || false;
+  let ImpersonEmail = false;
+  if (impersonation != false) {
+    ImpersonEmail = impersonEmail;
+  }
+  if (impersonation != false) {
+    headers = { ...headers, ["Impersonate"]: ImpersonEmail };
+  }
+  //----------END Impersonation-------------------------
 
   useEffect(() => {
     const doFetch = async () => {
       setLoading(true);
       const accessToken = await getAccessToken(accounts, instance);
-       headers = isAuthorizationRequired
-         ? {
+      headers = isAuthorizationRequired
+        ? {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
             ...headers,
-           }
-       : { "Content-Type": "application/json", ...headers };
+          }
+        : { "Content-Type": "application/json", ...headers };
 
       try {
         const res = await fetch(url, {
