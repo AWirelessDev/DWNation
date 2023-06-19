@@ -63,7 +63,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   
   const handleDestination = (value) => {  
     console.log(value);  
-    this.state = {};
+    //this.state = {};
      //return navigate(`/profile`,{value});
   };
 

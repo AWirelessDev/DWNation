@@ -92,11 +92,8 @@ export const formatDataAndPost = async (
       cC_Update_Date_Time : cC_Update_Date_Time,
       service_Plan :  service_Plan,
       covered_Since :  covered_Since,
-      coverage_Effective : coverage_Effective,
-      current_Losses :  current_Losses,
-      losses : losses,
-      hotlined : hotlined,
-      status : status,
+      coverage_Effective : coverage_Effective,      
+      hotlined : hotlined,      
       term_Date : term_Date,
       account_Type :  account_Type,
       rowInsertedEST :  rowInsertedEST
