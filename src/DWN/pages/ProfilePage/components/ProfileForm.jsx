@@ -73,38 +73,38 @@ export const ProfileForm = ({
     rowInsertedEST
     
   } = useForm({
-    subscriber_ID: Data.sdata.subscriber_ID,
-    fname: Data.sdata.first_Name,
-    lname: Data.sdata.last_Name,
-    mdn: Data.sdata.mdn,
-    city: Data.sdata.city,
-    status: Data.sdata.status,
-    address_1: Data.sdata.address_1,
-    state: Data.sdata.state,
-    current_Losses: Data.sdata.current_Losses,
-    zip_Code: Data.sdata.zip_Code,
-    country: Data.sdata.country,
-    losses: Data.sdata.losses,
-    feature_Code: Data.sdata.feature_Code,
-    esN_IMEI: Data.sdata.esN_IMEI,  
-    dwnation_Subscriber_ID: Data.sdata.dwnation_Subscriber_ID,     
-    account_Number: Data.sdata.account_Number,   
-    insurance_Activation_Date : Data.sdata.insurance_Activation_Date,
-    equipment_Purchase_Date : Data.sdata.equipment_Purchase_Date,
-    modality :  Data.sdata.modality,
-    equipment_Description : Data.sdata.equipment_Description,     
-    location_Code : Data.sdata.location_Code,
-    agent_ID : Data.sdata.agent_ID,
-    mobile_Activation_Date :  Data.sdata.mobile_Activation_Date,
-    cC_Profile_ID : Data.sdata.cC_Profile_ID,
-    cC_Update_Date_Time : Data.sdata.cC_Update_Date_Time,
-    service_Plan :  Data.sdata.service_Plan,
-    covered_Since :  Data.sdata.covered_Since,
-    coverage_Effective : Data.sdata.coverage_Effective,    
-    hotlined : Data.sdata.hotlined,      
-    term_Date : Data.sdata.term_Date,
-    account_Type :  Data.sdata.account_Type,
-    rowInsertedEST :  Data.sdata.rowInsertedEST
+    subscriber_ID: Data.subscriber_ID,
+    fname: Data.first_Name,
+    lname: Data.last_Name,
+    mdn: Data.mdn,
+    city: Data.city,
+    status: Data.status,
+    address_1: Data.address_1,
+    state: Data.state,
+    current_Losses: Data.current_Losses,
+    zip_Code: Data.zip_Code,
+    country: Data.country,
+    losses: Data.losses,
+    feature_Code: Data.feature_Code,
+    esN_IMEI: Data.esN_IMEI,  
+    dwnation_Subscriber_ID: Data.dwnation_Subscriber_ID,     
+    account_Number: Data.account_Number,   
+    insurance_Activation_Date : Data.insurance_Activation_Date,
+    equipment_Purchase_Date : Data.equipment_Purchase_Date,
+    modality :  Data.modality,
+    equipment_Description : Data.equipment_Description,     
+    location_Code : Data.location_Code,
+    agent_ID : Data.agent_ID,
+    mobile_Activation_Date :  Data.mobile_Activation_Date,
+    cC_Profile_ID : Data.cC_Profile_ID,
+    cC_Update_Date_Time : Data.cC_Update_Date_Time,
+    service_Plan :  Data.service_Plan,
+    covered_Since :  Data.covered_Since,
+    coverage_Effective : Data.coverage_Effective,    
+    hotlined : Data.hotlined,      
+    term_Date : Data.term_Date,
+    account_Type :  Data.account_Type,
+    rowInsertedEST :  Data.rowInsertedEST
     
   });
   const [phoneNumber, setPhoneNumber] = useState(
@@ -181,11 +181,7 @@ export const ProfileForm = ({
               value={
                 fname
               }
-              placeholder={
-                hasViewPermission && isVictraEmployee
-                  ? "Enter the HR Worker Id"
-                  : "-"
-              }
+              placeholder={"Enter the First Name"}
               onChange={onInputChange}
               pendingChanges={pendingChanges}
               errors={errors}

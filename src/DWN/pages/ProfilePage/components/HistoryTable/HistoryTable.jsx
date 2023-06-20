@@ -11,7 +11,9 @@ import {
 } from "../../../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { ExportToCsv } from "export-to-csv";
 import "./HistoryTable.scss";
+
 export const HistoryTable = ({ DataHis = [], isLoading = false }) => {
   const DataHisToShow = DataHis?.length
     ? DataHis?.filter((DataHis) => DataHis.activityId > 0)
@@ -187,57 +189,51 @@ export const HistoryTable = ({ DataHis = [], isLoading = false }) => {
     },
   ];
 
-  const downloadFile = ({ DataHis, fileName, fileType }) => {
-    const blob = new Blob([DataHis], { type: fileType });
-    const a = document.createElement("a");
-    a.download = fileName;
-    a.href = window.URL.createObjectURL(blob);
-    const clickEvt = new MouseEvent("click", {
-      view: window,
-      bubbles: true,
-      cancelable: true,
-    });
-    a.dispatchEvent(clickEvt);
-    a.remove();
-  };
-
   const exportToCsv = (e) => {
     e.preventDefault();
     // Headers for each column
     let headers = [
-      "Type, Name, Submitted By, Submitted Date, Status, Effective Date",
+      "Type, Name, ADP ID, Submitted By,  Submitted Date, Status, Effective Date, Reason Type",
     ];
     // Convert users DataHis to a csv
     let eventsCsv = filteredData.reduce((acc, event) => {
       const {
         displayName,
         userName,
+        adpId,
         submittedBy,
         createdDateTime,
         statusTypeDesc,
         effectiveDatetime,
+        reasonTypeDescription,
       } = event;
-      acc.push(
-        [
-          displayName,
-          userName,
-          submittedBy,
-          moment(createdDateTime.substring(0, 10)).format("MM/DD/YYYY"),
-          statusTypeDesc,
-          moment(effectiveDatetime.substring(0, 10)).format("MM/DD/YYYY"),
-        ].join(",")
-      );
+      acc.push([
+        displayName,
+        userName,
+        adpId,
+        submittedBy,
+        moment(createdDateTime.substring(0, 10)).format("MM/DD/YYYY"),
+        statusTypeDesc,
+        moment(effectiveDatetime.substring(0, 10)).format("MM/DD/YYYY"),
+        reasonTypeDescription,
+      ]);
       return acc;
     }, []);
 
-    const colNameRpt = eventsCsv[0];
-    const colArray = colNameRpt.split(",", 2);
+    const options = {
+      fieldSeparator: ",",
+      quoteStrings: '"',
+      decimalSeparator: ".",
+      showLabels: true,
+      showTitle: false,
+      useTextFile: false,
+      useBom: true,
+      filename: `History Events Report ${eventsCsv[0][1] || "-"}`,
+      headers: headers,
+    };
 
-    downloadFile({
-      DataHis: [...headers, ...eventsCsv].join("\n"),
-      fileName: `History Events Report ${colArray[1] || "-"}.csv`,
-      fileType: "text/csv",
-    });
+    const csvExporter = new ExportToCsv(options);
+    csvExporter.generateCsv(eventsCsv);
   };
   const [isScroll, setStopScroll] = useState(true);
   React.useEffect(() => {

@@ -77,6 +77,11 @@ export const ErrorPage = ({
       }
     } else {
       switch (codeStr) {
+        case "204":
+          setTitle("No Content");
+          setMessage("The request was invalid or cannot be served.");
+          setButtonTxt("Go to dashboard");
+          break;
         case "404":
           setTitle("Oops!");
           setMessage("We can't seem to find the page you're looking for.");
@@ -136,11 +141,9 @@ export const ErrorPage = ({
     }
     return navTo;
   };
-
   const handleClose = () => {
     setShowAfSave(false);
   };
-
   return (
     <>
       {isTextMsg && (
@@ -160,12 +163,16 @@ export const ErrorPage = ({
               <div className="d-flex flex-column justify-content-center text-lg-end pe-lg-2 h-100">
                 <div className={`title e-${code}`}>{title}</div>
                 <div className="message">{message}</div>
-                {code && (
-                  <div className="code">
-                    <strong>Error Code: {code}</strong>
-                  </div>
-                )}
-                <div className="url">{location.href}</div>
+                {code
+                  ? code !== "204" && (
+                    <>
+                      <div className="code">
+                        <strong>Error Code: {code}</strong>
+                      </div>
+                      <div className="url">{location.href}</div>
+                      </>
+                    )
+                  : null}
                 <div className="action">
                   <div
                     className="goBack"

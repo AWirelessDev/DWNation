@@ -1,2 +1,4 @@
+
+
 export * from './pages';
-export * from './routes/DWNRoutes';
+export * from './routes/PMCRoutes';

@@ -13,8 +13,8 @@ export const Breadcrumb = () => {
         icon={faChevronCircleLeft}
         className="Breadcrumb-Arrow"
       />
-      <span className="title-dwn ms-1" onClick={() => navigate("/dashboard")}>
-        Customer Profile
+      <span className="title-pmc ms-1" onClick={() => navigate("/dashboard")}>
+        People Management Center
       </span>
     </h2>
   );

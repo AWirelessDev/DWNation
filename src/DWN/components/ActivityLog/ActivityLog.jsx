@@ -19,12 +19,14 @@ const ActivityLog = ({ id }) => {
     {
       label: "Status",
       className: "",
-      renderCell: (item) => item.status,
+      renderCell: (item) => <span title={item.status}>{item.status}</span>,
     },
     {
       label: "Action User",
       className: "",
-      renderCell: (item) => item.changedBy,
+      renderCell: (item) => (
+        <span title={item.changedBy}>{item.changedBy}</span>
+      ),
     },
     {
       label: "Date of Activity",
@@ -49,7 +51,7 @@ const ActivityLog = ({ id }) => {
       >
         {onError ? (
           <div className="p-4">
-          <ErrorPage code={error} isTextMsg={true} />
+            <ErrorPage code={error} isTextMsg={true} />
           </div>
         ) : (
           <ReactTable
@@ -58,7 +60,7 @@ const ActivityLog = ({ id }) => {
             list={activityLogs || []}
             isLoading={isLoadingActivityLogs}
             customTheme={{
-              Table: `--data-table-library_grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) minmax(300px, 1fr);`,
+              Table: `--data-table-library_grid-template-columns: minmax(190px, 1fr) minmax(180px, 1fr) minmax(200px, 1fr);`,
             }}
             emptyLabel={"No Recent Activities"}
           />

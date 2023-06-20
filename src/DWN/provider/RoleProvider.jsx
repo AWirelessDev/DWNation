@@ -56,9 +56,9 @@ export const RoleProvider = ({ children }) => {
     );
     await actionAfterUserDetails(hasImpersonationPermission, userDetails);
 
-    // if (!userDetails.roles || userDetails.roles.length === 0) {
-    //   navigate("/error/401");
-    // }
+    if (!userDetails.roles || userDetails.roles.length === 0) {
+      navigate("/error/401");
+    }
   };
 
   const fetchImpersonUserDetails = async () => {

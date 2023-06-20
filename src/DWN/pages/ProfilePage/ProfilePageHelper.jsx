@@ -150,50 +150,11 @@ export const fetchPendingChangesApi = async (
 
 export const profileFormValidation = [
   {
-    key: "supervisorMDMWorkerId",
-    name: "Reports To",
+    key: "mdn",
+    name: "Phone number",
     isRequired: true,
   },
-  {
-    key: "companyId",
-    name: "Primary Company",
-    isRequired: true,
-  },
-  {
-    key: "visionRole",
-    name: "Vision Role",
-    isRequired: true,
-  },
-  {
-    key: "officePhone",
-    name: "Office Phone Number",
-    isValidPhoneNumber: true,
-  },
-  {
-    key: "classificationId",
-    name: "Classification",
-    isRequired: true,
-  },
-  {
-    key: "organizationRoleId",
-    name: "Organization Role",
-    isRequired: true,
-  },
-  {
-    key: "hireDate",
-    name: "Hire Date",
-    isRequired: true,
-  },
-  {
-    key: "programCodeId",
-    name: "Program Code",
-    isRequired: true,
-  },
-  {
-    key: "jobCodeId",
-    name: "Job Code",
-    isRequired: true,
-  },
+  
 ];
 
 export const udpateSecondaryLocations = (_locations) => {
@@ -209,42 +170,25 @@ export const udpateSecondaryLocations = (_locations) => {
 
 export const profileFormValidationForVictra = [
   {
-    key: "visionRole",
-    name: "Vision Role",
-    isRequired: true,
-  },
-  {
-    key: "officePhone",
-    name: "Office Phone Number",
-    isValidPhoneNumber: true,
-    isRequired: true,
-  },
-  {
-    key: "programCodeId",
-    name: "Program Code",
-    isRequired: true,
-  },
-  {
-    key: "jobCodeId",
-    name: "Job Code",
+    key: "mdn",
+    name: "Phone number",
     isRequired: true,
   },
 ];
 
 export const profileFormValidationForOwnVictra = [
   {
-    key: "officePhone",
-    name: "Office Phone Number",
-    isValidPhoneNumber: true,
+    key: "mdn",
+    name: "Phone number",
     isRequired: true,
   },
 ];
 
 export const profileFormValidationForOwnContractor = [
   {
-    key: "officePhone",
-    name: "Office Phone Number",
-    isValidPhoneNumber: true,
+    key: "mdn",
+    name: "Phone number",
+    isRequired: true,
   },
 ];
 

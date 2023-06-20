@@ -1,6 +1,6 @@
 import { AppRouter } from "./router/AppRouter";
 
-export const DWNApp = () => {
+export const PMCApp = () => {
   return (
     <>
       <div className="MaxBdoSiz pb-2">

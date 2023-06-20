@@ -4,7 +4,6 @@ import queryString from "query-string";
 import { useMsal } from "@azure/msal-react";
 import { useFetch } from "../../../hooks/useFetch";
 import {
-  PeopleTimeline,
   ProfileForm,
   ProfileHeader,
   HistoryTable,
@@ -17,7 +16,6 @@ import {
   CardDrpActions,
   PropSpiner,
   SimpleModal,
-  Breadcrumb,
 } from "../../components/";
 import { AlertNoData } from "../../components/Alerts/AlertNoData";
 import { LookupsContext, RoleContext } from "../../provider";
@@ -35,10 +33,10 @@ import "./ProfilePage.scss";
 import { getApi } from "../../../helpers";
 import { useParams } from "react-router";
 
-export const PeopleProfilePage = (subscriber_data) => {
+export const PeopleProfilePage = ({subscriber_data}) => {
   //const  { sub_data } = useLocation();
-  const sdata  = useLocation(); 
-  subscriber_data = sdata.state;  
+  //const sdata  = useLocation(); 
+ // subscriber_data = sdata.state;  
   const currentDate = new Date();
   
   const [profileFormState, dispatch] = useReducer(formReducer, initialState);
@@ -99,11 +97,13 @@ export const PeopleProfilePage = (subscriber_data) => {
     // }
   
     setDataPeople(responseData);
+
+    console.log("subscriber_data", subscriber_data);
    
     const values = {
-      first_Name: responseData.sdata.first_Name,
-      last_Name: responseData.sdata.last_Name,
-      mdn: responseData.sdata.mdn,       
+      first_Name: responseData.first_Name,
+      last_Name: responseData.last_Name,
+      mdn: responseData.mdn,       
       hasHeaderChanges: false,
     };
     setHeaderFields(values);
@@ -265,13 +265,9 @@ export const PeopleProfilePage = (subscriber_data) => {
     DataPeople?.classificationId !== VICTRA_CLASSIFICATION_ID;
   return (
     <>
-      <br />
-      <Breadcrumb />
-      <br />
-
       <CardDrpActions
         key={DataPeople}
-        title={"Customer Profile"}
+        title={"Profile"}
         titleDrp={"Create"}
         ItemsDrp={ItemsDrp}
        // OnId={id}

@@ -35,15 +35,13 @@ export const ProfileHeader = ({
     }
   };
 
-   const primaryLocation = [];
-  //locations.filter(
-  //   (location) => location.assignmentType === "Primary"
-  // );
+  const primaryLocation = locations.filter(
+    (location) => location.assignmentType === "Primary"
+  );
 
-  const secondaryLocations = [];
-  // locations.filter(
-  //   (location) => location.assignmentType !== "Primary"
-  // );
+  const secondaryLocations = locations.filter(
+    (location) => location.assignmentType !== "Primary"
+  );
 
   return (
     <>

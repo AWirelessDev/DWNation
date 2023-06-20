@@ -50,7 +50,19 @@ export const Navbar = () => {
       className: "btn-confirm-primary",
     },
   ];
- 
+
+  const handleImpersonationChange = () => {
+    const image =
+      RoleCtx.impersonation && RoleCtx.data.image
+        ? RoleCtx.data.image
+        : RoleCtx.loginUserData.image;
+    setProfileImage(image);
+  };
+
+  useEffect(() => {
+    handleImpersonationChange();
+  }, [RoleCtx.impersonation, RoleCtx.data.image, RoleCtx.loginUserData.image]);
+
   const OnHandleNewversion = () => {
     setShowModalVersion(!showModalVersion);
     window.location.reload();
@@ -178,18 +190,23 @@ export const Navbar = () => {
   function validateVersion() {
     const version = getDeploymentVersion();
     const versionFromLocalStorage = localStorage.getItem("version");
+    if (versionFromLocalStorage === null) {
+      localStorage.setItem("version", version);
+      return;
+    }
     if (versionFromLocalStorage !== version) {
-      setShowModalVersion(true);
+      //setShowModalVersion(true);
       localStorage.setItem("version", version);
     }
   }
+
   validateVersion();
   // ----- End Control Version Validation -----
 
   return (
     <nav className="navbar navbar-expand navbar-dark">
       <div className="container-fluid">
-        {/* <div className="navbar-brand">
+        <div className="navbar-brand">
           <a
             href="https://vision.victra.com/"
             target="_self"
@@ -197,7 +214,7 @@ export const Navbar = () => {
           >
             <div className="v3-vLogo"></div>
           </a>
-        </div> */}
+        </div>
         <div className="ms-auto">
           <ul className="d-flex align-items-center my-auto p-0">
             <li className="nav-item nav-link me-3 cursor-pointer">

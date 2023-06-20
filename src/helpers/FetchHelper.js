@@ -1,7 +1,7 @@
 import { getAccessToken } from "../hooks";
 
 
-export const getApi = async (url, headers, accounts = {}, instance = {}, impersonation = true, impersonEmail = true ) => {
+export const getApi = async (url, headers, accounts = {}, instance = {}, impersonation = false, impersonEmail = false ) => {
 //----------BEGIN Impersonation-------------------------
 if(impersonation != false) { headers = {...headers, ['Impersonate']: impersonEmail}}
 //----------END Impersonation-------------------------
@@ -37,7 +37,6 @@ if(impersonation != false) { headers = {...headers, ['Impersonate']: impersonEma
   }
 };
 
-
 export const patchApi = async (
   url,
   headers,
@@ -56,6 +55,34 @@ export const patchApi = async (
       ...headers,
     },
     body:  JSON.stringify(payload),
+  });
+  
+  const jsonStatus = await response.json()
+            jsonStatus.status = response.status;
+  return await jsonStatus;
+};
+
+export const postApi = async (
+  url,
+  headers,
+  payload,
+  accounts = {},
+  instance = {}
+  , impersonation = false, impersonEmail = false
+) => {
+  //----------BEGIN Impersonation-------------------------
+if(impersonation != false) { headers = {...headers, ['Impersonate']: impersonEmail}}
+//----------END Impersonation-------------------------
+
+  const accessToken = await getAccessToken(accounts, instance);
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${accessToken}`,
+      ...headers,
+    },
+    body: JSON.stringify(payload),
   });
   
   const jsonStatus = await response.json()

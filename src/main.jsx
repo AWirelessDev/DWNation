@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { DWNApp } from "./DWNApp";
+import { PMCApp } from "./PMCApp";
 import "./styles.scss";
 import "react-tabs/style/react-tabs.css";
 
@@ -14,7 +14,7 @@ const msalInstance = new PublicClientApplication(msalConfig);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <MsalProvider instance={msalInstance}>
-      <DWNApp />
+      <PMCApp />
     </MsalProvider>
   </BrowserRouter>
 );

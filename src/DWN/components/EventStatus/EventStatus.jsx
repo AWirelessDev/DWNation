@@ -4,7 +4,7 @@ export const EventStatus = ({ value }) => {
   let colorType = "danger";
   const firstWord = value.split(" ")[0]; 
 
-  if (firstWord.toLowerCase() === "inactive") {
+  if (firstWord.toLowerCase() === "pending") {
     colorType = "warning";
   } else if (firstWord.toLowerCase() === "denied") {
     colorType = "danger";
