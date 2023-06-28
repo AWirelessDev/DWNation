@@ -1,20 +1,9 @@
 import moment from "moment";
 import { getApi, patchApi } from "../../../helpers";
 
-export const UPDATE_CORRECTLY = "No changes made to Employee Profile";
+export const UPDATE_CORRECTLY = "No changes made to Customer Profile";
 export const VICTRA_CLASSIFICATION_ID = "WRKTP1";
 export const dateFormat = "yyyy-MM-DD";
-
-export const getCustomerDetailsByPhone = async (
-  url,
-  headers,
-  accounts = {},
-  instance = {},
-  impersonation = false,
-  impersonEmail = false
-) => {
-  return getApi(url, headers, accounts, instance, impersonation, impersonEmail);
-};
 
 export const formatDataAndPost = async (
   modifiedData,
@@ -25,7 +14,8 @@ export const formatDataAndPost = async (
   accounts,
   instance,
   impersonation = false,
-  impersonEmail = false
+  impersonEmail = false,
+  method
 ) => {
   const {            
       subscriber_ID,
@@ -115,29 +105,7 @@ export const formatDataAndPost = async (
       `${VITE_REACT_URL_API_SUB}`,
       { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },
       payload,
-      accounts,
-      instance,
-      impersonation,
-      impersonEmail
-    );
-  } catch (error) {
-    return error.message;
-  }
-};
-
-export const fetchPendingChangesApi = async (
-  id,
-  accounts,
-  instance,
-  impersonation = false,
-  impersonEmail = false
-) => {
-  const { VITE_REACT_URL_API_SUB, VITE_OCP_APIM_SUBSCRIPTION_KEY } = import.meta
-    .env;
-  try {
-    return await getApi(
-      `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
-      { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },
+      method,
       accounts,
       instance,
       impersonation,
@@ -149,115 +117,46 @@ export const fetchPendingChangesApi = async (
 };
 
 export const profileFormValidation = [
+  
   {
-    key: "supervisorMDMWorkerId",
-    name: "Reports To",
+    key: "fname",
+    name: "First Name",
     isRequired: true,
   },
   {
-    key: "companyId",
-    name: "Primary Company",
+    key: "lname",
+    name: "Last Name",
     isRequired: true,
   },
   {
-    key: "visionRole",
-    name: "Vision Role",
-    isRequired: true,
-  },
-  {
-    key: "officePhone",
-    name: "Office Phone Number",
-    isValidPhoneNumber: true,
-  },
-  {
-    key: "classificationId",
-    name: "Classification",
-    isRequired: true,
-  },
-  {
-    key: "organizationRoleId",
-    name: "Organization Role",
-    isRequired: true,
-  },
-  {
-    key: "hireDate",
-    name: "Hire Date",
-    isRequired: true,
-  },
-  {
-    key: "programCodeId",
-    name: "Program Code",
-    isRequired: true,
-  },
-  {
-    key: "jobCodeId",
-    name: "Job Code",
-    isRequired: true,
-  },
-];
-
-export const udpateSecondaryLocations = (_locations) => {
-  if (_locations?.length) {
-    return _locations?.map((_location) => {
-      return (
-        _location?.assignmentType !== "Primary" && _location?.mdmLocationLevelId
-      );
-    });
-  }
-  return [];
-};
-
-export const profileFormValidationForVictra = [
-  {
-    key: "visionRole",
-    name: "Vision Role",
-    isRequired: true,
-  },
-  {
-    key: "officePhone",
-    name: "Office Phone Number",
+    key: "mdn",
+    name: "Phone Number",
     isValidPhoneNumber: true,
     isRequired: true,
   },
-  {
-    key: "programCodeId",
-    name: "Program Code",
-    isRequired: true,
-  },
-  {
-    key: "jobCodeId",
-    name: "Job Code",
-    isRequired: true,
-  },
+  // {
+  //   key: "classificationId",
+  //   name: "Classification",
+  //   isRequired: true,
+  // },
+  // {
+  //   key: "organizationRoleId",
+  //   name: "Organization Role",
+  //   isRequired: true,
+  // },
+  // {
+  //   key: "hireDate",
+  //   name: "Hire Date",
+  //   isRequired: true,
+  // },
+  // {
+  //   key: "programCodeId",
+  //   name: "Program Code",
+  //   isRequired: true,
+  // },
+  // {
+  //   key: "jobCodeId",
+  //   name: "Job Code",
+  //   isRequired: true,
+  // },
 ];
-
-export const profileFormValidationForOwnVictra = [
-  {
-    key: "officePhone",
-    name: "Office Phone Number",
-    isValidPhoneNumber: true,
-    isRequired: true,
-  },
-];
-
-export const profileFormValidationForOwnContractor = [
-  {
-    key: "officePhone",
-    name: "Office Phone Number",
-    isValidPhoneNumber: true,
-  },
-];
-
-export const udpateSecondaryCompanyIds = (_companies) => {
-  if (_companies?.length) {
-    const secondaryCompanies = _companies?.map((_company) => {
-      const companyId = parseInt(_company.mdmCompanyId);
-      return !_company?.isPrimary && Number.isInteger(companyId)
-        ? companyId
-        : null;
-    });
-    return secondaryCompanies.filter(Boolean); // remove null values from the array
-  } else {
-    return [];
-  }
-};

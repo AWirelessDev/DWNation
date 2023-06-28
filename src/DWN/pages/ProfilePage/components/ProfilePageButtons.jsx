@@ -24,29 +24,30 @@ export const ProfilePageButtons = ({
   // const minDate = moment().toDate();
   // const maxDate = moment().add(2, "months").toDate();
 
-  // const errors =
-  //   profileFormState?.form?.errors?.length && !hasEditPermission
-  //     ? profileFormState?.form?.errors?.filter(
-  //         (item) =>
-  //           ![
-  //             "supervisorMDMWorkerId",
-  //             "companyId",
-  //             "organizationRoleId",
-  //             "hireDate",
-  //             "programCodeId",
-  //             "jobCodeId",
-  //           ].includes(item?.key)
-  //       )
-  //     : profileFormState?.form?.data?.SendToOmni
-  //     ? profileFormState?.form?.errors
-  //     : profileFormState?.form?.errors?.filter(
-  //         (item) => !["programCodeId", "jobCodeId"].includes(item?.key)
-  //       );
+  const errors =
+    profileFormState?.form?.errors?.length //&& !hasEditPermission
+      ? profileFormState?.form?.errors?.filter(
+          (item) =>
+            [
+              "mdn",
+              "fname",
+              "lname",
+              "hireDate",
+              "programCodeId",
+              "jobCodeId",
+            ].includes(item?.key)
+        )
+      : profileFormState?.form?.errors 
+      // profileFormState?.form?.data?.SendToOmni
+      // ? profileFormState?.form?.errors
+      // : profileFormState?.form?.errors?.filter(
+      //     (item) => !["programCodeId", "jobCodeId"].includes(item?.key)
+      //   );
 
   return (
     <div>    
       <div className="d-flex flex-row-reverse px-2">
-        {editable && (
+        {/* {editable && (
           <Button
             variant="danger"
             className="btn-cancel"
@@ -54,14 +55,14 @@ export const ProfilePageButtons = ({
           >
             Cancel
           </Button>
-        )}
+        )} */}
         {editable && (
           <Button
             variant="success"
             className="btn-save"
             onClick={handleSetSave}
-            // disabled={
-            //   (!profileFormState?.hasFormChanges &&
+            disabled={
+             (!profileFormState?.hasFormChanges) ||
             //     !headerFields.hasHeaderChanges) ||
             //   (isContractor &&
             //     (!headerFields.preferredFirstName ||
@@ -69,8 +70,8 @@ export const ProfilePageButtons = ({
             //       !headerFields.legalFirstName ||
             //       !headerFields.titleId ||
             //       !headerFields.locationLevelId)) ||
-            //   errors?.length
-            // }
+               errors?.length
+             }
           >
             Save
           </Button>

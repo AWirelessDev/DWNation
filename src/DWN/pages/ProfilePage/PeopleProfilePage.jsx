@@ -3,8 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useMsal } from "@azure/msal-react";
 import { useFetch } from "../../../hooks/useFetch";
-import {
-  PeopleTimeline,
+import { 
   ProfileForm,
   ProfileHeader,
   HistoryTable,
@@ -16,29 +15,22 @@ import {
   Card,
   CardDrpActions,
   PropSpiner,
-  SimpleModal,
-  Breadcrumb,
+  SimpleModal,  
 } from "../../components/";
 import { AlertNoData } from "../../components/Alerts/AlertNoData";
 import { LookupsContext, RoleContext } from "../../provider";
 import {
-  formatDataAndPost,
-  fetchPendingChangesApi,
+  formatDataAndPost,  
   UPDATE_CORRECTLY,
   VICTRA_CLASSIFICATION_ID,
-  getCustomerDetailsByPhone,
 } from "./ProfilePageHelper";
 import { initialState, formReducer } from "../../../Reducer/FormReducer";
 import { isLoginUserAdmin } from "../../helpers";
 import { ReactToast } from "../../components/Toast/ReactToast";
 import "./ProfilePage.scss";
-import { getApi } from "../../../helpers";
-import { useParams } from "react-router";
 
-export const PeopleProfilePage = (subscriber_data) => {
-  //const  { sub_data } = useLocation();
-  const sdata  = useLocation(); 
-  subscriber_data = sdata.state;  
+export const PeopleProfilePage = ({subscriber_data}) => {
+  
   const currentDate = new Date();
   
   const [profileFormState, dispatch] = useReducer(formReducer, initialState);
@@ -47,9 +39,7 @@ export const PeopleProfilePage = (subscriber_data) => {
   const [editable, setEditable] = useState(false);
   const [effectiveDate, setEffectiveDate] = useState(currentDate);
   const navigate = useNavigate();
-  const [showAfSave, setShowAfSave] = useState(false);
-  const [locationList, setLocationList] = useState([]);
-  const [pendingChangesList, setPendingChangesList] = useState([]);
+  const [showAfSave, setShowAfSave] = useState(false);  
   const [toastMessage, setToastMessage] = useState(null);
    const loginUserDetails = useContext(RoleContext);
  // const location = useLocation();
@@ -59,10 +49,6 @@ export const PeopleProfilePage = (subscriber_data) => {
   const hasManagerPermission = ""
     //loginUserDetails?.data.mdmWorkerId.toString() !== ""// id.toString();
   const { accounts, instance } = useMsal();
-  const {
-    VITE_REACT_URL_API_SUB,
-    VITE_OCP_APIM_SUBSCRIPTION_KEY
-  } = import.meta.env;
 
   //----------BEGIN Impersonation-------------------------
   const RoleCtx = useContext(RoleContext);
@@ -73,41 +59,22 @@ export const PeopleProfilePage = (subscriber_data) => {
   const [DataPeople, setDataPeople] = useState(null);
   const [loadingPeopleData, setLoadingPeopleData] = useState(true);
   const fetchEmployeeData = async () => {
-   const responseData = subscriber_data;
-   // await getCustomerDetailsByPhone(
-    //   `${VITE_REACT_URL_API_SUB}?phoneNumber=${phone}`,
-    // { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },   
-    //   accounts,
-    //   instance,
-    //   impersonation,
-    //   impersonEmail
-    // );
-    
-    // const responseData = [
-    //   {
-    //     id: 1,
-    //     status: "Active",      
-    //     first_Name: "John",
-    //     last_Name: "stoney",
-    //     mdn: "789456123"
-    //   }];
-
-    // if (responseData.isValid === false) {
-    //   setLoadingPeopleData(false);
-    //   navigate(`/error/${responseData.status}`);
-    //   return;
-    // }
+   const responseData = subscriber_data;   
   
     setDataPeople(responseData);
    
-    const values = {
-      first_Name: responseData.sdata.first_Name,
-      last_Name: responseData.sdata.last_Name,
-      mdn: responseData.sdata.mdn,       
-      hasHeaderChanges: false,
-    };
-    setHeaderFields(values);
-    setHeaderValues(values);
+    console.log("subscriber_data:", subscriber_data);    
+ 
+    subscriber_data ? setEditable(false) : setEditable(true)
+    
+    // const values = {
+    //   first_Name: responseData.first_Name,
+    //   last_Name: responseData.last_Name,
+    //   mdn: responseData.mdn,       
+    //   hasHeaderChanges: false,
+    // };
+    // setHeaderFields(values);
+    // setHeaderValues(values);
     setLoadingPeopleData(false);
   };
   useEffect(() => {
@@ -139,26 +106,15 @@ export const PeopleProfilePage = (subscriber_data) => {
 
   const handleClose = () => {
     setShowAfSave(false);
+   
   };
  
 
-  const patchDataCustomerDetails = async () => {
+  const patchDataCustomerDetails = async (method) => {
     setShowAfSave(false);
   
     const updateState = {
-      ...profileFormState?.form?.data,
-      // first_Name:
-      //   headerFields?.first_Name !== DataPeople?.first_Name
-      //     ? headerFields?.first_Name
-      //     : null,
-      // last_Name:
-      //   headerFields?.last_Name !== DataPeople?.last_Name
-      //     ? headerFields?.last_Name
-      //     : null,
-      // city:
-      //   headerFields?.city !== profileFormState?.form?.data.city
-      //     ? headerFields?.city
-      //     : null,      
+      ...profileFormState?.form?.data,           
     };
     dispatch({
       type: "UPDATE_FORM_DATA",
@@ -166,6 +122,7 @@ export const PeopleProfilePage = (subscriber_data) => {
       hasFormChanges: false,
     });
 
+    debugger;
     const apiData = await formatDataAndPost(
       updateState,
       DataPeople,
@@ -175,25 +132,19 @@ export const PeopleProfilePage = (subscriber_data) => {
       accounts,
       instance,
       impersonation,
-      impersonEmail
-    );
-    if (apiData?.subscriber_ID) {
-      const _pendingChangesList = await fetchPendingChangesApi(
-        apiData.subscriber_ID,
-        accounts,
-        instance,
-        impersonation,
-        impersonEmail
-      );
-      await fetchEmployeeData();
-     // await fetchPermissions();
-      setPendingChangesList(_pendingChangesList);
+      impersonEmail,
+      method
+    )
+    if (apiData?.subscriber_ID) {   
+      setDataPeople(apiData);
+     
       setEditable(false);
       dispatch({
         type: "UPDATE_FORM_DATA",
-        form: { data: {} },
+        form: { apiData: {} },
         hasFormChanges: false,
-      });
+      });       
+      
       setToastMessage({
         title: "Saved",
         position: "top-center",
@@ -226,7 +177,15 @@ export const PeopleProfilePage = (subscriber_data) => {
   };
 
   const handleSetSave = () => {
-    patchDataCustomerDetails();
+   
+    var method = "";
+
+    DataPeople ?
+    method = "PATCH" :
+    method = "POST";
+
+    patchDataCustomerDetails(method);
+    
   };
 
   const handleSetCancel = () => {
@@ -254,29 +213,20 @@ export const PeopleProfilePage = (subscriber_data) => {
     },
   ];
 
-  const [employeeRoles, setEmployeeRoles] = useState([]);
-  useEffect(() => {
-    if (DataPeople?.mdmWorkerId) {
-      fetchPermissions();
-    }
-  }, [DataPeople?.mdmWorkerId]);
+  const [employeeRoles, setEmployeeRoles] = useState([]); 
 
   const isContractor =
     DataPeople?.classificationId !== VICTRA_CLASSIFICATION_ID;
   return (
-    <>
-      <br />
-      <Breadcrumb />
-      <br />
-
+    <>     
       <CardDrpActions
         key={DataPeople}
-        title={"Customer Profile"}
-        titleDrp={"Create"}
-        ItemsDrp={ItemsDrp}
+        title={"DWP Subscribers"}
+       // titleDrp={"Create"}
+       // ItemsDrp={ItemsDrp}
        // OnId={id}
-        disabled={DataPeople?.statusId === "WRKST2" || !ItemsDrp?.length}
-        isLoading={loadingPeopleData}
+        //disabled={DataPeople?.statusId === "WRKST2" || !ItemsDrp?.length}
+       // isLoading={loadingPeopleData}
       >
         
         <br></br>

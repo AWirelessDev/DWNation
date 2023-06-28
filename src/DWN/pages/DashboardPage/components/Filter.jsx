@@ -80,7 +80,7 @@ export const Filter = ({
       <div className="d-flex justify-content-end pb-1">
         <div className="table-search-block-reverse">
           <div className="d-flex flex-row-reverse pb-2 pb-md-0">
-            {isPeopleTable ? (
+            {/* {isPeopleTable ? (
               <div className="ms-2">
                 <div
                   className={`filterButton ${
@@ -92,7 +92,7 @@ export const Filter = ({
                   <span>{showActInc ? "Inactive" : "Clear Filter"}</span>
                 </div>
               </div>
-            ) : null}
+            ) : null} */}
 
             {/* begin buttom report or add */}
             {isPeopleTable ? (             
@@ -102,7 +102,7 @@ export const Filter = ({
                     className="btn btn-primary btn-add"
                     onClick={handleAdd}
                   >
-                    <FontAwesomeIcon icon={faUpload} /> Add
+                    Create
                   </button>
                 </div>
             
@@ -149,7 +149,7 @@ export const Filter = ({
           </div>
         </div>
       </div>
-      {showModal && (
+      {/* {showModal && (
         <SimpleModal
           showModal={showModal}
           title={"Search for Inactive People"}
@@ -169,7 +169,7 @@ export const Filter = ({
             />
           </div>
         </SimpleModal>
-      )}
+      )} */}
     </>
   );
 };

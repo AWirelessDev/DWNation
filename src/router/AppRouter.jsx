@@ -11,7 +11,7 @@ export const AppRouter = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-     // instance.loginRedirect();
+      instance.loginRedirect();
     }
   });
  
@@ -60,8 +60,8 @@ export const AppRouter = () => {
   return (
     <>
       <Routes>
-        <Route path="login" element={isAuthenticated ? <LoginPage /> : null} />        
-        <Route path="/*" element={isAuthenticated ? <DWNRoutes /> : null} />
+        <Route path="login" element={isAuthenticated ? <LoginPage /> : <div>User is not aunthenticated</div>} />        
+        <Route path="/*" element={isAuthenticated ?<DWNRoutes /> : <div>User is not aunthenticated</div>} />
       </Routes>
     </>
   );

@@ -1,22 +1,22 @@
 import React, { Suspense, useContext } from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Navbar } from "../../layout";
 import { DashboardPage, PeopleProfilePage } from "../pages";
-
 import {
   RoleProvider,
   LookupsProvider,
   ActionProvider,
   RoleContext,
 } from "../provider";
+import { PropSpiner } from "../components";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 
 export const DWNRoutes = () => {
   return (
     <>    
-    {/* <RoleProvider> */}
-      <DWNAppRoutes />      
-     {/* </RoleProvider> */}
+      <RoleProvider>
+        <DWNAppRoutes />      
+      </RoleProvider>
     </>
   );
 };
@@ -24,16 +24,17 @@ export const DWNRoutes = () => {
 export const DWNAppRoutes = () => {
   const RoleCtx = useContext(RoleContext);    
   if (RoleCtx.isLoading) {
-    // <PropSpiner label="Loading..." />;
+    <PropSpiner label="Loading..." />;
   } else {
-     return (
-      <ActionProvider>        
-          {/* <Navbar /> */}
+    return (
+      <ActionProvider>  
+        <LookupsProvider>     
+          <Navbar />
           <div className="container-fluid z-index-0 position-relative">
             <Suspense
               fallback={
                 <div className="d-flex w-100 align-items-center justify-content-center vh-100">
-                  {/* <PropSpiner label="Loading..." /> */}
+                  <PropSpiner label="Loading..." />
                 </div>
               }
             >
@@ -45,7 +46,8 @@ export const DWNAppRoutes = () => {
                 <Route path="/error/:code" element={<ErrorPage />} />
               </Routes>
             </Suspense>
-          </div>        
+          </div>  
+         </LookupsProvider>      
       </ActionProvider>
      );
    }

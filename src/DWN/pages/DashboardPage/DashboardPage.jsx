@@ -13,8 +13,8 @@ export const DashboardPage = () => {
     initialState
   );
 
-  //const actionContext = useContext(ActionContext);
-  //const { tabState, tabDispatch} = actionContext;
+  const actionContext = useContext(ActionContext);
+  const { tabState, tabDispatch} = actionContext;
   return (
     <div>
       <br />
@@ -22,8 +22,8 @@ export const DashboardPage = () => {
       <br />
       <Tabs
         className={"tab-body left"}
-       // selectedIndex={tabState.tabIndex}
-       // onSelect={(index) => tabDispatch({ type: "CURRENT_TAB", tabIndex: index })}
+       selectedIndex={tabState.tabIndex}
+       onSelect={(index) => tabDispatch({ type: "CURRENT_TAB", tabIndex: index })}
       >
         <TabList className={"tab-dash-list d-flex gap-1"}>
           <Tab>Customers</Tab>

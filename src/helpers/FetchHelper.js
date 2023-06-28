@@ -42,6 +42,7 @@ export const patchApi = async (
   url,
   headers,
   payload,
+  method,
   //accounts = {},
   //instance = {}
   //, impersonation = false, impersonEmail = false
@@ -50,7 +51,7 @@ export const patchApi = async (
  { headers = {...headers}}
   
   const response = await fetch(url, {
-    method: "PATCH",
+    method: method,//"PATCH",
     headers: {
       "Content-Type": "application/json",      
       ...headers,

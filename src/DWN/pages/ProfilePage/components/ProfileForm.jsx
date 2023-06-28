@@ -6,14 +6,9 @@ import DatePicker from "./DatePicker/DatePicker";
 import { formatPhoneNumber } from "../../../../helpers";
 import { OmniAccess } from "./OmniAccess";
 import { EmployeeDropDown } from "../../../components";
+import Select from "react-select";
 import {
-  profileFormValidation,
-  VICTRA_CLASSIFICATION_ID,
-  udpateSecondaryCompanyIds,
-  udpateSecondaryLocations,
-  profileFormValidationForOwnVictra,
-  profileFormValidationForOwnContractor,
-  profileFormValidationForVictra,
+  profileFormValidation  
 } from "../ProfilePageHelper";
 import {
   AlphaNumericValidatorWithOutSpace,
@@ -53,6 +48,7 @@ export const ProfileForm = ({
     esN_IMEI,     
     status,  
     dwnation_Subscriber_ID,
+    subscriber_ID,
     account_Number,   
     insurance_Activation_Date,
     equipment_Purchase_Date,
@@ -62,6 +58,7 @@ export const ProfileForm = ({
     agent_ID,
     mobile_Activation_Date,
     cC_Profile_ID,
+    CC_PaymentProfile_ID,
     cC_Update_Date_Time,
     service_Plan,
     covered_Since,
@@ -73,42 +70,44 @@ export const ProfileForm = ({
     rowInsertedEST
     
   } = useForm({
-    subscriber_ID: Data.sdata.subscriber_ID,
-    fname: Data.sdata.first_Name,
-    lname: Data.sdata.last_Name,
-    mdn: Data.sdata.mdn,
-    city: Data.sdata.city,
-    status: Data.sdata.status,
-    address_1: Data.sdata.address_1,
-    state: Data.sdata.state,
-    current_Losses: Data.sdata.current_Losses,
-    zip_Code: Data.sdata.zip_Code,
-    country: Data.sdata.country,
-    losses: Data.sdata.losses,
-    feature_Code: Data.sdata.feature_Code,
-    esN_IMEI: Data.sdata.esN_IMEI,  
-    dwnation_Subscriber_ID: Data.sdata.dwnation_Subscriber_ID,     
-    account_Number: Data.sdata.account_Number,   
-    insurance_Activation_Date : Data.sdata.insurance_Activation_Date,
-    equipment_Purchase_Date : Data.sdata.equipment_Purchase_Date,
-    modality :  Data.sdata.modality,
-    equipment_Description : Data.sdata.equipment_Description,     
-    location_Code : Data.sdata.location_Code,
-    agent_ID : Data.sdata.agent_ID,
-    mobile_Activation_Date :  Data.sdata.mobile_Activation_Date,
-    cC_Profile_ID : Data.sdata.cC_Profile_ID,
-    cC_Update_Date_Time : Data.sdata.cC_Update_Date_Time,
-    service_Plan :  Data.sdata.service_Plan,
-    covered_Since :  Data.sdata.covered_Since,
-    coverage_Effective : Data.sdata.coverage_Effective,    
-    hotlined : Data.sdata.hotlined,      
-    term_Date : Data.sdata.term_Date,
-    account_Type :  Data.sdata.account_Type,
-    rowInsertedEST :  Data.sdata.rowInsertedEST
+    
+    subscriber_ID: Data?.subscriber_ID,
+    fname: Data?.first_Name,
+    lname: Data?.last_Name,
+    mdn: Data?.mdn,
+    city: Data?.city,
+    status: Data?.status,
+    address_1: Data?.address_1,
+    state: Data?.state,
+    current_Losses: Data?.current_Losses,
+    zip_Code: Data?.zip_Code,
+    country: Data?.country,
+    losses: Data?.losses,
+    feature_Code: Data?.feature_Code,
+    esN_IMEI: Data?.esN_IMEI,  
+    dwnation_Subscriber_ID: Data?.dwnation_Subscriber_ID,     
+    account_Number: Data?.account_Number,   
+    insurance_Activation_Date : Data?.insurance_Activation_Date,
+    equipment_Purchase_Date : Data?.equipment_Purchase_Date,
+    modality :  Data?.modality,
+    equipment_Description : Data?.equipment_Description,     
+    location_Code : Data?.location_Code,
+    agent_ID : Data?.agent_ID,
+    mobile_Activation_Date :  Data?.mobile_Activation_Date,
+    cC_Profile_ID: Data?.cC_Profile_ID,
+    CC_PaymentProfile_ID: Data?.CC_PaymentProfile_ID,
+    cC_Update_Date_Time : Data?.cC_Update_Date_Time,
+    service_Plan :  Data?.service_Plan,
+    covered_Since :  Data?.covered_Since,
+    coverage_Effective : Data?.coverage_Effective,    
+    hotlined : Data?.hotlined,      
+    term_Date : Data?.term_Date,
+    account_Type :  Data?.account_Type,
+    rowInsertedEST :  Data?.rowInsertedEST
     
   });
   const [phoneNumber, setPhoneNumber] = useState(
-    formatPhoneNumber(Data?.officePhone)
+    formatPhoneNumber(Data?.mdn)
   );
   const handleInput = (e) => {
     let formattedPhoneNumber = formatPhoneNumber(e.target.value);
@@ -131,7 +130,8 @@ export const ProfileForm = ({
   const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (initialLoad) {
-      setInitialLoad(false);      
+      setInitialLoad(false);   
+      setFormValidation(profileFormValidation);   
     } else {
       dispatch({
         type: "UPDATE_FORM_DATA",
@@ -173,38 +173,33 @@ export const ProfileForm = ({
     <>
       <div className="m-2">
         <div className="row row-cols-1 row-cols-sm-1 row-cols-md-3">
+        { Data ?
           <div className="form-group">
             <InputField
-              id="fname"
-              label="First Name"
-              name="fname"
-              value={
-                fname
-              }
-              placeholder={
-                hasViewPermission && isVictraEmployee
-                  ? "Enter the HR Worker Id"
-                  : "-"
-              }
+              id="subId"
+              label="DWN Subscriber#"
+              name="subId"
+              value={dwnation_Subscriber_ID}              
               onChange={onInputChange}
               pendingChanges={pendingChanges}
               errors={errors}
               disabled
+            />             
+          </div> : <></>
+          } 
+          <div className="form-group">
+          <InputField
+              id="status"
+              label="Status"
+              name="status"              
+              value={status}
+              placeholder={"Enter the Status"}
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              errors={errors}
+              disabled={Editable}
             />
           </div>
-          <div className="form-group">
-            <InputField
-              id="lname"
-              label="Last Name"
-              name="lname"
-              value={lname}
-              placeholder="Enter the Status"
-              onChange={onInputChange}
-              pendingChanges={pendingChanges}
-              errors={errors}
-              disabled
-            />
-          </div>        
           <div className="form-group">
             <InputField
               id="mdn"
@@ -216,6 +211,62 @@ export const ProfileForm = ({
               pendingChanges={pendingChanges}
               disabled={Editable}
               type="tel"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="accountnumber"
+              label="Account Number"
+              name="accountnumber"
+              value={account_Number}
+              placeholder="Enter the Account Number"
+              onChange={handleInput}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="tel"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="fname"
+              label="First Name"
+              name="fname"
+              value={Data?fname.charAt(0).toUpperCase() + fname.slice(1, fname.length).toLowerCase() : null}
+              placeholder={"Enter the First Name"}
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              errors={errors}
+              disabled={Data?true:Editable}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="lname"
+              label="Last Name"
+              name="lname"
+              value={Data?lname.charAt(0).toUpperCase() + lname.slice(1, lname.length).toLowerCase() : null}
+              placeholder="Enter the Last Name"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              errors={errors}
+              disabled={Data?true:Editable}   
+            />
+          </div>        
+          <div className="form-group">
+            <InputField
+              id="address_1"
+              label="Address"
+              name="address_1"
+              value={address_1}
+              placeholder="Enter the Address"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
               errors={errors}
               maxLength={14}
             />
@@ -234,14 +285,30 @@ export const ProfileForm = ({
               errors={errors}
               maxLength={14}
             />
-          </div>
-          <div className="form-group">
+          </div>        
+                
+            <div className="form-group">
             <InputField
-              id="address_1"
-              label="Address"
-              name="address_1"
-              value={address_1}
-              placeholder="Enter the Address"
+              id="state"
+              label="State"
+              name="state"
+              value={state}
+              placeholder="Enter the state"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+             </div>
+             <div className="form-group">
+            <InputField
+              id="zip_Code"
+              label="ZIP"
+              name="zip_Code"
+              value={zip_Code}
+              placeholder="Enter the Zip"
               onChange={onInputChange}
               pendingChanges={pendingChanges}
               disabled={Editable}
@@ -264,52 +331,7 @@ export const ProfileForm = ({
               errors={errors}
               maxLength={14}
             />
-          </div>
-          {/* <div className="form-group">
-            <InputField
-              id="current_Losses"
-              label="Current Losses"
-              name="current_Losses"
-              value={current_Losses== null? current_Losses : "0"}
-              placeholder="Enter the current_Losses"
-              onChange={onInputChange}
-              //pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
-              errors={errors}
-              maxLength={14}
-            />
-             </div> */}
-            <div className="form-group">
-            <InputField
-              id="state"
-              label="state"
-              name="state"
-              value={state}
-              placeholder="Enter the state"
-              onChange={onInputChange}
-              pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
-              errors={errors}
-              maxLength={14}
-            />
-             </div>
-             <div className="form-group">
-            <InputField
-              id="zip_Code"
-              label="Zip"
-              name="zip_Code"
-              value={zip_Code}
-              placeholder="Enter the zip_Code"
-              onChange={onInputChange}
-              pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
-              errors={errors}
-              maxLength={14}
-            />
-             </div>
+          </div>            
            <div className="form-group">
             <InputField
               id="feature_Code"
@@ -323,6 +345,20 @@ export const ProfileForm = ({
               type="text"
               errors={errors}
               maxLength={14}
+            />
+          </div>   
+          <div className="form-group">
+            <DatePicker
+              id="insurance_Activation_Date"
+              label="Insurance Activation Date"
+              name="insurance_Activation_Date"
+              value={insurance_Activation_Date ? new moment(typeof insurance_Activation_Date === 'string' || insurance_Activation_Date instanceof String ?
+                insurance_Activation_Date.replace("12:00AM", ""): insurance_Activation_Date).toDate() : null}
+              onInputChange={onInputChange}
+              placeholder="Select the Insurance Activation Date"
+              disabled={Data?true:Editable}   
+              pendingChanges={pendingChanges}
+              errors={errors}
             />
           </div>
           <div className="form-group">
@@ -340,21 +376,73 @@ export const ProfileForm = ({
               maxLength={14}
             />
           </div>
-          <div className="form-group">
-            <InputField
-              id="cC_Profile_ID"
-              label="CC Profile ID"
-              name="cC_Profile_ID"
-              value={cC_Profile_ID}
-              placeholder="Enter cc Profile ID"
-              onChange={onInputChange}
+          {
+            Data?
+            <div className="form-group">              
+              <InputField
+                  id="cC_Profile_ID" 
+                  label="CC Profile ID"
+                  name="cC_Profile_ID"
+                  value={cC_Profile_ID}
+                  placeholder="Enter cc Profile ID"
+                  onChange={onInputChange}
+                  pendingChanges={pendingChanges}
+                  disabled
+                  type="text"
+                  errors={errors}
+                  maxLength={14}
+                />           
+            </div> : <></>
+          } 
+          {
+            Data?
+            <div className="form-group">              
+              <InputField
+                  id="CC_PaymentProfile_ID" 
+                  label="CC Payment Profile ID"
+                  name="CC_PaymentProfile_ID"
+                  value={CC_PaymentProfile_ID}
+                  placeholder="Enter CC Profile ID"
+                  onChange={onInputChange}
+                  pendingChanges={pendingChanges}
+                  disabled
+                  type="text"
+                  errors={errors}
+                  maxLength={14}
+                />           
+            </div> : <></>
+          }
+          {           
+            <div className="form-group">              
+              <InputField
+                  id="service_Plan" 
+                  label="Service Plan"
+                  name="service_Plan"
+                  value={service_Plan}
+                  placeholder="Enter the Service Plan"
+                  onChange={onInputChange}
+                  pendingChanges={pendingChanges}  
+                  disabled={Editable}
+                  type="text"
+                  errors={errors}
+                  maxLength={14}
+                />           
+            </div>
+          }
+        <div className="form-group">                            
+            <DatePicker
+              id="covered_Since"
+              label="Covered Since"
+              name="covered_Since"
+              value={covered_Since ? new moment(typeof covered_Since === 'string' || covered_Since instanceof String ?
+              covered_Since.replace("12:00AM", ""): covered_Since).toDate() : null}
+              onInputChange={onInputChange}
+              placeholder="Select the Date"
+              disabled={Data?true:Editable}   
               pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
               errors={errors}
-              maxLength={14}
             />
-          </div>
+            </div>
         {/*  <div className="form-group">
             <EmployeeDropDown
               id="reportsTo"
@@ -375,21 +463,7 @@ export const ProfileForm = ({
               }
             />
           </div> */}
-          {/* <div className="form-group">
-            <DropDown
-              id="status"
-              label="Status"              
-              value={status}
-              onInputChange={onInputChange}
-              editable={Editable}             
-              name="status"
-              pendingChanges={pendingChanges}
-              options={status || []}
-              optionLabel="status"
-              optionValue="status"
-              errors={errors}
-            />
-          </div>
+          {/* 
          <div className="form-group">
             <DropDown
               id="mdmCompanyIds"
