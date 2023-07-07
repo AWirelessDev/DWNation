@@ -122,6 +122,9 @@ export const PeopleProfilePage = ({subscriber_data}) => {
       hasFormChanges: false,
     });
 
+    const { VITE_REACT_URL_API_SUB, VITE_REACT_URL_API_PAYMENT_PROFILE } = import.meta
+    .env;
+
     debugger;
     const apiData = await formatDataAndPost(
       updateState,
@@ -133,8 +136,12 @@ export const PeopleProfilePage = ({subscriber_data}) => {
       instance,
       impersonation,
       impersonEmail,
-      method
+      method,
+      VITE_REACT_URL_API_PAYMENT_PROFILE,
+      true,
     )
+    
+
     if (apiData?.subscriber_ID) {   
       setDataPeople(apiData);
      
@@ -173,6 +180,24 @@ export const PeopleProfilePage = ({subscriber_data}) => {
           </div>
         ),
       });
+    }
+
+    const apiData1 = await formatDataAndPost(
+      updateState,
+      DataPeople,
+      employeeRoles,
+      loginUserDetails,
+      effectiveDate,
+      accounts,
+      instance,
+      impersonation,
+      impersonEmail,
+      method,
+      VITE_REACT_URL_API_SUB,
+      false
+    )
+
+    if (apiData1?.subscriber_ID) {
     }
   };
 

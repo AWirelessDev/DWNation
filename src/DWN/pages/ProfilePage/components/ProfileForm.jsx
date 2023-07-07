@@ -5,11 +5,9 @@ import InputField from "./InputField/InputField";
 import DatePicker from "./DatePicker/DatePicker";
 import { formatPhoneNumber } from "../../../../helpers";
 import { OmniAccess } from "./OmniAccess";
-import { EmployeeDropDown } from "../../../components";
+import { EmployeeDropDown, ReactDatePicker } from "../../../components";
 import Select from "react-select";
-import {
-  profileFormValidation  
-} from "../ProfilePageHelper";
+import { profileFormValidation } from "../ProfilePageHelper";
 import {
   AlphaNumericValidatorWithOutSpace,
   NumericValidator,
@@ -45,11 +43,11 @@ export const ProfileForm = ({
     zip_Code,
     country,
     feature_Code,
-    esN_IMEI,     
-    status,  
+    esN_IMEI,
+    status,
     dwnation_Subscriber_ID,
     subscriber_ID,
-    account_Number,   
+    account_Number,
     insurance_Activation_Date,
     equipment_Purchase_Date,
     modality,
@@ -67,10 +65,13 @@ export const ProfileForm = ({
     hotlined,
     term_Date,
     account_Type,
-    rowInsertedEST
-    
+    rowInsertedEST,
+    customertype,
+    cardnumber,
+    expirationdate,
+    cardcode,
+    email,
   } = useForm({
-    
     subscriber_ID: Data?.subscriber_ID,
     fname: Data?.first_Name,
     lname: Data?.last_Name,
@@ -84,31 +85,28 @@ export const ProfileForm = ({
     country: Data?.country,
     losses: Data?.losses,
     feature_Code: Data?.feature_Code,
-    esN_IMEI: Data?.esN_IMEI,  
-    dwnation_Subscriber_ID: Data?.dwnation_Subscriber_ID,     
-    account_Number: Data?.account_Number,   
-    insurance_Activation_Date : Data?.insurance_Activation_Date,
-    equipment_Purchase_Date : Data?.equipment_Purchase_Date,
-    modality :  Data?.modality,
-    equipment_Description : Data?.equipment_Description,     
-    location_Code : Data?.location_Code,
-    agent_ID : Data?.agent_ID,
-    mobile_Activation_Date :  Data?.mobile_Activation_Date,
+    esN_IMEI: Data?.esN_IMEI,
+    dwnation_Subscriber_ID: Data?.dwnation_Subscriber_ID,
+    account_Number: Data?.account_Number,
+    insurance_Activation_Date: Data?.insurance_Activation_Date,
+    equipment_Purchase_Date: Data?.equipment_Purchase_Date,
+    modality: Data?.modality,
+    equipment_Description: Data?.equipment_Description,
+    location_Code: Data?.location_Code,
+    agent_ID: Data?.agent_ID,
+    mobile_Activation_Date: Data?.mobile_Activation_Date,
     cC_Profile_ID: Data?.cC_Profile_ID,
     CC_PaymentProfile_ID: Data?.CC_PaymentProfile_ID,
-    cC_Update_Date_Time : Data?.cC_Update_Date_Time,
-    service_Plan :  Data?.service_Plan,
-    covered_Since :  Data?.covered_Since,
-    coverage_Effective : Data?.coverage_Effective,    
-    hotlined : Data?.hotlined,      
-    term_Date : Data?.term_Date,
-    account_Type :  Data?.account_Type,
-    rowInsertedEST :  Data?.rowInsertedEST
-    
+    cC_Update_Date_Time: Data?.cC_Update_Date_Time,
+    service_Plan: Data?.service_Plan,
+    covered_Since: Data?.covered_Since,
+    coverage_Effective: Data?.coverage_Effective,
+    hotlined: Data?.hotlined,
+    term_Date: Data?.term_Date,
+    account_Type: Data?.account_Type,
+    rowInsertedEST: Data?.rowInsertedEST,
   });
-  const [phoneNumber, setPhoneNumber] = useState(
-    formatPhoneNumber(Data?.mdn)
-  );
+  const [phoneNumber, setPhoneNumber] = useState(formatPhoneNumber(Data?.mdn));
   const handleInput = (e) => {
     let formattedPhoneNumber = formatPhoneNumber(e.target.value);
     if (e.target?.defaultValue?.length > e.target.value?.length) {
@@ -126,12 +124,12 @@ export const ProfileForm = ({
       onInputChange(e);
     }
   };
-  
+
   const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (initialLoad) {
-      setInitialLoad(false);   
-      setFormValidation(profileFormValidation);   
+      setInitialLoad(false);
+      setFormValidation(profileFormValidation);
     } else {
       dispatch({
         type: "UPDATE_FORM_DATA",
@@ -173,25 +171,27 @@ export const ProfileForm = ({
     <>
       <div className="m-2">
         <div className="row row-cols-1 row-cols-sm-1 row-cols-md-3">
-        { Data ?
+          {Data ? (
+            <div className="form-group">
+              <InputField
+                id="subId"
+                label="DWN Subscriber#"
+                name="subId"
+                value={dwnation_Subscriber_ID}
+                onChange={onInputChange}
+                pendingChanges={pendingChanges}
+                errors={errors}
+                disabled
+              />
+            </div>
+          ) : (
+            <></>
+          )}
           <div className="form-group">
             <InputField
-              id="subId"
-              label="DWN Subscriber#"
-              name="subId"
-              value={dwnation_Subscriber_ID}              
-              onChange={onInputChange}
-              pendingChanges={pendingChanges}
-              errors={errors}
-              disabled
-            />             
-          </div> : <></>
-          } 
-          <div className="form-group">
-          <InputField
               id="status"
               label="Status"
-              name="status"              
+              name="status"
               value={status}
               placeholder={"Enter the Status"}
               onChange={onInputChange}
@@ -235,12 +235,17 @@ export const ProfileForm = ({
               id="fname"
               label="First Name"
               name="fname"
-              value={Data?fname.charAt(0).toUpperCase() + fname.slice(1, fname.length).toLowerCase() : null}
+              value={
+                Data
+                  ? fname.charAt(0).toUpperCase() +
+                    fname.slice(1, fname.length).toLowerCase()
+                  : null
+              }
               placeholder={"Enter the First Name"}
               onChange={onInputChange}
               pendingChanges={pendingChanges}
               errors={errors}
-              disabled={Data?true:Editable}
+              disabled={Data ? true : Editable}
             />
           </div>
           <div className="form-group">
@@ -248,14 +253,19 @@ export const ProfileForm = ({
               id="lname"
               label="Last Name"
               name="lname"
-              value={Data?lname.charAt(0).toUpperCase() + lname.slice(1, lname.length).toLowerCase() : null}
+              value={
+                Data
+                  ? lname.charAt(0).toUpperCase() +
+                    lname.slice(1, lname.length).toLowerCase()
+                  : null
+              }
               placeholder="Enter the Last Name"
               onChange={onInputChange}
               pendingChanges={pendingChanges}
               errors={errors}
-              disabled={Data?true:Editable}   
+              disabled={Data ? true : Editable}
             />
-          </div>        
+          </div>
           <div className="form-group">
             <InputField
               id="address_1"
@@ -271,7 +281,7 @@ export const ProfileForm = ({
               maxLength={14}
             />
           </div>
-           <div className="form-group">
+          <div className="form-group">
             <InputField
               id="city"
               label="City"
@@ -285,9 +295,9 @@ export const ProfileForm = ({
               errors={errors}
               maxLength={14}
             />
-          </div>        
-                
-            <div className="form-group">
+          </div>
+
+          <div className="form-group">
             <InputField
               id="state"
               label="State"
@@ -301,8 +311,8 @@ export const ProfileForm = ({
               errors={errors}
               maxLength={14}
             />
-             </div>
-             <div className="form-group">
+          </div>
+          <div className="form-group">
             <InputField
               id="zip_Code"
               label="ZIP"
@@ -331,8 +341,8 @@ export const ProfileForm = ({
               errors={errors}
               maxLength={14}
             />
-          </div>            
-           <div className="form-group">
+          </div>
+          <div className="form-group">
             <InputField
               id="feature_Code"
               label="Feature Code"
@@ -346,17 +356,25 @@ export const ProfileForm = ({
               errors={errors}
               maxLength={14}
             />
-          </div>   
+          </div>
           <div className="form-group">
             <DatePicker
               id="insurance_Activation_Date"
               label="Insurance Activation Date"
               name="insurance_Activation_Date"
-              value={insurance_Activation_Date ? new moment(typeof insurance_Activation_Date === 'string' || insurance_Activation_Date instanceof String ?
-                insurance_Activation_Date.replace("12:00AM", ""): insurance_Activation_Date).toDate() : null}
+              value={
+                insurance_Activation_Date
+                  ? new moment(
+                      typeof insurance_Activation_Date === "string" ||
+                      insurance_Activation_Date instanceof String
+                        ? insurance_Activation_Date.replace("12:00AM", "")
+                        : insurance_Activation_Date
+                    ).toDate()
+                  : null
+              }
               onInputChange={onInputChange}
               placeholder="Select the Insurance Activation Date"
-              disabled={Data?true:Editable}   
+              disabled={Data ? true : Editable}
               pendingChanges={pendingChanges}
               errors={errors}
             />
@@ -376,74 +394,187 @@ export const ProfileForm = ({
               maxLength={14}
             />
           </div>
+          {Data ? (
+            <div className="form-group">
+              <InputField
+                id="cC_Profile_ID"
+                label="CC Profile ID"
+                name="cC_Profile_ID"
+                value={cC_Profile_ID}
+                placeholder="Enter cc Profile ID"
+                onChange={onInputChange}
+                pendingChanges={pendingChanges}
+                disabled
+                type="text"
+                errors={errors}
+                maxLength={14}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
+          {Data ? (
+            <div className="form-group">
+              <InputField
+                id="CC_PaymentProfile_ID"
+                label="CC Payment Profile ID"
+                name="CC_PaymentProfile_ID"
+                value={CC_PaymentProfile_ID}
+                placeholder="Enter CC Profile ID"
+                onChange={onInputChange}
+                pendingChanges={pendingChanges}
+                disabled
+                type="text"
+                errors={errors}
+                maxLength={14}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
           {
-            Data?
-            <div className="form-group">              
+            <div className="form-group">
               <InputField
-                  id="cC_Profile_ID" 
-                  label="CC Profile ID"
-                  name="cC_Profile_ID"
-                  value={cC_Profile_ID}
-                  placeholder="Enter cc Profile ID"
-                  onChange={onInputChange}
-                  pendingChanges={pendingChanges}
-                  disabled
-                  type="text"
-                  errors={errors}
-                  maxLength={14}
-                />           
-            </div> : <></>
-          } 
-          {
-            Data?
-            <div className="form-group">              
-              <InputField
-                  id="CC_PaymentProfile_ID" 
-                  label="CC Payment Profile ID"
-                  name="CC_PaymentProfile_ID"
-                  value={CC_PaymentProfile_ID}
-                  placeholder="Enter CC Profile ID"
-                  onChange={onInputChange}
-                  pendingChanges={pendingChanges}
-                  disabled
-                  type="text"
-                  errors={errors}
-                  maxLength={14}
-                />           
-            </div> : <></>
-          }
-          {           
-            <div className="form-group">              
-              <InputField
-                  id="service_Plan" 
-                  label="Service Plan"
-                  name="service_Plan"
-                  value={service_Plan}
-                  placeholder="Enter the Service Plan"
-                  onChange={onInputChange}
-                  pendingChanges={pendingChanges}  
-                  disabled={Editable}
-                  type="text"
-                  errors={errors}
-                  maxLength={14}
-                />           
+                id="service_Plan"
+                label="Service Plan"
+                name="service_Plan"
+                value={service_Plan}
+                placeholder="Enter the Service Plan"
+                onChange={onInputChange}
+                pendingChanges={pendingChanges}
+                disabled={Editable}
+                type="text"
+                errors={errors}
+                maxLength={14}
+              />
             </div>
           }
-        <div className="form-group">                            
+          <div className="form-group">
             <DatePicker
               id="covered_Since"
               label="Covered Since"
               name="covered_Since"
-              value={covered_Since ? new moment(typeof covered_Since === 'string' || covered_Since instanceof String ?
-              covered_Since.replace("12:00AM", ""): covered_Since).toDate() : null}
+              value={
+                covered_Since
+                  ? new moment(
+                      typeof covered_Since === "string" ||
+                      covered_Since instanceof String
+                        ? covered_Since.replace("12:00AM", "")
+                        : covered_Since
+                    ).toDate()
+                  : null
+              }
               onInputChange={onInputChange}
               placeholder="Select the Date"
-              disabled={Data?true:Editable}   
+              disabled={Data ? true : Editable}
               pendingChanges={pendingChanges}
               errors={errors}
             />
-            </div>
-        {/*  <div className="form-group">
+          </div>
+          <div className="form-group">
+            <InputField
+              id="CustomerType"
+              label="Customer Type"
+              name="CustomerType"
+              value={customertype}
+              placeholder="Enter the Customer Type"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="cardnumber"
+              label="Card Number"
+              name="cardnumber"
+              value={cardnumber}
+              placeholder="Enter the Card Number"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            {/* <DatePicker
+              id="expirationdate"
+              label="Expiration Date"
+              name="expirationdate"
+              value={
+                expirationdate
+                  ? new moment(
+                      typeof expirationdate === "string" ||
+                      expirationdate instanceof String
+                        ? expirationdate.replace("12:00AM", "")
+                        : expirationdate
+                    ).toDate()
+                  : null
+              }
+              onInputChange={onInputChange}
+              placeholder="Select the Date"
+              disabled={Data ? true : Editable}
+              pendingChanges={pendingChanges}
+              errors={errors}
+            /> */}
+
+            <ReactDatePicker
+              id="expirationdate"
+              name="expirationdate"
+              placeholder="MMYY"
+              dateFormat="MMyy"
+              className="form-control"
+              startDate={
+                expirationdate ? moment(expirationdate)?.toDate() : null
+              }
+              handleDateChange={(updatedDate) => {
+                onInputChange({
+                  target: {
+                    name: "expirationdate",
+                    value: moment(expirationdate).format("MMYY") || null,
+                  },
+                });
+              }}
+              errors={errors}
+              key={`${moment(expirationdate)?.toDate()}`}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="cardcode"
+              label="Card Code"
+              name="cardcode"
+              value={cardcode}
+              placeholder="Enter the Card Code"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="email"
+              label="Email"
+              name="email"
+              value={email}
+              placeholder="Enter the Email"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          {/*  <div className="form-group">
             <EmployeeDropDown
               id="reportsTo"
               label="Reports To"
@@ -634,7 +765,7 @@ export const ProfileForm = ({
           </div> */}
         </div>
       </div>
-      <br />     
+      <br />
     </>
   );
 };
