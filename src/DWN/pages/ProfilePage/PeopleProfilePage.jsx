@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useMsal } from "@azure/msal-react";
 import { useFetch } from "../../../hooks/useFetch";
-import { 
+import {
   ProfileForm,
   ProfileHeader,
   HistoryTable,
@@ -15,12 +15,12 @@ import {
   Card,
   CardDrpActions,
   PropSpiner,
-  SimpleModal,  
+  SimpleModal,
 } from "../../components/";
 import { AlertNoData } from "../../components/Alerts/AlertNoData";
 import { LookupsContext, RoleContext } from "../../provider";
 import {
-  formatDataAndPost,  
+  formatDataAndPost,
   UPDATE_CORRECTLY,
   VICTRA_CLASSIFICATION_ID,
 } from "./ProfilePageHelper";
@@ -29,25 +29,24 @@ import { isLoginUserAdmin } from "../../helpers";
 import { ReactToast } from "../../components/Toast/ReactToast";
 import "./ProfilePage.scss";
 
-export const PeopleProfilePage = ({subscriber_data}) => {
-  
+export const PeopleProfilePage = ({ subscriber_data }) => {
   const currentDate = new Date();
-  
+
   const [profileFormState, dispatch] = useReducer(formReducer, initialState);
   const [collapse, setCollapse] = useState(true);
   const [pendingChanges, setPendingChanges] = useState(null);
   const [editable, setEditable] = useState(false);
   const [effectiveDate, setEffectiveDate] = useState(currentDate);
   const navigate = useNavigate();
-  const [showAfSave, setShowAfSave] = useState(false);  
+  const [showAfSave, setShowAfSave] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
-   const loginUserDetails = useContext(RoleContext);
- // const location = useLocation();
+  const loginUserDetails = useContext(RoleContext);
+  // const location = useLocation();
   //const { phone = "", historySearch = "" } = queryString.parse(location.search);
   const hasViewPermission = hasHrAdminPermission(loginUserDetails?.data?.roles);
   const hasEditPermission = hasHrAdminPermission(loginUserDetails?.data?.roles);
-  const hasManagerPermission = ""
-    //loginUserDetails?.data.mdmWorkerId.toString() !== ""// id.toString();
+  const hasManagerPermission = "";
+  //loginUserDetails?.data.mdmWorkerId.toString() !== ""// id.toString();
   const { accounts, instance } = useMsal();
 
   //----------BEGIN Impersonation-------------------------
@@ -59,22 +58,14 @@ export const PeopleProfilePage = ({subscriber_data}) => {
   const [DataPeople, setDataPeople] = useState(null);
   const [loadingPeopleData, setLoadingPeopleData] = useState(true);
   const fetchEmployeeData = async () => {
-   const responseData = subscriber_data;   
-  
+    const responseData = subscriber_data;
+
     setDataPeople(responseData);
-   
-    console.log("subscriber_data:", subscriber_data);    
- 
-    subscriber_data ? setEditable(false) : setEditable(true)
-    
-    // const values = {
-    //   first_Name: responseData.first_Name,
-    //   last_Name: responseData.last_Name,
-    //   mdn: responseData.mdn,       
-    //   hasHeaderChanges: false,
-    // };
-    // setHeaderFields(values);
-    // setHeaderValues(values);
+
+    console.log("subscriber_data:", subscriber_data);
+
+    subscriber_data ? setEditable(false) : setEditable(true);
+
     setLoadingPeopleData(false);
   };
   useEffect(() => {
@@ -83,7 +74,7 @@ export const PeopleProfilePage = ({subscriber_data}) => {
 
   const [headerFields, setHeaderFields] = useState({});
   const [headerValues, setHeaderValues] = useState({});
-  
+
   // initial Changes
   useEffect(() => {
     dispatch({
@@ -102,19 +93,17 @@ export const PeopleProfilePage = ({subscriber_data}) => {
     setEditable(true);
   };
 
-  let ItemsDrp = []; 
+  let ItemsDrp = [];
 
   const handleClose = () => {
     setShowAfSave(false);
-   
   };
- 
 
   const patchDataCustomerDetails = async (method) => {
     setShowAfSave(false);
-  
+
     const updateState = {
-      ...profileFormState?.form?.data,           
+      ...profileFormState?.form?.data,
     };
     dispatch({
       type: "UPDATE_FORM_DATA",
@@ -122,95 +111,94 @@ export const PeopleProfilePage = ({subscriber_data}) => {
       hasFormChanges: false,
     });
 
-    const { VITE_REACT_URL_API_SUB, VITE_REACT_URL_API_PAYMENT_PROFILE } = import.meta
-    .env;
+    const { VITE_REACT_URL_API_SUB, VITE_REACT_URL_API_PAYMENT_PROFILE } =
+      import.meta.env;
 
     debugger;
-    const apiData = await formatDataAndPost(
-      updateState,
-      DataPeople,
-      employeeRoles,
-      loginUserDetails,
-      effectiveDate,
-      accounts,
-      instance,
-      impersonation,
-      impersonEmail,
-      method,
-      VITE_REACT_URL_API_PAYMENT_PROFILE,
-      true,
-    )
-    
+    if (method == "POST") {
+      const apiPaymentData = await formatDataAndPost(
+        updateState,
+        DataPeople,
+        employeeRoles,
+        loginUserDetails,
+        effectiveDate,
+        accounts,
+        instance,
+        impersonation,
+        impersonEmail,
+        method,
+        VITE_REACT_URL_API_PAYMENT_PROFILE,
+        true
+      );
 
-    if (apiData?.subscriber_ID) {   
-      setDataPeople(apiData);
-     
-      setEditable(false);
-      dispatch({
-        type: "UPDATE_FORM_DATA",
-        form: { apiData: {} },
-        hasFormChanges: false,
-      });       
-      
-      setToastMessage({
-        title: "Saved",
-        position: "top-center",
-        EventTime: "",
-        Delay: 15000,
-        classbg: "success",
-        children: <div>{"Profile saved successfully"}</div>,
-      });
-    } else {
-      dispatch({
-        type: "UPDATE_FORM_DATA",
-        form: { data: profileFormState?.form?.data },
-        hasFormChanges: apiData !== UPDATE_CORRECTLY,
-      });
-      setToastMessage({
-        title: "Error",
-        position: "top-center",
-        EventTime: "",
-        Delay: 15000,
-        classbg: "danger",
-        children: (
-          <div className="error-toast-message">
-            {apiData === UPDATE_CORRECTLY
-              ? UPDATE_CORRECTLY
-              : "Unable to save the employee profile details."}
-          </div>
-        ),
-      });
+      updateState.cC_Profile_ID = apiPaymentData.customerProfileId;
+      updateState.CC_PaymentProfile_ID =
+        apiPaymentData.customerPaymentProfileIdList[0];
     }
 
-    const apiData1 = await formatDataAndPost(
-      updateState,
-      DataPeople,
-      employeeRoles,
-      loginUserDetails,
-      effectiveDate,
-      accounts,
-      instance,
-      impersonation,
-      impersonEmail,
-      method,
-      VITE_REACT_URL_API_SUB,
-      false
-    )
+    if (updateState.cC_Profile_ID != null) {
+      const apiSubscriberData = await formatDataAndPost(
+        updateState,
+        DataPeople,
+        employeeRoles,
+        loginUserDetails,
+        effectiveDate,
+        accounts,
+        instance,
+        impersonation,
+        impersonEmail,
+        method,
+        VITE_REACT_URL_API_SUB,
+        false
+      );
+      if (apiSubscriberData?.subscriber_ID) {
+        setDataPeople(apiSubscriberData);
 
-    if (apiData1?.subscriber_ID) {
+        setEditable(false);
+        dispatch({
+          type: "UPDATE_FORM_DATA",
+          form: { apiSubscriberData: {} },
+          hasFormChanges: false,
+        });
+
+        setToastMessage({
+          title: "Saved",
+          position: "top-center",
+          // EventTime: "",
+          // Delay: 15000,
+          classbg: "success",
+          children: <div>{"Profile saved successfully"}</div>,
+        });
+      } else {
+        dispatch({
+          type: "UPDATE_FORM_DATA",
+          form: { data: profileFormState?.form?.data },
+          hasFormChanges: apiSubscriberData !== UPDATE_CORRECTLY,
+        });
+        setToastMessage({
+          title: "Error",
+          position: "top-center",
+          EventTime: "",
+          Delay: 15000,
+          classbg: "danger",
+          children: (
+            <div className="error-toast-message">
+              {apiSubscriberData === UPDATE_CORRECTLY
+                ? UPDATE_CORRECTLY
+                : "Unable to save the employee profile details."}
+            </div>
+          ),
+        });
+      }
     }
   };
 
   const handleSetSave = () => {
-   
     var method = "";
 
-    DataPeople ?
-    method = "PATCH" :
-    method = "POST";
+    DataPeople ? (method = "PATCH") : (method = "POST");
 
     patchDataCustomerDetails(method);
-    
   };
 
   const handleSetCancel = () => {
@@ -238,28 +226,25 @@ export const PeopleProfilePage = ({subscriber_data}) => {
     },
   ];
 
-  const [employeeRoles, setEmployeeRoles] = useState([]); 
+  const [employeeRoles, setEmployeeRoles] = useState([]);
 
   const isContractor =
     DataPeople?.classificationId !== VICTRA_CLASSIFICATION_ID;
   return (
-    <>     
+    <>
       <CardDrpActions
         key={DataPeople}
         title={"DWP Subscribers"}
-       // titleDrp={"Create"}
-       // ItemsDrp={ItemsDrp}
-       // OnId={id}
+        // titleDrp={"Create"}
+        // ItemsDrp={ItemsDrp}
+        // OnId={id}
         //disabled={DataPeople?.statusId === "WRKST2" || !ItemsDrp?.length}
-       // isLoading={loadingPeopleData}
+        // isLoading={loadingPeopleData}
       >
-        
         <br></br>
-       
+
         <hr className="separator mt-0 mx-auto" />
-        {
-        profileFormState?.form?.isFetchLoading ||
-        loadingPeopleData ? (
+        {profileFormState?.form?.isFetchLoading || loadingPeopleData ? (
           <div style={{ textAlign: "center" }}>
             <PropSpiner label="Loading ..." />
           </div>
@@ -268,7 +253,7 @@ export const PeopleProfilePage = ({subscriber_data}) => {
             <ProfileForm
               key={`form-${editable}-${DataPeople}-${employeeRoles}`}
               Data={DataPeople}
-             // pendingChanges={pendingChanges}
+              // pendingChanges={pendingChanges}
               Editable={!editable}
               dispatch={dispatch}
               profileFormState={profileFormState}
@@ -276,7 +261,6 @@ export const PeopleProfilePage = ({subscriber_data}) => {
               hasEditPermission={hasEditPermission}
               hasManagerPermission={hasManagerPermission}
               employeeRoles={employeeRoles}
-            
               headerFields={headerFields}
             />
             {/* {!editable && pendingChangesList?.length > 0 ? (
@@ -312,7 +296,7 @@ export const PeopleProfilePage = ({subscriber_data}) => {
         )}
         <br />
       </CardDrpActions>
-      <br />        
+      <br />
 
       {toastMessage && (
         <ReactToast

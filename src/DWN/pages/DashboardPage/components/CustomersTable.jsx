@@ -15,7 +15,7 @@ import { getApi } from "../../../../helpers";
 //import { ExportToCsv } from "export-to-csv";
 import { PeopleProfilePage } from "../../ProfilePage/PeopleProfilePage";
 
-const CustomersTable = ({ dispatch, dashboardState }) => { 
+const CustomersTable = ({ dispatch, dashboardState }) => {
   const navigate = useNavigate();
 
   //----------BEGIN Impersonation-------------------------
@@ -28,11 +28,10 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   const { VITE_REACT_URL_API_SUB, VITE_OCP_APIM_SUBSCRIPTION_KEY } = import.meta
     .env;
 
-  const [data, loading] = useFetch(
-    `${VITE_REACT_URL_API_SUB}`,
-    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY }       
-  );
- 
+  const [data, loading] = useFetch(`${VITE_REACT_URL_API_SUB}`, {
+    "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY,
+  });
+
   const formDataDispatch = (data) => {
     dispatch({
       type: "UPDATE_FORM_DATA",
@@ -49,7 +48,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   }, [onCustomerData]);
 
   useEffect(() => {
-    formDataDispatch(data);    
+    formDataDispatch(data);
   }, [data]);
 
   // Search field related code
@@ -60,15 +59,15 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
    * @param {any} event
    */
   const handleSearch = (event) => {
-    setSearch(event.target.value);    
+    setSearch(event.target.value);
   };
- 
-  const handleDestination = (value) => {  
-    console.log(value);  
+
+  const handleDestination = (value) => {
+    console.log(value);
     setOnCustomerData(value);
     setShowModal(true);
   };
-   
+
   const COLUMNS = [
     {
       label: "Status",
@@ -81,15 +80,10 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
           }}
           title={item.status || "-"}
         >
-          {
-            <AlertType
-              value={item.status}
-              customClassName="alter-adjustable"
-            />
-          }
+          {<AlertType value={item.status} customClassName="alter-adjustable" />}
         </a>
       ),
-    },    
+    },
     {
       label: "First Name",
       className: "reg-cell",
@@ -102,7 +96,10 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
             }}
             title={item?.first_Name || "-"}
           >
-            {item?.first_Name.charAt(0).toUpperCase() + item?.first_Name.slice(1, item?.first_Name.length).toLowerCase() || "-"}
+            {item?.first_Name.charAt(0).toUpperCase() +
+              item?.first_Name
+                .slice(1, item?.first_Name.length)
+                .toLowerCase() || "-"}
           </a>
         );
       },
@@ -118,7 +115,9 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
           }}
           title={item.last_Name || "-"}
         >
-          {item.last_Name.charAt(0).toUpperCase() + item?.last_Name.slice(1, item?.last_Name.length).toLowerCase() || "-"}
+          {item.last_Name.charAt(0).toUpperCase() +
+            item?.last_Name.slice(1, item?.last_Name.length).toLowerCase() ||
+            "-"}
         </a>
       ),
     },
@@ -183,8 +182,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
         </a>
       ),
     },
-
-    
   ];
 
   const handleClear = () => {
@@ -193,7 +190,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   };
 
   const handleClose = () => {
-    setShowModal(!showModal);   
+    setShowModal(!showModal);
   };
 
   let filteredData = dashboardState.form.data;
@@ -201,17 +198,21 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   if (search) {
     filteredData = filteredData?.filter(
       (item) =>
-      item.status?.toLowerCase().includes(search.toLowerCase()) ||
-      item.first_Name?.toLowerCase().includes(search.toLowerCase()) ||
-      item.last_Name
-        ?.toLowerCase()
-        .replace(/\s+/g, "")
-        .includes(search.toLowerCase()) ||
-      item.mdn?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-      item.feature_Code?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-      item.equipment_Description?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-      item.account_Type?.toLowerCase().includes(search.toLocaleLowerCase()) ||
-      item.insurance_Activation_Date?.toLowerCase().includes(search.toLocaleLowerCase())        
+        item.status?.toLowerCase().includes(search.toLowerCase()) ||
+        item.first_Name?.toLowerCase().includes(search.toLowerCase()) ||
+        item.last_Name
+          ?.toLowerCase()
+          .replace(/\s+/g, "")
+          .includes(search.toLowerCase()) ||
+        item.mdn?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+        item.feature_Code?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+        item.equipment_Description
+          ?.toLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        item.account_Type?.toLowerCase().includes(search.toLocaleLowerCase()) ||
+        item.insurance_Activation_Date
+          ?.toLowerCase()
+          .includes(search.toLocaleLowerCase())
     );
   }
 
@@ -282,7 +283,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
       return acc;
     }, []);
 
-   // const csvExporter = new ExportToCsv(options);
+    // const csvExporter = new ExportToCsv(options);
     //csvExporter.generateCsv(eventsCsv);
   };
 
@@ -290,7 +291,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
     setOnCustomerData(null);
     setShowModal(true);
   };
-
 
   return (
     <div className="dashboard-tab-body ">
@@ -300,7 +300,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
         handleSearch={handleSearch}
         isPeopleTable
         searchPlaceholder={"Search"}
-        handleClear={handleClear} 
+        handleClear={handleClear}
         handleAdd={handleAdd}
         DatePicker={false}
         dispatch={dispatch}

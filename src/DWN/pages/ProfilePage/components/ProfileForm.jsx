@@ -151,6 +151,14 @@ export const ProfileForm = ({
     return;
   };
 
+  const handleExpMonthYear = (e) => {
+    const value = e.target.value;
+    if (value?.length < 5 && NumericValidator(value)) {
+      onInputChange(e);
+    }
+    return;
+  };
+
   const handleOnePosCode = async (e) => {
     const value = e.target.value;
     if (value.length < 16 && AlphaNumericValidatorWithOutSpace(value)) {
@@ -217,17 +225,16 @@ export const ProfileForm = ({
           </div>
           <div className="form-group">
             <InputField
-              id="accountnumber"
+              id="account_Number"
               label="Account Number"
-              name="accountnumber"
+              name="account_Number"
               value={account_Number}
-              placeholder="Enter the Account Number"
-              onChange={handleInput}
+              placeholder={"Enter the Account Number"}
+              onChange={onInputChange}
               pendingChanges={pendingChanges}
               disabled={Editable}
-              type="tel"
+              type="text"
               errors={errors}
-              maxLength={14}
             />
           </div>
           <div className="form-group">
@@ -324,7 +331,7 @@ export const ProfileForm = ({
               disabled={Editable}
               type="text"
               errors={errors}
-              maxLength={14}
+              maxLength={6}
             />
           </div>
           <div className="form-group">
@@ -364,12 +371,7 @@ export const ProfileForm = ({
               name="insurance_Activation_Date"
               value={
                 insurance_Activation_Date
-                  ? new moment(
-                      typeof insurance_Activation_Date === "string" ||
-                      insurance_Activation_Date instanceof String
-                        ? insurance_Activation_Date.replace("12:00AM", "")
-                        : insurance_Activation_Date
-                    ).toDate()
+                  ? new moment(insurance_Activation_Date).toDate()
                   : null
               }
               onInputChange={onInputChange}
@@ -456,12 +458,9 @@ export const ProfileForm = ({
               name="covered_Since"
               value={
                 covered_Since
-                  ? new moment(
-                      typeof covered_Since === "string" ||
-                      covered_Since instanceof String
-                        ? covered_Since.replace("12:00AM", "")
-                        : covered_Since
-                    ).toDate()
+                  ? covered_Since == "0001-01-01T00:00:00"
+                    ? null
+                    : covered_Since
                   : null
               }
               onInputChange={onInputChange}
@@ -502,46 +501,18 @@ export const ProfileForm = ({
             />
           </div>
           <div className="form-group">
-            {/* <DatePicker
+            <InputField
               id="expirationdate"
-              label="Expiration Date"
+              label="Valid Upto"
               name="expirationdate"
-              value={
-                expirationdate
-                  ? new moment(
-                      typeof expirationdate === "string" ||
-                      expirationdate instanceof String
-                        ? expirationdate.replace("12:00AM", "")
-                        : expirationdate
-                    ).toDate()
-                  : null
-              }
-              onInputChange={onInputChange}
-              placeholder="Select the Date"
-              disabled={Data ? true : Editable}
-              pendingChanges={pendingChanges}
-              errors={errors}
-            /> */}
-
-            <ReactDatePicker
-              id="expirationdate"
-              name="expirationdate"
+              value={expirationdate}
               placeholder="MMYY"
-              dateFormat="MMyy"
-              className="form-control"
-              startDate={
-                expirationdate ? moment(expirationdate)?.toDate() : null
-              }
-              handleDateChange={(updatedDate) => {
-                onInputChange({
-                  target: {
-                    name: "expirationdate",
-                    value: moment(expirationdate).format("MMYY") || null,
-                  },
-                });
-              }}
+              onChange={handleExpMonthYear}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
               errors={errors}
-              key={`${moment(expirationdate)?.toDate()}`}
+              maxLength={4}
             />
           </div>
           <div className="form-group">
@@ -556,7 +527,7 @@ export const ProfileForm = ({
               disabled={Editable}
               type="text"
               errors={errors}
-              maxLength={14}
+              maxLength={3}
             />
           </div>
           <div className="form-group">
@@ -571,54 +542,68 @@ export const ProfileForm = ({
               disabled={Editable}
               type="text"
               errors={errors}
-              maxLength={14}
+              maxLength={100}
             />
           </div>
-          {/*  <div className="form-group">
-            <EmployeeDropDown
-              id="reportsTo"
-              label="Reports To"
-              placeholder={reportsTo ? reportsTo : "Select the Reports To"}
-              name="supervisorMDMWorkerId"
+          <div className="form-group">
+            <DatePicker
+              id="equipment_Purchase_Date"
+              label="Equipment Purchase Date"
+              name="equipment_Purchase_Date"
               value={
-                supervisorMDMWorkerId
-                  ? supervisorMDMWorkerId?.toString()
-                  : reportsTo
+                covered_Since
+                  ? equipment_Purchase_Date == "0001-01-01T00:00:00"
+                    ? null
+                    : equipment_Purchase_Date
+                  : null
               }
               onInputChange={onInputChange}
-              editable={Editable || isVictraEmployee}
+              placeholder="Select the Date"
+              disabled={Data ? true : Editable}
               pendingChanges={pendingChanges}
               errors={errors}
-              isDisabled={
-                !((hasEditPermission || hasManagerPermission) && isContractor)
-              }
             />
-          </div> */}
+          </div>
+          <div className="form-group">
+            <DatePicker
+              id="mobile_Activation_Date"
+              label="Mobile Activation Date"
+              name="mobile_Activation_Date"
+              value={
+                mobile_Activation_Date
+                  ? mobile_Activation_Date == "0001-01-01T00:00:00"
+                    ? null
+                    : mobile_Activation_Date
+                  : null
+              }
+              onInputChange={onInputChange}
+              placeholder="Select the Date"
+              disabled={Data ? true : Editable}
+              pendingChanges={pendingChanges}
+              errors={errors}
+            />
+          </div>
+          <div className="form-group">
+            <DatePicker
+              id="term_Date"
+              label="Term Date"
+              name="term_Date"
+              value={
+                term_Date
+                  ? term_Date == "0001-01-01T00:00:00"
+                    ? null
+                    : term_Date
+                  : null
+              }
+              onInputChange={onInputChange}
+              placeholder="Select the Date"
+              disabled={Data ? true : Editable}
+              pendingChanges={pendingChanges}
+              errors={errors}
+            />
+          </div>
           {/* 
-         <div className="form-group">
-            <DropDown
-              id="mdmCompanyIds"
-              label="Companies"
-              value={
-                hasViewPermission || hasManagerPermission ? companies : ["-"]
-              }
-              onInputChange={onInputChange}
-              editable={Editable}
-              placeholder={
-                hasViewPermission || hasManagerPermission
-                  ? "Select the Companies"
-                  : "-"
-              }
-              name="companies"
-              pendingChanges={pendingChanges}
-              options={lookups?.companies || []}
-              optionLabel="companyName"
-              optionValue="mdmCompanyId"
-              errors={errors}
-              isMulti
-              isDisabled={!hasEditPermission}
-            />
-          </div>
+        
           <div className="form-group">
             <DropDown
               id="commissionGroupId"
@@ -639,130 +624,10 @@ export const ProfileForm = ({
               optionValue="mdmCommissionGroupId"
               errors={errors}
             />
-          </div>
-
-          <div className="form-group">
-            <DropDown
-              id="rqOrganizationRoleId"
-              label="Organization Role"
-              placeholder="Select the Organization Role"
-              value={organizationRoleId?.toString()}
-              onInputChange={onInputChange}
-              editable={Editable}
-              name="organizationRoleId"
-              pendingChanges={pendingChanges}
-              errors={errors}
-              options={lookups?.organizationRoles || []}
-              optionLabel="organizationRoleName"
-              optionValue="mdmOrganizationRoleId"
-              isDisabled={!(hasEditPermission && isContractor)}
-            />
-          </div>
-          <div className="form-group">
-            <DropDown
-              id="visionRoleId"
-              label="Vision Role"
-              value={visionRole}
-              onInputChange={onInputChange}
-              editable={Editable}
-              placeholder="Select the Vision Role"
-              name="visionRole"
-              pendingChanges={pendingChanges}
-              options={visionRoles || []}
-              optionLabel="name"
-              optionValue="id"
-              isMulti
-              errors={errors}
-              isDisabled={!hasEditPermission}
-            />
-          </div>
-          <div className="form-group">
-            <DropDown
-              id="payTypeId"
-              label="Exempt/Non-Exempt"
-              isDisabled
-              value={
-                isVictraEmployee && payTypeId?.toString()
-                  ? payTypeId?.toString()
-                  : "-"
-              }
-              onInputChange={onInputChange}
-              editable={Editable}
-              placeholder={
-                isVictraEmployee ? "Select the Exempt/Non-Exempt" : "-"
-              }
-              name="payTypeId"
-              pendingChanges={pendingChanges}
-              options={lookups?.exempts || []}
-              optionLabel="lookupName"
-              optionValue="lookupValuePK"
-              errors={errors}
-            />
-          </div>
-          <div className="form-group">
-            <DatePicker
-              id="hireDate"
-              label="Hire Date"
-              name="hireDate"
-              value={hireDate ? new moment(hireDate).toDate() : null}
-              onInputChange={onInputChange}
-              placeholder="Select the Hire Date"
-              disabled={
-                Editable ||
-                !((hasEditPermission || hasManagerPermission) && isContractor)
-              }
-              pendingChanges={pendingChanges}
-              errors={errors}
-            />
-          </div>
-          <div className="form-group">
-            <DatePicker
-              id="terminationDate"
-              label="Termination Date"
-              name="terminationDate"
-              value={
-                (hasViewPermission || hasManagerPermission) && terminationDate
-                  ? moment(terminationDate).toDate()
-                  : null
-              }
-              onInputChange={onInputChange}
-              placeholder={
-                hasViewPermission || hasManagerPermission
-                  ? "Select the Termination Date"
-                  : "-"
-              }
-              disabled={
-                Editable ||
-                !((hasEditPermission || hasManagerPermission) && isContractor)
-              }
-              pendingChanges={pendingChanges}
-              errors={errors}
-            />
-          </div>
-          <div className="form-group">
-            <InputField
-              id="costCenterId"
-              label="Cost Center"
-              placeholder="Enter the Cost Center"
-              name="costCenterId"
-              value={costCenterId ? costCenterId : "-"}
-              onChange={onInputChange}
-              disabled
-            />
-          </div>
-          <div className="form-group">
-            <InputField
-              id="onePOS"
-              label="One POS Code"
-              name="onePOS"
-              value={hasViewPermission ? onePOS : "-"}
-              placeholder="Enter the One POS Code"
-              onChange={handleOnePosCode}
-              disabled={!hasEditPermission || Editable}
-              pendingChanges={pendingChanges}
-              errors={errors}
-            />
-          </div> */}
+          </div>       
+         
+          
+           */}
         </div>
       </div>
       <br />
