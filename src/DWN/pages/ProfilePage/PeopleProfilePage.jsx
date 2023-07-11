@@ -114,8 +114,10 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
     const { VITE_REACT_URL_API_SUB, VITE_REACT_URL_API_PAYMENT_PROFILE } =
       import.meta.env;
 
-    debugger;
+    // API to create update Payment Profile
     if (method == "POST") {
+      // This is because at the time of update (PATCH) we are just udating Subcriber not payment data.
+      //But for POST we need this sequence.Once the PATCH for Payemtn is reacy then this condtion will be based on toggle button we discucssed earlier to update Credit Card data
       const apiPaymentData = await formatDataAndPost(
         updateState,
         DataPeople,
@@ -129,14 +131,22 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
         method,
         VITE_REACT_URL_API_PAYMENT_PROFILE,
         true
-      );
-
-      updateState.cC_Profile_ID = apiPaymentData.customerProfileId;
-      updateState.CC_PaymentProfile_ID =
-        apiPaymentData.customerPaymentProfileIdList[0];
+      )
+        .then((apiPaymentData) => {
+          if (apiPaymentData?.customerProfileId) {
+            updateState.cC_Profile_ID = apiPaymentData.customerProfileId;
+            updateState.CC_PaymentProfile_ID =
+              apiPaymentData.customerPaymentProfileIdList[0];
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
-    if (updateState.cC_Profile_ID != null) {
+    //API to tp Create Update Subscriber
+
+    if (updateState?.cC_Profile_ID) {
       const apiSubscriberData = await formatDataAndPost(
         updateState,
         DataPeople,

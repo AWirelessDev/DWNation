@@ -61,6 +61,7 @@ export const formatDataAndPost = async (
   } = modifiedData;
 
   const subscriberAttributes = {
+    subscriber_ID: subscriber_ID,
     status: status,
     city: city,
     address_1: address_1,
@@ -92,7 +93,6 @@ export const formatDataAndPost = async (
     cC_Profile_ID: cC_Profile_ID,
     CC_PaymentProfile_ID: CC_PaymentProfile_ID,
     cC_Update_Date_Time: moment(new Date()).format("YYYY-MM-DDTHH:mm:SS"),
-    rowInsertedEST: moment(new Date()).format("YYYY-MM-DDTHH:mm:SS"),
     service_Plan: service_Plan,
     covered_Since: moment(covered_Since).format("YYYY-MM-DDTHH:mm:SS"),
     coverage_Effective: moment(coverage_Effective).format(
@@ -100,7 +100,7 @@ export const formatDataAndPost = async (
     ),
     hotlined: hotlined ? hotlined : "",
     term_Date: moment(term_Date).format("YYYY-MM-DDTHH:mm:SS"),
-    account_Type: account_Type,
+    account_Type: account_Type ? account_Type : "",
   };
 
   const paymentAttributes = {
@@ -109,20 +109,20 @@ export const formatDataAndPost = async (
     email: email,
     paymentProfiles: {
       customerType: "Individual",
-      firstName: fname,
-      lastName: lname,
+      firstName: "Customer from API1", //fname,
+      lastName: "Customer from API1", //lname,
       company: "SampleCompany",
-      address: address_1,
-      city: city,
-      state: state,
-      zip: zip_Code,
-      country: country,
-      phoneNumber: mdn,
+      address: "Customer from API1", //address_1,
+      city: "Customer from API1", //city,
+      state: "Customer from API1", //state,
+      zip: "Customer from API1", //zip_Code,
+      country: "Customer from API1", //country,
+      phoneNumber: "963-785-7854", //mdn,
       faxNumber: "",
       payment: {
-        cardNumber: cardnumber,
-        expirationDate: expirationdate,
-        cardCode: cardcode,
+        cardNumber: "4152454878465415", //cardnumber,
+        expirationDate: "1212", // expirationdate,
+        cardCode: "122", //cardcode,
       },
     },
     validationMode: "testMode",
@@ -141,7 +141,7 @@ export const formatDataAndPost = async (
   } = import.meta.env;
 
   try {
-    debugger;
+    console.log("PayLoad", payload);
     return patchApi(
       `${URL}`,
       { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY },

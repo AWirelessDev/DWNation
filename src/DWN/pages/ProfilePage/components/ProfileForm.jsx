@@ -460,7 +460,7 @@ export const ProfileForm = ({
                 covered_Since
                   ? covered_Since == "0001-01-01T00:00:00"
                     ? null
-                    : covered_Since
+                    : new moment(covered_Since).toDate()
                   : null
               }
               onInputChange={onInputChange}
@@ -551,10 +551,10 @@ export const ProfileForm = ({
               label="Equipment Purchase Date"
               name="equipment_Purchase_Date"
               value={
-                covered_Since
+                equipment_Purchase_Date
                   ? equipment_Purchase_Date == "0001-01-01T00:00:00"
                     ? null
-                    : equipment_Purchase_Date
+                    : new moment(equipment_Purchase_Date).toDate()
                   : null
               }
               onInputChange={onInputChange}
@@ -562,6 +562,21 @@ export const ProfileForm = ({
               disabled={Data ? true : Editable}
               pendingChanges={pendingChanges}
               errors={errors}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="equipment_Description"
+              label="Equipment Description"
+              name="equipment_Description"
+              value={equipment_Description}
+              placeholder="Enter Equipment Description"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Data ? true : Editable}
+              type="text"
+              errors={errors}
+              maxLength={100}
             />
           </div>
           <div className="form-group">
@@ -573,7 +588,7 @@ export const ProfileForm = ({
                 mobile_Activation_Date
                   ? mobile_Activation_Date == "0001-01-01T00:00:00"
                     ? null
-                    : mobile_Activation_Date
+                    : new moment(mobile_Activation_Date).toDate()
                   : null
               }
               onInputChange={onInputChange}
@@ -592,7 +607,7 @@ export const ProfileForm = ({
                 term_Date
                   ? term_Date == "0001-01-01T00:00:00"
                     ? null
-                    : term_Date
+                    : new moment(term_Date).toDate()
                   : null
               }
               onInputChange={onInputChange}
