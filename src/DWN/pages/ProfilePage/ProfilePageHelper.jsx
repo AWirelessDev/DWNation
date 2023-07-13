@@ -1,5 +1,5 @@
 import moment from "moment";
-import { getApi, patchApi } from "../../../helpers";
+import { patchApi } from "../../../helpers";
 
 export const UPDATE_CORRECTLY = "No changes made to Customer Profile";
 export const VICTRA_CLASSIFICATION_ID = "WRKTP1";
@@ -21,7 +21,7 @@ export const formatDataAndPost = async (
 ) => {
   const {
     subscriber_ID,
-    status,
+    subscriber_Status,
     city,
     address_1,
     state,
@@ -62,7 +62,7 @@ export const formatDataAndPost = async (
 
   const subscriberAttributes = {
     subscriber_ID: subscriber_ID,
-    status: status,
+    subscriber_Status: subscriber_Status,
     city: city,
     address_1: address_1,
     state: state,
@@ -109,20 +109,20 @@ export const formatDataAndPost = async (
     email: email,
     paymentProfiles: {
       customerType: "Individual",
-      firstName: "Customer from API1", //fname,
-      lastName: "Customer from API1", //lname,
+      firstName: fname,
+      lastName: lname,
       company: "SampleCompany",
-      address: "Customer from API1", //address_1,
-      city: "Customer from API1", //city,
-      state: "Customer from API1", //state,
-      zip: "Customer from API1", //zip_Code,
-      country: "Customer from API1", //country,
-      phoneNumber: "963-785-7854", //mdn,
+      address: address_1,
+      city: city,
+      state: state,
+      zip: zip_Code,
+      country: country,
+      phoneNumber: mdn,
       faxNumber: "",
       payment: {
-        cardNumber: "4152454878465415", //cardnumber,
-        expirationDate: "1212", // expirationdate,
-        cardCode: "122", //cardcode,
+        cardNumber: cardnumber,
+        expirationDate: expirationdate,
+        cardCode: cardcode,
       },
     },
     validationMode: "testMode",

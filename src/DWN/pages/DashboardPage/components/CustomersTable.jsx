@@ -78,9 +78,14 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
             e.stopPropagation();
             handleDestination(item);
           }}
-          title={item.status || "-"}
+          title={item.subscriber_Status || "-"}
         >
-          {<AlertType value={item.status} customClassName="alter-adjustable" />}
+          {
+            <AlertType
+              value={item.subscriber_Status}
+              customClassName="alter-adjustable"
+            />
+          }
         </a>
       ),
     },
@@ -96,9 +101,9 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
             }}
             title={item?.first_Name || "-"}
           >
-            {item?.first_Name.charAt(0).toUpperCase() +
+            {item?.first_Name?.charAt(0).toUpperCase() +
               item?.first_Name
-                .slice(1, item?.first_Name.length)
+                ?.slice(1, item?.first_Name?.length)
                 .toLowerCase() || "-"}
           </a>
         );
@@ -115,8 +120,8 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
           }}
           title={item.last_Name || "-"}
         >
-          {item.last_Name.charAt(0).toUpperCase() +
-            item?.last_Name.slice(1, item?.last_Name.length).toLowerCase() ||
+          {item.last_Name?.charAt(0).toUpperCase() +
+            item?.last_Name?.slice(1, item?.last_Name?.length).toLowerCase() ||
             "-"}
         </a>
       ),
@@ -198,7 +203,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
   if (search) {
     filteredData = filteredData?.filter(
       (item) =>
-        item.status?.toLowerCase().includes(search.toLowerCase()) ||
+        item.subscriber_Status?.toLowerCase().includes(search.toLowerCase()) ||
         item.first_Name?.toLowerCase().includes(search.toLowerCase()) ||
         item.last_Name
           ?.toLowerCase()
@@ -328,6 +333,7 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
           showModal={showModal}
           title={"Review DWP Subscribers"}
           handleClose={handleClose}
+          drop="static"
         >
           <>
             <PeopleProfilePage subscriber_data={onCustomerData} />

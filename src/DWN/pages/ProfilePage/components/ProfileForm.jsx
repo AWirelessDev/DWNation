@@ -44,7 +44,7 @@ export const ProfileForm = ({
     country,
     feature_Code,
     esN_IMEI,
-    status,
+    subscriber_Status,
     dwnation_Subscriber_ID,
     subscriber_ID,
     account_Number,
@@ -77,7 +77,7 @@ export const ProfileForm = ({
     lname: Data?.last_Name,
     mdn: Data?.mdn,
     city: Data?.city,
-    status: Data?.status,
+    subscriber_Status: Data?.subscriber_Status,
     address_1: Data?.address_1,
     state: Data?.state,
     current_Losses: Data?.current_Losses,
@@ -197,10 +197,10 @@ export const ProfileForm = ({
           )}
           <div className="form-group">
             <InputField
-              id="status"
-              label="Status"
-              name="status"
-              value={status}
+              id="subscriber_Status"
+              label="Subscriber Status"
+              name="subscriber_Status"
+              value={subscriber_Status}
               placeholder={"Enter the Status"}
               onChange={onInputChange}
               pendingChanges={pendingChanges}
@@ -285,7 +285,7 @@ export const ProfileForm = ({
               disabled={Editable}
               type="text"
               errors={errors}
-              maxLength={14}
+              maxLength={50}
             />
           </div>
           <div className="form-group">
@@ -361,7 +361,7 @@ export const ProfileForm = ({
               disabled={Editable}
               type="text"
               errors={errors}
-              maxLength={14}
+              maxLength={50}
             />
           </div>
           <div className="form-group">
@@ -486,66 +486,6 @@ export const ProfileForm = ({
             />
           </div>
           <div className="form-group">
-            <InputField
-              id="cardnumber"
-              label="Card Number"
-              name="cardnumber"
-              value={cardnumber}
-              placeholder="Enter the Card Number"
-              onChange={onInputChange}
-              pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
-              errors={errors}
-              maxLength={14}
-            />
-          </div>
-          <div className="form-group">
-            <InputField
-              id="expirationdate"
-              label="Valid Upto"
-              name="expirationdate"
-              value={expirationdate}
-              placeholder="MMYY"
-              onChange={handleExpMonthYear}
-              pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
-              errors={errors}
-              maxLength={4}
-            />
-          </div>
-          <div className="form-group">
-            <InputField
-              id="cardcode"
-              label="Card Code"
-              name="cardcode"
-              value={cardcode}
-              placeholder="Enter the Card Code"
-              onChange={onInputChange}
-              pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
-              errors={errors}
-              maxLength={3}
-            />
-          </div>
-          <div className="form-group">
-            <InputField
-              id="email"
-              label="Email"
-              name="email"
-              value={email}
-              placeholder="Enter the Email"
-              onChange={onInputChange}
-              pendingChanges={pendingChanges}
-              disabled={Editable}
-              type="text"
-              errors={errors}
-              maxLength={100}
-            />
-          </div>
-          <div className="form-group">
             <DatePicker
               id="equipment_Purchase_Date"
               label="Equipment Purchase Date"
@@ -617,33 +557,182 @@ export const ProfileForm = ({
               errors={errors}
             />
           </div>
-          {/* 
-        
-          <div className="form-group">
-            <DropDown
-              id="commissionGroupId"
-              label="Commission Group"
-              isDisabled
-              value={
-                isVictraEmployee && commissionGroupId ? commissionGroupId : "-"
-              }
-              onInputChange={onInputChange}
-              editable={Editable}
-              placeholder={
-                isVictraEmployee ? "Select the Commission Group" : "-"
-              }
-              name="commissionGroupId"
-              pendingChanges={pendingChanges}
-              options={lookups?.commissionGroups || []}
-              optionLabel="commissionGroupName"
-              optionValue="mdmCommissionGroupId"
-              errors={errors}
-            />
-          </div>       
-         
-          
-           */}
         </div>
+        {/* <hr className="separator mx-auto" />
+        <div className="row row-cols-1 row-cols-sm-1 row-cols-md-3">
+          <div className="form-group">
+            <InputField
+              id="card_fname"
+              label="First Name (As per card)"
+              name="card_fname"
+              value={
+                Data
+                  ? fname.charAt(0).toUpperCase() +
+                    fname.slice(1, fname.length).toLowerCase()
+                  : null
+              }
+              placeholder={"Enter the First Name"}
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              errors={errors}
+              disabled={Data ? true : Editable}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="card_lname"
+              label="Last Name (As per card)"
+              name="card_lname"
+              value={
+                Data
+                  ? lname.charAt(0).toUpperCase() +
+                    lname.slice(1, lname.length).toLowerCase()
+                  : null
+              }
+              placeholder="Enter the Last Name"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              errors={errors}
+              disabled={Data ? true : Editable}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="cardnumber"
+              label="Card Number"
+              name="cardnumber"
+              value={cardnumber}
+              placeholder="Enter the Card Number"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="expirationdate"
+              label="Valid Upto"
+              name="expirationdate"
+              value={expirationdate}
+              placeholder="MMYY"
+              onChange={handleExpMonthYear}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={4}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="cardcode"
+              label="Card Code"
+              name="cardcode"
+              value={cardcode}
+              placeholder="Enter the Card Code"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={3}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="email"
+              label="Email"
+              name="email"
+              value={email}
+              placeholder="Enter the Email"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={100}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="card_address_1"
+              label="Address"
+              name="card_address_1"
+              value={address_1}
+              placeholder="Enter the Address"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={50}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="card_city"
+              label="City"
+              name="card_city"
+              value={city}
+              placeholder="Enter the City"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+
+          <div className="form-group">
+            <InputField
+              id="card_state"
+              label="State"
+              name="card_state"
+              value={state}
+              placeholder="Enter the state"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="card_zip_Code"
+              label="ZIP"
+              name="card_zip_Code"
+              value={zip_Code}
+              placeholder="Enter the Zip"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={6}
+            />
+          </div>
+          <div className="form-group">
+            <InputField
+              id="card_country"
+              label="Country"
+              name="card_country"
+              value={country}
+              placeholder="Enter the country"
+              onChange={onInputChange}
+              pendingChanges={pendingChanges}
+              disabled={Editable}
+              type="text"
+              errors={errors}
+              maxLength={14}
+            />
+          </div>
+        </div> */}
       </div>
       <br />
     </>

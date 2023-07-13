@@ -5,6 +5,7 @@ import { useMsal } from "@azure/msal-react";
 import { useFetch } from "../../../hooks/useFetch";
 import {
   ProfileForm,
+  PaymentForm,
   ProfileHeader,
   HistoryTable,
   PendingChanges,
@@ -28,6 +29,7 @@ import { initialState, formReducer } from "../../../Reducer/FormReducer";
 import { isLoginUserAdmin } from "../../helpers";
 import { ReactToast } from "../../components/Toast/ReactToast";
 import "./ProfilePage.scss";
+import ToggleSwitchAC from "../../components/ToggleSwitch/ToggleSwitchAC";
 
 export const PeopleProfilePage = ({ subscriber_data }) => {
   const currentDate = new Date();
@@ -40,6 +42,7 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
   const navigate = useNavigate();
   const [showAfSave, setShowAfSave] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const [showCCDetails, setshowCCDetails] = useState(false);
   const loginUserDetails = useContext(RoleContext);
   // const location = useLocation();
   //const { phone = "", historySearch = "" } = queryString.parse(location.search);
@@ -116,8 +119,8 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
 
     // API to create update Payment Profile
     if (method == "POST") {
-      // This is because at the time of update (PATCH) we are just udating Subcriber not payment data.
-      //But for POST we need this sequence.Once the PATCH for Payemtn is reacy then this condtion will be based on toggle button we discucssed earlier to update Credit Card data
+      //This is because at the time of update (PATCH) we are just updating subscriber not payment data.
+      //But for POST we need this sequence. Once the PATCH for payment is react then this condition will be based on toggle button we discussed earlier to update Credit Card data
       const apiPaymentData = await formatDataAndPost(
         updateState,
         DataPeople,
@@ -144,62 +147,60 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
         });
     }
 
-    //API to tp Create Update Subscriber
+    // API to create Update Subscriber
 
-    if (updateState?.cC_Profile_ID) {
-      const apiSubscriberData = await formatDataAndPost(
-        updateState,
-        DataPeople,
-        employeeRoles,
-        loginUserDetails,
-        effectiveDate,
-        accounts,
-        instance,
-        impersonation,
-        impersonEmail,
-        method,
-        VITE_REACT_URL_API_SUB,
-        false
-      );
-      if (apiSubscriberData?.subscriber_ID) {
-        setDataPeople(apiSubscriberData);
+    const apiSubscriberData = await formatDataAndPost(
+      updateState,
+      DataPeople,
+      employeeRoles,
+      loginUserDetails,
+      effectiveDate,
+      accounts,
+      instance,
+      impersonation,
+      impersonEmail,
+      method,
+      VITE_REACT_URL_API_SUB,
+      false
+    );
+    if (apiSubscriberData?.subscriber_ID) {
+      setDataPeople(apiSubscriberData);
 
-        setEditable(false);
-        dispatch({
-          type: "UPDATE_FORM_DATA",
-          form: { apiSubscriberData: {} },
-          hasFormChanges: false,
-        });
+      setEditable(false);
+      dispatch({
+        type: "UPDATE_FORM_DATA",
+        form: { apiSubscriberData: {} },
+        hasFormChanges: false,
+      });
 
-        setToastMessage({
-          title: "Saved",
-          position: "top-center",
-          // EventTime: "",
-          // Delay: 15000,
-          classbg: "success",
-          children: <div>{"Profile saved successfully"}</div>,
-        });
-      } else {
-        dispatch({
-          type: "UPDATE_FORM_DATA",
-          form: { data: profileFormState?.form?.data },
-          hasFormChanges: apiSubscriberData !== UPDATE_CORRECTLY,
-        });
-        setToastMessage({
-          title: "Error",
-          position: "top-center",
-          EventTime: "",
-          Delay: 15000,
-          classbg: "danger",
-          children: (
-            <div className="error-toast-message">
-              {apiSubscriberData === UPDATE_CORRECTLY
-                ? UPDATE_CORRECTLY
-                : "Unable to save the employee profile details."}
-            </div>
-          ),
-        });
-      }
+      setToastMessage({
+        title: "Saved",
+        position: "top-center",
+        // EventTime: "",
+        // Delay: 15000,
+        classbg: "success",
+        children: <div>{"Profile saved successfully"}</div>,
+      });
+    } else {
+      dispatch({
+        type: "UPDATE_FORM_DATA",
+        form: { data: profileFormState?.form?.data },
+        hasFormChanges: apiSubscriberData !== UPDATE_CORRECTLY,
+      });
+      setToastMessage({
+        title: "Error",
+        position: "top-center",
+        EventTime: "",
+        Delay: 15000,
+        classbg: "danger",
+        children: (
+          <div className="error-toast-message">
+            {apiSubscriberData === UPDATE_CORRECTLY
+              ? UPDATE_CORRECTLY
+              : "Unable to save the employee profile details."}
+          </div>
+        ),
+      });
     }
   };
 
@@ -236,6 +237,10 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
     },
   ];
 
+  const onshowCardDetailsChange = async (isChecked) => {
+    setshowCCDetails(isChecked);
+  };
+
   const [employeeRoles, setEmployeeRoles] = useState([]);
 
   const isContractor =
@@ -244,7 +249,7 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
     <>
       <CardDrpActions
         key={DataPeople}
-        title={"DWP Subscribers"}
+        // title={"DWP Subscribers"}
         // titleDrp={"Create"}
         // ItemsDrp={ItemsDrp}
         // OnId={id}
@@ -261,9 +266,9 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
         ) : (
           <div key={`block=${editable}`}>
             <ProfileForm
-              key={`form-${editable}-${DataPeople}-${employeeRoles}`}
+              key={`form-${editable}-${DataPeople}`} //-${employeeRoles}`}
               Data={DataPeople}
-              // pendingChanges={pendingChanges}
+              pendingChanges={pendingChanges}
               Editable={!editable}
               dispatch={dispatch}
               profileFormState={profileFormState}
@@ -273,6 +278,32 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
               employeeRoles={employeeRoles}
               headerFields={headerFields}
             />
+            <div className="form-group">
+              <label htmlFor="" className="me-2">
+                Credit Card details:
+              </label>
+              <ToggleSwitchAC
+                id="showCardDetails"
+                name="showCardDetails"
+                //checked={showCardDetails || false}
+                onChange={onshowCardDetailsChange}
+                disabled={!editable}
+              />
+            </div>
+            {showCCDetails && (
+              <PaymentForm
+                key={`form-${editable}-${DataPeople}-"cc"`} //-${employeeRoles}`}
+                Data={DataPeople}
+                Editable={!editable}
+                dispatch={dispatch}
+                profileFormState={profileFormState}
+                hasViewPermission={hasViewPermission}
+                hasEditPermission={hasEditPermission}
+                hasManagerPermission={hasManagerPermission}
+                employeeRoles={employeeRoles}
+                headerFields={headerFields}
+              />
+            )}
             {/* {!editable && pendingChangesList?.length > 0 ? (
               <PendingChanges
                 setCollapse={setCollapse}

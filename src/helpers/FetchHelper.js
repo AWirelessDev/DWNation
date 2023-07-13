@@ -59,6 +59,7 @@ export const patchApi = async (
     body:  JSON.stringify(payload),
   });
   
+  console.log("Response", response);
   const jsonStatus = await response.json()
             jsonStatus.status = response.status;
   return await jsonStatus;
