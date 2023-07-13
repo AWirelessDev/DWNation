@@ -3,7 +3,6 @@ import { ReactTable, AlertType } from "../../../components";
 import { useFetch } from "../../../../hooks";
 import { useNavigate } from "react-router-dom";
 import { Filter } from "./Filter";
-import BinaryImage from "../../../components/BinaryImage/BinaryImage";
 /**
  * @returns Transaction data table
  */
@@ -13,13 +12,12 @@ const TransactionTable = ({ dispatch, dashboardState }) => {
   const [filteredData, setFilteredData] = React.useState([]);
   const [inactiveLoader, setInactiveLoader] = React.useState(false);
 
-  const { VITE_REACT_URL_API_TRAN, VITE_OCP_APIM_SUBSCRIPTION_KEY } = import.meta
-    .env;
+  const { VITE_REACT_URL_API_TRAN, VITE_OCP_APIM_SUBSCRIPTION_KEY } =
+    import.meta.env;
 
-  const [data, loading] = useFetch(
-    `${VITE_REACT_URL_API_TRAN}`,
-    { "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY }
-  );
+  const [data, loading] = useFetch(`${VITE_REACT_URL_API_TRAN}`, {
+    "Ocp-Apim-Subscription-Key": VITE_OCP_APIM_SUBSCRIPTION_KEY,
+  });
 
   // Search field related code
   const [search, setSearch] = React.useState("");
@@ -50,50 +48,14 @@ const TransactionTable = ({ dispatch, dashboardState }) => {
   const [startDate, endDate] = dateRange;
 
   const COLUMNS = [
-    // {
-    //   label: "Employee",
-    //   className: "bold-cell",
-    //   renderCell: (item) => {
-    //     return (
-    //       <div
-    //         onClick={(mdmWorkerId) =>
-    //           navigate(`/profile?id=${item.mdmWorkerId}`)
-    //         }
-    //       >
-    //         <BinaryImage
-    //           key={`image-${item.image}`}
-    //           base64Data={item.image}
-    //           altClassName="employee-img"
-    //           isNavBar="true"
-    //         />
-    //         <p className="ps-2"></p>
-    //         <a>{item.name || "-"}</a>
-    //       </div>
-    //     );
-    //   },
-    // },
-    // {
-    //   label: "Status",
-    //   className: "bold-cell",
-    //   renderCell: (item) => (
-    //     <a
-    //       onClick={(transactionId) => navigate(`/profile?id=${item.transactionId}`)}
-    //     >
-    //       {
-    //         <AlertType
-    //           value={item.isActive ? "Active" : "Inactive"}
-    //           customClassName="alter-adjustable"
-    //         />
-    //       }
-    //     </a>
-    //   ),
-    // },
     {
       label: "First Name",
       className: "reg-cell",
       renderCell: (item) => (
         <a
-          onClick={(transactionId) => navigate(`/profile?id=${item.transactionId}`)}
+          onClick={(transactionId) =>
+            navigate(`/profile?id=${item.transactionId}`)
+          }
         >
           {item.firstName || "-"}
         </a>
@@ -104,7 +66,9 @@ const TransactionTable = ({ dispatch, dashboardState }) => {
       className: "reg-cell",
       renderCell: (item) => (
         <a
-        onClick={(transactionId) => navigate(`/profile?id=${item.transactionId}`)}
+          onClick={(transactionId) =>
+            navigate(`/profile?id=${item.transactionId}`)
+          }
         >
           {item.lastName || "-"}
         </a>
@@ -115,7 +79,9 @@ const TransactionTable = ({ dispatch, dashboardState }) => {
       className: "reg-cell",
       renderCell: (item) => (
         <a
-          onClick={(transactionId) => navigate(`/profile?id=${item.transactionId}`)}
+          onClick={(transactionId) =>
+            navigate(`/profile?id=${item.transactionId}`)
+          }
         >
           {item.transactionId || "-"}
         </a>
@@ -126,12 +92,14 @@ const TransactionTable = ({ dispatch, dashboardState }) => {
       className: "reg-cell",
       renderCell: (item) => (
         <a
-        onClick={(transactionId) => navigate(`/profile?id=${item.transactionId}`)}
+          onClick={(transactionId) =>
+            navigate(`/profile?id=${item.transactionId}`)
+          }
         >
           {item.accountNumber || "-"}
         </a>
       ),
-    }    
+    },
   ];
 
   const handleClear = () => {
@@ -170,7 +138,7 @@ const TransactionTable = ({ dispatch, dashboardState }) => {
         search={search}
         handleSearch={handleSearch}
         searchPlaceholder={"Search"}
-        isPeopleTable
+        isPeopleTable={false}
         handleClear={handleClear}
         handleAdd={handleAdd}
         DatePicker={false}

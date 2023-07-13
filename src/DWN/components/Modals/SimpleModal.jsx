@@ -3,7 +3,7 @@ import { Buttons } from "../Buttons/Buttons";
 import PropTypes from "prop-types";
 
 export const SimpleModal = (props) => {
-  const { handleClose, title, children, buttons, size, drop, closeButton } = props;
+  const { handleClose, title, children, buttons, size, drop, closeButton, showFooter } = props;
   return (
     <Modal
       show
@@ -17,19 +17,21 @@ export const SimpleModal = (props) => {
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
+      {showFooter &&
       <Modal.Footer>
-      <Buttons buttons={buttons} />
-      </Modal.Footer>
+        <Buttons buttons={buttons} />
+      </Modal.Footer>}
     </Modal>
   );
 };
 
-SimpleModal.prototypes = {
+SimpleModal.propTypes = {
   handleClose: PropTypes.func,
   title: PropTypes.string,
   children: PropTypes.any,
   buttons: PropTypes.array,
   size: PropTypes.string,
+  showFooter: PropTypes.bool,
 };
 
 SimpleModal.defaultProps = {
@@ -38,4 +40,5 @@ SimpleModal.defaultProps = {
   buttons: [],
   children: null,
   title: null,
+  showFooter: true,
 };

@@ -16,12 +16,6 @@ import { getApi } from "../../../../helpers";
 import { PeopleProfilePage } from "../../ProfilePage/PeopleProfilePage";
 
 const CustomersTable = ({ dispatch, dashboardState }) => {
-  const navigate = useNavigate();
-
-  //----------BEGIN Impersonation-------------------------
-  const { accounts, instance } = useMsal();
-  const RoleCtx = useContext(RoleContext);
-  //----------END Impersonation----------------------------
   const [showModal, setShowModal] = useState(false);
   const [onCustomerData, setOnCustomerData] = useState({});
 
@@ -51,7 +45,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
     formDataDispatch(data);
   }, [data]);
 
-  // Search field related code
   const [search, setSearch] = useState("");
 
   /**
@@ -223,7 +216,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
 
   const exportToCsv = (e) => {
     e.preventDefault();
-    // Headers for each column
     let headers = [
       "Activity Id",
       "Status Type",
@@ -252,7 +244,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
       headers: headers,
     };
 
-    // Convert users data to a csv
     let eventsCsv = filteredData.reduce((acc, event) => {
       const {
         activityId,
@@ -287,9 +278,6 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
       });
       return acc;
     }, []);
-
-    // const csvExporter = new ExportToCsv(options);
-    //csvExporter.generateCsv(eventsCsv);
   };
 
   const handleAdd = () => {
@@ -334,6 +322,8 @@ const CustomersTable = ({ dispatch, dashboardState }) => {
           title={"Review DWP Subscribers"}
           handleClose={handleClose}
           drop="static"
+          showFooter={false}
+          size="xl"
         >
           <>
             <PeopleProfilePage subscriber_data={onCustomerData} />

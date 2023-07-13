@@ -247,28 +247,41 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
     DataPeople?.classificationId !== VICTRA_CLASSIFICATION_ID;
   return (
     <>
-      <CardDrpActions
-        key={DataPeople}
-        // title={"DWP Subscribers"}
-        // titleDrp={"Create"}
-        // ItemsDrp={ItemsDrp}
-        // OnId={id}
-        //disabled={DataPeople?.statusId === "WRKST2" || !ItemsDrp?.length}
-        // isLoading={loadingPeopleData}
-      >
-        <br></br>
-
-        <hr className="separator mt-0 mx-auto" />
-        {profileFormState?.form?.isFetchLoading || loadingPeopleData ? (
-          <div style={{ textAlign: "center" }}>
-            <PropSpiner label="Loading ..." />
+      {profileFormState?.form?.isFetchLoading || loadingPeopleData ? (
+        <div style={{ textAlign: "center" }}>
+          <PropSpiner label="Loading ..." />
+        </div>
+      ) : (
+        <div key={`block=${editable}`}>
+          <ProfileForm
+            key={`form-${editable}-${DataPeople}`} //-${employeeRoles}`}
+            Data={DataPeople}
+            pendingChanges={pendingChanges}
+            Editable={!editable}
+            dispatch={dispatch}
+            profileFormState={profileFormState}
+            hasViewPermission={hasViewPermission}
+            hasEditPermission={hasEditPermission}
+            hasManagerPermission={hasManagerPermission}
+            employeeRoles={employeeRoles}
+            headerFields={headerFields}
+          />
+          <div className="form-group">
+            <label htmlFor="" className="me-2">
+              Credit Card details:
+            </label>
+            <ToggleSwitchAC
+              id="showCardDetails"
+              name="showCardDetails"
+              //checked={showCardDetails || false}
+              onChange={onshowCardDetailsChange}
+              disabled={!editable}
+            />
           </div>
-        ) : (
-          <div key={`block=${editable}`}>
-            <ProfileForm
-              key={`form-${editable}-${DataPeople}`} //-${employeeRoles}`}
+          {showCCDetails && (
+            <PaymentForm
+              key={`form-${editable}-${DataPeople}-"cc"`} //-${employeeRoles}`}
               Data={DataPeople}
-              pendingChanges={pendingChanges}
               Editable={!editable}
               dispatch={dispatch}
               profileFormState={profileFormState}
@@ -278,66 +291,27 @@ export const PeopleProfilePage = ({ subscriber_data }) => {
               employeeRoles={employeeRoles}
               headerFields={headerFields}
             />
-            <div className="form-group">
-              <label htmlFor="" className="me-2">
-                Credit Card details:
-              </label>
-              <ToggleSwitchAC
-                id="showCardDetails"
-                name="showCardDetails"
-                //checked={showCardDetails || false}
-                onChange={onshowCardDetailsChange}
-                disabled={!editable}
-              />
-            </div>
-            {showCCDetails && (
-              <PaymentForm
-                key={`form-${editable}-${DataPeople}-"cc"`} //-${employeeRoles}`}
-                Data={DataPeople}
-                Editable={!editable}
-                dispatch={dispatch}
-                profileFormState={profileFormState}
-                hasViewPermission={hasViewPermission}
-                hasEditPermission={hasEditPermission}
-                hasManagerPermission={hasManagerPermission}
-                employeeRoles={employeeRoles}
-                headerFields={headerFields}
-              />
-            )}
-            {/* {!editable && pendingChangesList?.length > 0 ? (
-              <PendingChanges
-                setCollapse={setCollapse}
-                collapse={collapse}
-                showPendingChanges={showPendingChanges}
-                dataPendingChanges={pendingChangesList || []}
-                isDataPendingChangesLoading={isDataPendingChangesLoading}
-                setPendingChangesList={setPendingChangesList}
-                setToastMessage={setToastMessage}
-              />
-            ) : null} */}
-          </div>
-        )}
-        <hr className="separator mx-auto" />
-        {!profileFormState?.form?.isFetchLoading && (
-          <ProfilePageButtons
-            isLoading={loadingPeopleData}
-            editable={editable}
-            handleSetCancel={handleSetCancel}
-            handleSetSave={handleSetSave}
-            profileFormState={profileFormState}
-            headerFields={headerFields}
-            collapse={collapse}
-            effectiveDate={effectiveDate}
-            handleSetShow={handleSetShow}
-            currentDate={currentDate}
-            setEffectiveDate={setEffectiveDate}
-            hasEditPermission={hasEditPermission}
-            isContractor={isContractor}
-          />
-        )}
-        <br />
-      </CardDrpActions>
-      <br />
+          )}
+        </div>
+      )}
+      <hr className="separator mx-auto" />
+      {!profileFormState?.form?.isFetchLoading && (
+        <ProfilePageButtons
+          isLoading={loadingPeopleData}
+          editable={editable}
+          handleSetCancel={handleSetCancel}
+          handleSetSave={handleSetSave}
+          profileFormState={profileFormState}
+          headerFields={headerFields}
+          collapse={collapse}
+          effectiveDate={effectiveDate}
+          handleSetShow={handleSetShow}
+          currentDate={currentDate}
+          setEffectiveDate={setEffectiveDate}
+          hasEditPermission={hasEditPermission}
+          isContractor={isContractor}
+        />
+      )}
 
       {toastMessage && (
         <ReactToast

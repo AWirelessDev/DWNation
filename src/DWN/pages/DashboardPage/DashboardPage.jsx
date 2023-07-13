@@ -1,4 +1,4 @@
-import React, {  useReducer } from "react";
+import React, { useReducer } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import CustomersTable from "./components/CustomersTable";
 import TransactionTable from "./components/TransactionTable";
@@ -14,7 +14,7 @@ export const DashboardPage = () => {
   );
 
   const actionContext = useContext(ActionContext);
-  const { tabState, tabDispatch} = actionContext;
+  const { tabState, tabDispatch } = actionContext;
   return (
     <div>
       <br />
@@ -22,8 +22,10 @@ export const DashboardPage = () => {
       <br />
       <Tabs
         className={"tab-body left"}
-       selectedIndex={tabState.tabIndex}
-       onSelect={(index) => tabDispatch({ type: "CURRENT_TAB", tabIndex: index })}
+        selectedIndex={tabState.tabIndex}
+        onSelect={(index) =>
+          tabDispatch({ type: "CURRENT_TAB", tabIndex: index })
+        }
       >
         <TabList className={"tab-dash-list d-flex gap-1"}>
           <Tab>Customers</Tab>
@@ -34,7 +36,7 @@ export const DashboardPage = () => {
             dispatch={dashboardDispatch}
             dashboardState={dashboardState}
           />
-       </TabPanel>
+        </TabPanel>
         <TabPanel>
           <TransactionTable
             dispatch={dashboardDispatch}
